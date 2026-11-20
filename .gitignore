@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Django
+*.sqlite3
+db.sqlite3
+/backend/media/uploads/
+/backend/staticfiles/
+
+# Environment variables
+.env
+*.env.local
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vite
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
