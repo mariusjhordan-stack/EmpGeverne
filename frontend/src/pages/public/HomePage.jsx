@@ -47,7 +47,16 @@ export default function HomePage() {
             <p className="animate-fade-in-up stagger-2">Una selección de relojes excepcionales, elegidos por su maestría técnica y su presencia atemporal.</p>
             <Button as={Link} to="/catalogo" className="animate-fade-in-up stagger-3">Explorar catálogo <ArrowRight size={15} /></Button>
           </div>
-          <div aria-hidden="true" />
+          <div className="hero-art hidden lg:grid" aria-hidden="true">
+            <div className="hero-dial">
+              <span className="dial-mark" />
+              <span className="dial-mark horizontal" />
+              <div className="dial-center">
+                CRONOS
+                <span>GENÈVE · 1875</span>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="hero-bottomline page-wrap" aria-hidden="true"><span>CRONOS GENÈVE</span><span>01 / 04</span></div>
       </section>
@@ -75,9 +84,9 @@ export default function HomePage() {
                 <img src={collectionImages[index % collectionImages.length]} alt="" aria-hidden="true" loading="lazy" />
                 <span className="collection-shade" aria-hidden="true" />
                 <span className="editorial-kicker">Línea 0{index + 1}</span>
-                <h3 className="mt-8 font-serif text-3xl text-charcoal group-hover:text-gold transition-colors">{collection.name}</h3>
-                <p className="mt-3 max-w-[240px] text-sm leading-6 text-gray-500">{collection.description}</p>
-                <span className="mt-6 inline-block text-xs tracking-wider text-gold">{collection.watch_count} relojes <span aria-hidden="true">→</span></span>
+                <h3 className="mt-8 font-serif text-3xl group-hover:text-gold transition-colors">{collection.name}</h3>
+                <p className="collection-desc mt-3 max-w-[240px] text-sm leading-6">{collection.description}</p>
+                <span className="collection-link mt-6 inline-block text-xs tracking-wider">{collection.watch_count} relojes <span aria-hidden="true">→</span></span>
               </Link>
             </Reveal>)}
           </div>
@@ -117,7 +126,7 @@ export default function HomePage() {
         <div className="page-wrap grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {features.map(({ icon: Icon, title, desc }) => <div key={title} className="trust-item group">
             <Icon className="mb-5 text-gold transition-transform duration-300 group-hover:-translate-y-1" size={25} strokeWidth={1.35} />
-            <h3 className="text-xs font-medium uppercase tracking-[.15em] text-white">{title}</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[.15em] text-charcoal">{title}</h3>
             <p className="mt-2 max-w-[220px] text-xs leading-6 text-gray-500">{desc}</p>
           </div>)}
         </div>

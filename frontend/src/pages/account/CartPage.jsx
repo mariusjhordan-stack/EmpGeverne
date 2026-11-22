@@ -20,7 +20,7 @@ export default function CartPage() {
         <div className="empty-state text-center py-20">
           <ShoppingBag className="mx-auto mb-4 text-gray-300" size={48} />
           <p className="text-gray-500 mb-6">Tu carrito está vacío</p>
-          <Link to="/catalogo" className="inline-block bg-gold hover:bg-gold-dark text-white px-8 py-3 rounded-lg text-sm tracking-wider">
+          <Link to="/catalogo" className="button-gold">
             EXPLORAR CATÁLOGO
           </Link>
         </div>
@@ -64,7 +64,7 @@ export default function CartPage() {
               <span>{formatPrice(cart?.total || 0)}</span>
             </div>
             <Link to="/checkout"
-              className="block w-full text-center bg-gold hover:bg-gold-dark text-white py-3 rounded-lg text-sm tracking-wider transition-colors">
+              className="button-gold w-full text-center">
               PROCEDER AL CHECKOUT
             </Link>
           </div>

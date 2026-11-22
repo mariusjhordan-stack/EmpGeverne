@@ -12,7 +12,7 @@ const values = [
 export default function AboutPage() {
   return (
     <div className="page-wrap about-page editorial-section">
-      <Reveal><SectionHeader titleAs="h1" eyebrow="Cronos Genève" title={<>Una pasión por el <em>tiempo</em></>} /></Reveal>
+      <Reveal><SectionHeader titleAs="h1" eyebrow="Cronos Genève · Savoir-faire" title={<>Una pasión por el <em>tiempo</em></>} description="Excelencia, herencia suiza y devoción por los detalles mecánicos que perduran a través de generaciones." /></Reveal>
       <div className="about-lead grid lg:grid-cols-[.7fr_1.3fr] gap-8 lg:gap-24">
         <Reveal><p className="editorial-kicker about-side-note">Nuestra historia<br />desde la alta relojería</p></Reveal>
         <Reveal delay={100}>
