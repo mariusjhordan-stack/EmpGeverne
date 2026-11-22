@@ -33,8 +33,8 @@ export default function CollectionsPage() {
               <img src={collectionImages[index % collectionImages.length]} alt="" aria-hidden="true" loading="lazy" />
               <span className="collection-feature-shade" aria-hidden="true" />
               <span className="editorial-kicker">Selección 0{index + 1}</span>
-              <h2 className="font-serif text-4xl md:text-5xl text-charcoal group-hover:text-gold transition-colors">{collection.name}</h2>
-              <p className="mt-4 max-w-lg text-sm leading-7 text-gray-500">{collection.description}</p>
+              <h2 className="font-serif text-4xl md:text-5xl text-white group-hover:text-gold transition-colors">{collection.name}</h2>
+              <p className="mt-4 max-w-lg text-sm leading-7 text-[#DDD6CA]">{collection.description}</p>
               <span className="mt-8 inline-flex items-center gap-3 text-xs uppercase tracking-[.14em] text-gold">{collection.watch_count} relojes <span aria-hidden="true">↗</span></span>
             </Link>
           </Reveal>)}
