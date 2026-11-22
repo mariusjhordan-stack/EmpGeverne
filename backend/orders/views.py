@@ -3,6 +3,9 @@ from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
+from django.conf import settings
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import APIException
 from .models import Order, OrderItem, Payment
 from .serializers import (
     OrderSerializer, OrderListSerializer, CreateOrderSerializer,
@@ -77,8 +80,8 @@ class CreateOrderView(APIView):
                 item.watch.stock -= item.quantity
                 item.watch.save()
 
-            gateway = get_payment_gateway()
             payment_method = data.get('payment_method', 'demo_card')
+            gateway = get_payment_gateway(payment_method)
             result = gateway.process_payment(
                 amount=total,
                 method=payment_method,
@@ -86,21 +89,63 @@ class CreateOrderView(APIView):
             )
 
             if not result.success:
-                raise Exception(result.error or 'Error al procesar el pago.')
+                raise PaymentGatewayError(result.error or 'Error al procesar el pago.')
 
+            is_stripe = result.gateway == 'stripe'
             Payment.objects.create(
                 order=order,
                 method=payment_method,
                 amount=total,
                 reference=result.reference,
-                is_demo=(result.gateway == 'demo'),
+                is_demo=not is_stripe,
             )
-            order.status = 'paid'
-            order.save()
+            if not is_stripe:
+                order.status = 'paid'
+                order.save()
 
             cart.items.all().delete()
 
-        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
+        response_data = OrderSerializer(order).data
+        if is_stripe:
+            response_data['client_secret'] = result.raw_response['client_secret']
+        return Response(response_data, status=status.HTTP_201_CREATED)
+
+
+class PaymentGatewayError(APIException):
+    status_code = status.HTTP_502_BAD_GATEWAY
+    default_detail = 'No se pudo crear el pago.'
+    default_code = 'payment_gateway_error'
+
+
+class ConfirmStripePaymentView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, order_number):
+        import stripe
+
+        order = get_object_or_404(
+            Order.objects.select_related('payment'),
+            order_number=order_number,
+            user=request.user,
+        )
+        if not hasattr(order, 'payment') or order.payment.method != 'stripe_card':
+            return Response({'error': 'El pedido no tiene un pago Stripe pendiente.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        try:
+            intent = stripe.PaymentIntent.retrieve(order.payment.reference)
+        except stripe.StripeError as exc:
+            return Response({'error': str(exc)}, status=status.HTTP_502_BAD_GATEWAY)
+
+        if intent.status == 'succeeded':
+            if order.status == 'pending':
+                order.status = 'paid'
+                order.save(update_fields=['status', 'updated_at'])
+            return Response(OrderSerializer(order).data)
+        return Response(
+            {'error': f'Pago no completado (estado: {intent.status})'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 class OrderListView(generics.ListAPIView):

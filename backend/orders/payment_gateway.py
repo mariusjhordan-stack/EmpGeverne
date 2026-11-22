@@ -16,6 +16,14 @@ class PaymentResult:
 class PaymentGateway(ABC):
     @abstractmethod
     def process_payment(self, amount: Decimal, method: str, metadata: dict) -> PaymentResult:
+        if getattr(settings, 'PAYMENT_GATEWAY', 'demo') != 'stripe':
+            return PaymentResult(
+                success=False,
+                reference='',
+                gateway='stripe',
+                error='PAYMENT_GATEWAY is not configured for Stripe.',
+            )
+
         pass
 
 
@@ -78,7 +86,7 @@ class StripeGateway(PaymentGateway):
                 gateway='stripe',
                 raw_response={'client_secret': intent.client_secret},
             )
-        except stripe.error.StripeError as e:
+        except stripe.StripeError as e:
             return PaymentResult(
                 success=False,
                 reference='',
@@ -87,8 +95,7 @@ class StripeGateway(PaymentGateway):
             )
 
 
-def get_payment_gateway() -> PaymentGateway:
-    gateway_type = getattr(settings, 'PAYMENT_GATEWAY', 'demo')
-    if gateway_type == 'stripe':
+def get_payment_gateway(method: str = 'demo_card') -> PaymentGateway:
+    if method == 'stripe_card':
         return StripeGateway()
     return DemoGateway()
