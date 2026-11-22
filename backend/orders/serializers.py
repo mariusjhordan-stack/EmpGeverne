@@ -59,7 +59,10 @@ class CreateOrderSerializer(serializers.Serializer):
     shipping_postal_code = serializers.CharField(max_length=20, required=False)
     shipping_country = serializers.CharField(max_length=100, default='Perú')
     notes = serializers.CharField(required=False, allow_blank=True, default='')
-    payment_method = serializers.ChoiceField(choices=['demo_card', 'demo_transfer'], default='demo_card')
+    payment_method = serializers.ChoiceField(
+        choices=['demo_card', 'demo_transfer', 'stripe_card'],
+        default='demo_card',
+    )
 
     def validate(self, attrs):
         address_id = attrs.get('address_id')

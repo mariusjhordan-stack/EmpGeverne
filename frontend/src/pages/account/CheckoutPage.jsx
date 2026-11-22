@@ -4,6 +4,13 @@ import { useCart } from '../../context/CartContext';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import StripePaymentForm from '../../components/checkout/StripePaymentForm';
+
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+  : null;
 
 export default function CheckoutPage() {
   const { cart, fetchCart } = useCart();
@@ -12,10 +19,11 @@ export default function CheckoutPage() {
   const [selectedAddress, setSelectedAddress] = useState('');
   const [newAddress, setNewAddress] = useState({ street: '', city: '', state: '', postal_code: '', country: 'Perú' });
   const [useNew, setUseNew] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('demo_card');
+  const [paymentMethod, setPaymentMethod] = useState('stripe_card');
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState(null);
+  const [clientSecret, setClientSecret] = useState('');
 
   const formatPrice = (p) => new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'USD' }).format(p);
 
@@ -29,20 +37,11 @@ export default function CheckoutPage() {
   }, []);
 
   const items = cart?.items || [];
-  if (!cart || items.length === 0) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-10 text-center">
-        <p className="text-gray-500 mb-4">Tu carrito está vacío</p>
-        <Link to="/catalogo" className="text-gold hover:text-gold-dark text-sm">Ir al catálogo</Link>
-      </div>
-    );
-  }
-
   const handlePlaceOrder = async () => {
     setLoading(true);
     try {
       const payload = { payment_method: paymentMethod };
-      if (useNew) {
+      if (useNew || addresses.length === 0) {
         if (!newAddress.street || !newAddress.city || !newAddress.state || !newAddress.postal_code) {
           toast.error('Complete todos los campos de dirección');
           setLoading(false);
@@ -66,6 +65,12 @@ export default function CheckoutPage() {
 
       const { data } = await api.post('/orders/create/', payload);
       setOrder(data);
+      if (data.client_secret) {
+        setClientSecret(data.client_secret);
+        setStep(5);
+        await fetchCart();
+        return;
+      }
       await fetchCart();
       setStep(4);
       toast.success('Pedido creado exitosamente');
@@ -75,6 +80,25 @@ export default function CheckoutPage() {
       setLoading(false);
     }
   };
+
+  if (step === 5 && order && clientSecret) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-10">
+        {stripePromise ? (
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <StripePaymentForm
+              orderNumber={order.order_number}
+              onSuccess={(paidOrder) => { setOrder(paidOrder); setStep(4); }}
+            />
+          </Elements>
+        ) : (
+          <div className="bg-white rounded-lg p-6 shadow-sm text-red-700">
+            Falta configurar la clave pública de Stripe en el entorno del frontend.
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if (step === 4 && order) {
     return (
@@ -89,13 +113,22 @@ export default function CheckoutPage() {
             <p className="text-sm"><strong>N° de pedido:</strong> {order.order_number}</p>
             <p className="text-sm"><strong>Total:</strong> {formatPrice(order.total)}</p>
             <p className="text-sm"><strong>Estado:</strong> {order.status_display}</p>
-            <p className="text-xs text-gray-400 mt-2">Este es un pago de demostración para fines académicos. No se ha procesado ninguna transacción bancaria real.</p>
+            {order.payment?.is_demo && <p className="text-xs text-gray-400 mt-2">Este es un pago de demostración para fines académicos. No se ha procesado ninguna transacción bancaria real.</p>}
           </div>
           <div className="flex gap-4 justify-center">
             <Link to={`/pedidos/${order.order_number}`} className="bg-gold hover:bg-gold-dark text-white px-6 py-3 rounded-lg text-sm tracking-wider">VER PEDIDO</Link>
             <Link to="/catalogo" className="border border-gray-200 text-gray-600 px-6 py-3 rounded-lg text-sm hover:border-gold">SEGUIR COMPRANDO</Link>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (!cart || items.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-10 text-center">
+        <p className="text-gray-500 mb-4">Tu carrito está vacío</p>
+        <Link to="/catalogo" className="text-gold hover:text-gold-dark text-sm">Ir al catálogo</Link>
       </div>
     );
   }
@@ -165,10 +198,10 @@ export default function CheckoutPage() {
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-charcoal mb-4">Método de pago</h2>
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-amber-700">Pago de demostración — Este es un entorno de demostración académica. No se procesará ninguna transacción real.</p>
+                <p className="text-sm text-amber-700">Entorno de pruebas — usa una tarjeta de prueba de Stripe. No se procesará una transacción real.</p>
               </div>
               <div className="space-y-3">
-                {[['demo_card', 'Tarjeta de demostración'], ['demo_transfer', 'Transferencia de demostración']].map(([v, l]) => (
+                {[['stripe_card', 'Tarjeta (Stripe, modo prueba)'], ['demo_card', 'Tarjeta de demostración']].map(([v, l]) => (
                   <label key={v} className={`flex items-center gap-3 p-4 border rounded-lg cursor-pointer ${paymentMethod === v ? 'border-gold bg-gold/5' : 'border-gray-200'}`}>
                     <input type="radio" name="payment" value={v} checked={paymentMethod === v} onChange={() => setPaymentMethod(v)} />
                     <span className="text-sm">{l}</span>
