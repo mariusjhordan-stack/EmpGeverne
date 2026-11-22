@@ -90,9 +90,9 @@ export default function WatchDetailPage() {
       <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-8 lg:gap-16">
         {/* Images */}
         <div className="product-gallery animate-fade-in-up">
-          <div className="product-stage aspect-square overflow-hidden mb-4">
+          <div className="product-stage aspect-square overflow-hidden mb-4 p-6 md:p-10">
             {currentImage ? (
-              <img src={currentImage.image} alt={currentImage.alt_text || watch.name} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+              <img src={currentImage.image} alt={currentImage.alt_text || watch.name} className="w-full h-full object-contain transition-transform duration-700 hover:scale-105" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-300">
                 <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -104,7 +104,7 @@ export default function WatchDetailPage() {
               {images.map((img, i) => (
                 <button key={img.id} onClick={() => setSelectedImage(i)}
                   className={`w-20 h-20 rounded overflow-hidden border-2 ${i === selectedImage ? 'border-gold' : 'border-transparent'}`}>
-                  <img src={img.image} alt="" className="w-full h-full object-cover" />
+                  <img src={img.image} alt="" className="w-full h-full object-contain p-1.5" />
                 </button>
               ))}
             </div>

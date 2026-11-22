@@ -7,7 +7,7 @@ export default function WatchCard({ watch }) {
     <Link to={`/catalogo/${watch.slug}`} className="product-card group">
       <div className="product-image-wrap aspect-square overflow-hidden">
         {watch.primary_image ? (
-          <img src={watch.primary_image} alt={watch.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+          <img src={watch.primary_image} alt={watch.name} className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-700 ease-out" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-300">
             <svg className="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>

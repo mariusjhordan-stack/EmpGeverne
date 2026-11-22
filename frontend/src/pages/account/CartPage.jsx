@@ -31,7 +31,7 @@ export default function CartPage() {
               <div key={item.id} className="cart-line bg-white p-4 md:p-5 flex flex-wrap items-center gap-4 shadow-sm">
                 <div className="cart-thumbnail w-20 h-20 bg-gray-100 overflow-hidden flex-shrink-0">
                   {item.watch_image ? (
-                    <img src={item.watch_image} alt={item.watch_name} className="w-full h-full object-cover" />
+                    <img src={item.watch_image} alt={item.watch_name} className="w-full h-full object-contain p-1" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">Sin imagen</div>
                   )}
