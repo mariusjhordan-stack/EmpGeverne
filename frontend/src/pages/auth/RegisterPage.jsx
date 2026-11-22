@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import FloatingInput from '../../components/common/FloatingInput';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -23,8 +25,8 @@ export default function RegisterPage() {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    const v = validate();
-    if (Object.keys(v).length) { setErrors(v); return; }
+    const validation = validate();
+    if (Object.keys(validation).length) { setErrors(validation); return; }
     setErrors({});
     setLoading(true);
     try {
@@ -34,51 +36,47 @@ export default function RegisterPage() {
       navigate('/');
     } catch (err) {
       const data = err.response?.data?.errors || err.response?.data;
-      if (data && typeof data === 'object') {
-        setErrors(data);
-      } else {
-        setErrors({ general: 'Error al crear la cuenta' });
-      }
+      if (data && typeof data === 'object') setErrors(data);
+      else setErrors({ general: 'Error al crear la cuenta' });
     } finally {
       setLoading(false);
     }
   };
 
-  const field = (name, label, type = 'text') => (
-    <div className="mb-4">
-      <label className="block text-sm text-gray-600 mb-1">{label}</label>
-      <input type={type} value={form[name]}
-        onChange={(e) => setForm({ ...form, [name]: e.target.value })}
-        className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-      {errors[name] && <p className="text-xs text-red-500 mt-1">{Array.isArray(errors[name]) ? errors[name][0] : errors[name]}</p>}
-    </div>
-  );
+  const errorText = (name) => Array.isArray(errors[name]) ? errors[name][0] : errors[name];
+  const field = (name, label, type = 'text', autoComplete) => <FloatingInput key={name} id={`register-${name}`} name={name} label={label} type={type} autoComplete={autoComplete} value={form[name]} onChange={(e) => setForm({ ...form, [name]: e.target.value })} error={errorText(name)} />;
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 animate-fade-in">
-      <div className="w-full max-w-md animate-fade-in-up">
-        <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl text-charcoal mb-2">Crear Cuenta</h1>
-          <p className="text-sm text-gray-500">Únete a Cronos Genève</p>
+    <div className="auth-page">
+      <section className="auth-layout animate-fade-in">
+        <div className="auth-editorial">
+          <p className="editorial-kicker">CRONOS GENÈVE · MEMBRES</p>
+          <h2>Una selección que perdura.</h2>
+          <p>Descubra piezas distinguidas de las casas relojeras más prestigiosas.</p>
+          <span className="auth-edition">PRECISIÓN · ELEGANCIA · TRADICIÓN</span>
         </div>
-        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-sm animate-scale-in stagger-1">
-          {errors.general && <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded">{errors.general}</div>}
-          <div className="grid grid-cols-2 gap-4">
-            {field('first_name', 'Nombres')}
-            {field('last_name', 'Apellidos')}
-          </div>
-          {field('email', 'Correo electrónico', 'email')}
-          {field('password', 'Contraseña', 'password')}
-          {field('password_confirm', 'Confirmar contraseña', 'password')}
-          <button type="submit" disabled={loading}
-            className="w-full bg-gold hover:bg-gold-dark text-white py-3 rounded-lg text-sm tracking-wider transition-colors disabled:opacity-50 mt-2">
-            {loading ? 'CREANDO CUENTA...' : 'CREAR CUENTA'}
-          </button>
-          <p className="text-center text-sm text-gray-500 mt-6">
-            ¿Ya tienes cuenta? <Link to="/login" className="text-gold hover:text-gold-dark">Ingresar</Link>
-          </p>
-        </form>
-      </div>
+        <div className="auth-form-wrap">
+          <form onSubmit={handleSubmit} className="animate-fade-in-up">
+            <p className="editorial-kicker">Su espacio Cronos</p>
+            <h1 className="font-serif text-4xl text-charcoal mt-2 mb-2">Crear cuenta</h1>
+            <p className="text-sm text-gray-500 mb-7">Únete a Cronos Genève.</p>
+            {errors.general && <div className="mb-5 border border-red-500/30 bg-red-50 p-3 text-sm text-red-600" role="alert">{errors.general}</div>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {field('first_name', 'Nombres', 'text', 'given-name')}
+              {field('last_name', 'Apellidos', 'text', 'family-name')}
+            </div>
+            <div className="mt-4 space-y-4">
+              {field('email', 'Correo electrónico', 'email', 'email')}
+              {field('password', 'Contraseña', 'password', 'new-password')}
+              {field('password_confirm', 'Confirmar contraseña', 'password', 'new-password')}
+            </div>
+            <button type="submit" disabled={loading} className="button-gold w-full mt-7 disabled:opacity-50">
+              {loading ? 'Creando cuenta...' : 'Crear cuenta'} <ArrowUpRight size={15} />
+            </button>
+            <p className="text-center text-sm text-gray-500 mt-7">¿Ya tienes cuenta? <Link to="/login" className="ml-1 text-gold hover:text-gold-light">Ingresar</Link></p>
+          </form>
+        </div>
+      </section>
     </div>
   );
 }

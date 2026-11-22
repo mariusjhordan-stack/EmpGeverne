@@ -1,8 +1,10 @@
+import SectionHeader from '../../components/common/SectionHeader';
+
 export default function TermsPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      <h1 className="font-serif text-3xl text-charcoal mb-8">Términos y Condiciones</h1>
-      <div className="text-sm text-gray-600 space-y-6 leading-relaxed">
+    <div className="page-wrap legal-page editorial-section max-w-3xl">
+      <SectionHeader titleAs="h1" eyebrow="Información legal" title={<>Términos y <em>condiciones</em></>} />
+      <div className="legal-copy text-sm text-gray-600 space-y-6 leading-relaxed">
         <p>Al utilizar la plataforma Cronos Genève, usted acepta los siguientes términos y condiciones.</p>
         <h2 className="text-lg font-semibold text-charcoal">Uso del servicio</h2>
         <p>La plataforma está destinada a la consulta y adquisición de relojes de lujo. El uso del servicio implica la aceptación de estas condiciones.</p>

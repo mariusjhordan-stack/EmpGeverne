@@ -7,6 +7,8 @@ import { useCart } from '../../context/CartContext';
 import WatchCard from '../../components/catalog/WatchCard';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import toast from 'react-hot-toast';
+import Reveal from '../../components/common/Reveal';
+import SectionHeader from '../../components/common/SectionHeader';
 
 export default function WatchDetailPage() {
   const { slug } = useParams();
@@ -80,15 +82,15 @@ export default function WatchDetailPage() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 animate-fade-in">
-      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-gray-500 hover:text-charcoal mb-8 transition-colors duration-200">
+    <div className="page-wrap product-detail py-8 md:py-12 animate-fade-in">
+      <button onClick={() => navigate(-1)} className="back-link flex items-center gap-2 text-xs text-gray-500 hover:text-charcoal mb-8 transition-colors duration-200">
         <ArrowLeft size={16} /> Volver
       </button>
 
-      <div className="grid lg:grid-cols-2 gap-12">
+      <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-8 lg:gap-16">
         {/* Images */}
-        <div className="animate-fade-in-up">
-          <div className="aspect-square bg-white rounded-lg overflow-hidden mb-4">
+        <div className="product-gallery animate-fade-in-up">
+          <div className="product-stage aspect-square overflow-hidden mb-4">
             {currentImage ? (
               <img src={currentImage.image} alt={currentImage.alt_text || watch.name} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
             ) : (
@@ -111,13 +113,13 @@ export default function WatchDetailPage() {
 
         {/* Info */}
         <div className="animate-fade-in-up stagger-2">
-          <div className="mb-6">
-            <p className="text-gold tracking-[0.3em] text-xs mb-2">{watch.brand?.name}</p>
-            <h1 className="font-serif text-3xl md:text-4xl text-charcoal mb-2">{watch.name}</h1>
-            <p className="text-xs text-gray-400">Ref. {watch.reference}</p>
+          <div className="product-summary mb-6">
+            <p className="editorial-kicker mb-3">{watch.brand?.name}</p>
+            <h1 className="font-serif text-4xl md:text-5xl text-charcoal mb-3">{watch.name}</h1>
+            <p className="text-xs tracking-[.12em] text-gray-500">REFERENCIA · {watch.reference}</p>
           </div>
 
-          <p className="text-2xl font-semibold text-charcoal mb-6">{formatPrice(watch.price)}</p>
+          <p className="detail-price mb-6">{formatPrice(watch.price)}</p>
 
           <p className="text-gray-600 leading-relaxed mb-8">{watch.description}</p>
 
@@ -132,14 +134,14 @@ export default function WatchDetailPage() {
 
           {/* Quantity + Add */}
           {watch.is_available && (
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center border border-gray-200 rounded-lg">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3 hover:bg-gray-50"><Minus size={16} /></button>
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <div className="flex items-center border border-gray-200">
+                <button aria-label="Reducir cantidad" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3 hover:bg-gray-50"><Minus size={15} /></button>
                 <span className="px-4 text-sm font-medium">{quantity}</span>
-                <button onClick={() => setQuantity(Math.min(watch.stock, quantity + 1))} className="p-3 hover:bg-gray-50"><Plus size={16} /></button>
+                <button aria-label="Aumentar cantidad" onClick={() => setQuantity(Math.min(watch.stock, quantity + 1))} className="p-3 hover:bg-gray-50"><Plus size={15} /></button>
               </div>
               <button onClick={handleAddToCart} disabled={adding}
-                className="flex-1 flex items-center justify-center gap-2 bg-gold hover:bg-gold-dark text-white py-3 px-6 rounded-lg text-sm tracking-wider transition-colors disabled:opacity-50">
+                className="button-gold flex-1 flex items-center justify-center gap-2 disabled:opacity-50">
                 <ShoppingBag size={18} /> {adding ? 'AGREGANDO...' : 'AGREGAR AL CARRITO'}
               </button>
             </div>
@@ -153,10 +155,10 @@ export default function WatchDetailPage() {
 
           {/* Specs */}
           <div className="mt-10 border-t border-gray-200 pt-8">
-            <h2 className="text-sm font-semibold tracking-wider text-charcoal mb-4">ESPECIFICACIONES</h2>
-            <div className="space-y-3">
+            <h2 className="editorial-kicker mb-3">Especificaciones</h2>
+            <div className="specification-list">
               {specs.map((s) => (
-                <div key={s.label} className="flex justify-between text-sm py-2 border-b border-gray-100">
+                <div key={s.label} className="specification-row flex justify-between gap-5 text-sm py-3 border-b border-gray-100">
                   <span className="text-gray-500">{s.label}</span>
                   <span className="text-charcoal font-medium">{s.value}</span>
                 </div>
@@ -168,10 +170,10 @@ export default function WatchDetailPage() {
 
       {/* Related */}
       {watch.related_watches?.length > 0 && (
-        <section className="mt-20">
-          <h2 className="font-serif text-2xl text-charcoal mb-8">Relojes relacionados</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {watch.related_watches.map((w) => <WatchCard key={w.id} watch={w} />)}
+        <section className="editorial-section section-divider mt-16">
+          <SectionHeader eyebrow="También en la selección" title={<>Piezas <em>relacionadas</em></>} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {watch.related_watches.map((w, index) => <Reveal key={w.id} delay={index * 60}><WatchCard watch={w} /></Reveal>)}
           </div>
         </section>
       )}

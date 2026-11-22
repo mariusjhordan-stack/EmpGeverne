@@ -1,8 +1,10 @@
+import SectionHeader from '../../components/common/SectionHeader';
+
 export default function PrivacyPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      <h1 className="font-serif text-3xl text-charcoal mb-8">Política de Privacidad</h1>
-      <div className="text-sm text-gray-600 space-y-6 leading-relaxed">
+    <div className="page-wrap legal-page editorial-section max-w-3xl">
+      <SectionHeader titleAs="h1" eyebrow="Información legal" title={<>Política de <em>privacidad</em></>} />
+      <div className="legal-copy text-sm text-gray-600 space-y-6 leading-relaxed">
         <p>En Cronos Genève, valoramos su privacidad y nos comprometemos a proteger la información personal que comparte con nosotros.</p>
         <h2 className="text-lg font-semibold text-charcoal">Información que recopilamos</h2>
         <p>Recopilamos información que usted nos proporciona directamente, como nombre, dirección de correo electrónico y dirección de envío al crear una cuenta o realizar un pedido.</p>

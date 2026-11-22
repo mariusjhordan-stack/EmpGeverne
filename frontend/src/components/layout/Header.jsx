@@ -1,8 +1,16 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Heart, User, Menu, X, LogOut, Package, Settings } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { ShoppingBag, Heart, UserRound, Menu, X, LogOut, Package, Settings, ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+
+const navLinks = [
+  { label: 'Inicio', to: '/' },
+  { label: 'Catálogo', to: '/catalogo' },
+  { label: 'Colecciones', to: '/colecciones' },
+  { label: 'Nosotros', to: '/nosotros' },
+  { label: 'Contacto', to: '/contacto' },
+];
 
 export default function Header() {
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
@@ -10,6 +18,20 @@ export default function Header() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(window.scrollY > 24);
+
+  useEffect(() => {
+    const updateScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    return () => window.removeEventListener('scroll', updateScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!mobileOpen) return undefined;
+    const closeOnEscape = (event) => { if (event.key === 'Escape') setMobileOpen(false); };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [mobileOpen]);
 
   const handleLogout = () => {
     logout();
@@ -17,105 +39,62 @@ export default function Header() {
     navigate('/');
   };
 
-  const navLinks = [
-    { label: 'Inicio', to: '/' },
-    { label: 'Catálogo', to: '/catalogo' },
-    { label: 'Colecciones', to: '/colecciones' },
-    { label: 'Nosotros', to: '/nosotros' },
-    { label: 'Contacto', to: '/contacto' },
-  ];
+  const closeMobile = () => setMobileOpen(false);
+  const linkClass = ({ isActive }) => `site-nav-link ${isActive ? 'active' : ''}`;
 
   return (
-    <header className="bg-charcoal text-white sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <Link to="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-            <span className="font-serif text-xl md:text-2xl tracking-wider text-gold">CRONOS</span>
-            <span className="text-xs tracking-[0.3em] text-gray-400 hidden sm:block">GENÈVE</span>
-          </Link>
+    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+      <div className="header-inner">
+        <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio" onClick={closeMobile}>
+          <strong>CRONOS</strong><span>GENÈVE</span>
+        </Link>
 
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((l) => (
-              <Link key={l.to} to={l.to} className="text-sm tracking-wider text-gray-300 hover:text-gold transition-colors">
-                {l.label}
-              </Link>
-            ))}
-          </nav>
+        <nav className="site-nav desktop" aria-label="Navegación principal">
+          {navLinks.map((link) => <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClass}>{link.label}</NavLink>)}
+        </nav>
 
-          <div className="flex items-center gap-3 md:gap-4">
-            {isAuthenticated && (
-              <Link to="/favoritos" className="text-gray-300 hover:text-gold transition-colors">
-                <Heart size={20} />
-              </Link>
-            )}
-            {isAuthenticated && (
-              <Link to="/carrito" className="relative text-gray-300 hover:text-gold transition-colors">
-                <ShoppingBag size={20} />
-                {itemCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-gold text-charcoal text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
-                    {itemCount}
-                  </span>
-                )}
-              </Link>
-            )}
-
-            {isAuthenticated ? (
-              <div className="relative">
-                <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="text-gray-300 hover:text-gold transition-colors">
-                  <User size={20} />
-                </button>
-                {userMenuOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
-                    <div className="absolute right-0 mt-2 w-56 bg-white text-charcoal rounded-lg shadow-xl z-50 py-2 animate-fade-in-down">
-                      <div className="px-4 py-2 border-b border-gray-100">
-                        <p className="text-sm font-medium truncate">{user?.first_name} {user?.last_name}</p>
-                        <p className="text-xs text-gray-500 truncate">{user?.email}</p>
-                      </div>
-                      <Link to="/perfil" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50">
-                        <Settings size={16} /> Mi perfil
-                      </Link>
-                      <Link to="/pedidos" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50">
-                        <Package size={16} /> Mis pedidos
-                      </Link>
-                      {isAdmin && (
-                        <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50 text-gold-dark font-medium">
-                          <Settings size={16} /> Panel Admin
-                        </Link>
-                      )}
-                      <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50 w-full text-red-600">
-                        <LogOut size={16} /> Cerrar sesión
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              <Link to="/login" className="text-sm tracking-wider text-gray-300 hover:text-gold transition-colors">
-                Ingresar
-              </Link>
-            )}
-
-            <button className="lg:hidden text-gray-300 hover:text-gold" onClick={() => setMobileOpen(!mobileOpen)}>
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+        <div className="header-actions">
+          {isAuthenticated && (
+            <Link to="/favoritos" className="header-icon" aria-label="Favoritos" title="Favoritos"><Heart size={18} strokeWidth={1.5} /></Link>
+          )}
+          {isAuthenticated && (
+            <Link to="/carrito" className="header-icon" aria-label={`Carrito${itemCount ? `, ${itemCount} artículos` : ''}`} title="Carrito">
+              <ShoppingBag size={18} strokeWidth={1.5} />{itemCount > 0 && <span className="count">{itemCount}</span>}
+            </Link>
+          )}
+          {isAuthenticated ? (
+            <div className="relative">
+              <button type="button" aria-label="Abrir menú de usuario" aria-expanded={userMenuOpen} onClick={() => setUserMenuOpen(!userMenuOpen)} className="header-icon">
+                <UserRound size={18} strokeWidth={1.5} />
+              </button>
+              {userMenuOpen && <>
+                <button type="button" aria-label="Cerrar menú" className="fixed inset-0 z-40 cursor-default" onClick={() => setUserMenuOpen(false)} />
+                <div className="user-popover animate-fade-in-down">
+                  <div className="border-b border-gray-800 px-3 py-3">
+                    <p className="truncate text-sm text-white">{user?.first_name} {user?.last_name}</p>
+                    <p className="mt-1 truncate text-xs text-gray-400">{user?.email}</p>
+                  </div>
+                  <Link to="/perfil" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 text-sm hover:text-gold"><Settings size={15} /> Mi perfil</Link>
+                  <Link to="/pedidos" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 text-sm hover:text-gold"><Package size={15} /> Mis pedidos</Link>
+                  {isAdmin && <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 text-sm text-gold"><ArrowUpRight size={15} /> Panel de administración</Link>}
+                  <button type="button" onClick={handleLogout} className="flex w-full items-center gap-3 px-3 py-3 text-left text-sm text-red-400 hover:text-red-300"><LogOut size={15} /> Cerrar sesión</button>
+                </div>
+              </>}
+            </div>
+          ) : <Link to="/login" className="header-login">Ingresar</Link>}
+          <button type="button" className="menu-toggle" aria-label={mobileOpen ? 'Cerrar navegación' : 'Abrir navegación'} aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)}>
+            {mobileOpen ? <X size={21} /> : <Menu size={21} />}
+          </button>
         </div>
-
-        {mobileOpen && (
-          <nav className="lg:hidden pb-4 border-t border-gray-800 animate-fade-in-down">
-            {navLinks.map((l) => (
-              <Link
-                key={l.to} to={l.to}
-                className="block py-3 text-sm tracking-wider text-gray-300 hover:text-gold transition-colors"
-                onClick={() => setMobileOpen(false)}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-        )}
       </div>
+
+      {mobileOpen && <nav className="mobile-nav" aria-label="Navegación móvil">
+        <p className="editorial-kicker mb-5">CRONOS GENÈVE · EXPLORAR</p>
+        {navLinks.map((link, index) => <NavLink key={link.to} to={link.to} end={link.to === '/'} onClick={closeMobile} className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}>
+          <span className="mobile-nav-index">0{index + 1}</span>{link.label}
+        </NavLink>)}
+        {!isAuthenticated && <Link to="/login" onClick={closeMobile} className="mobile-login">Acceder a mi cuenta <ArrowUpRight size={16} /></Link>}
+      </nav>}
     </header>
   );
 }

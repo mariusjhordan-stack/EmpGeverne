@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Package } from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import SectionHeader from '../../components/common/SectionHeader';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -28,10 +29,10 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10 animate-fade-in">
-      <h1 className="font-serif text-3xl text-charcoal mb-8 animate-fade-in-up">Mis Pedidos</h1>
+    <div className="page-wrap orders-page editorial-section animate-fade-in">
+      <SectionHeader titleAs="h1" eyebrow="Su actividad" title={<>Mis <em>pedidos</em></>} />
       {orders.length === 0 ? (
-        <div className="text-center py-20">
+        <div className="empty-state text-center py-20">
           <Package className="mx-auto mb-4 text-gray-300" size={48} />
           <p className="text-gray-500 mb-4">No tienes pedidos aún</p>
           <Link to="/catalogo" className="text-sm text-gold hover:text-gold-dark">Explorar catálogo</Link>
@@ -40,7 +41,7 @@ export default function OrdersPage() {
         <div className="space-y-4">
           {orders.map((order) => (
             <Link key={order.id} to={`/pedidos/${order.order_number}`}
-              className="block bg-white rounded-lg p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+              className="order-row block bg-white p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-semibold text-charcoal">{order.order_number}</span>
                 <span className={`text-xs px-3 py-1 rounded-full ${statusColors[order.status] || 'bg-gray-100 text-gray-600'}`}>

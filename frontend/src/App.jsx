@@ -38,7 +38,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <Toaster position="top-right" toastOptions={{ duration: 3000, style: { fontSize: '14px' } }} />
+          <Toaster position="top-right" toastOptions={{ duration: 3000, style: { background: '#161616', color: '#f5f1e8', border: '1px solid rgba(245,241,232,.13)', borderRadius: '2px', fontSize: '13px', letterSpacing: '.02em' } }} />
           <Routes>
             {/* Store */}
             <Route element={<StoreLayout />}>

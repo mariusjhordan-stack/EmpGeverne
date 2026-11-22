@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import StripePaymentForm from '../../components/checkout/StripePaymentForm';
@@ -14,7 +13,6 @@ const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
 
 export default function CheckoutPage() {
   const { cart, fetchCart } = useCart();
-  const navigate = useNavigate();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState('');
   const [newAddress, setNewAddress] = useState({ street: '', city: '', state: '', postal_code: '', country: 'Perú' });
@@ -83,9 +81,23 @@ export default function CheckoutPage() {
 
   if (step === 5 && order && clientSecret) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-10">
+      <div className="page-wrap checkout-page py-10">
         {stripePromise ? (
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <Elements stripe={stripePromise} options={{
+            clientSecret,
+            appearance: {
+              theme: 'night',
+              variables: {
+                colorPrimary: '#c9a961',
+                colorBackground: '#161616',
+                colorText: '#f5f1e8',
+                colorDanger: '#c0392b',
+                fontFamily: 'Inter, system-ui, sans-serif',
+                borderRadius: '2px',
+                spacingUnit: '4px',
+              },
+            },
+          }}>
             <StripePaymentForm
               orderNumber={order.order_number}
               onSuccess={(paidOrder) => { setOrder(paidOrder); setStep(4); }}
@@ -102,7 +114,7 @@ export default function CheckoutPage() {
 
   if (step === 4 && order) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center animate-fade-in">
+      <div className="page-wrap confirmation-page max-w-2xl py-16 text-center animate-fade-in">
         <div className="bg-white rounded-lg p-10 shadow-sm animate-scale-in">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
@@ -126,7 +138,7 @@ export default function CheckoutPage() {
 
   if (!cart || items.length === 0) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-10 text-center">
+    <div className="page-wrap checkout-page py-10 text-center">
         <p className="text-gray-500 mb-4">Tu carrito está vacío</p>
         <Link to="/catalogo" className="text-gold hover:text-gold-dark text-sm">Ir al catálogo</Link>
       </div>
@@ -138,14 +150,15 @@ export default function CheckoutPage() {
   const total = (parseFloat(subtotal) + parseFloat(tax)).toFixed(2);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
-      <h1 className="font-serif text-3xl text-charcoal mb-8">Checkout</h1>
+    <div className="page-wrap checkout-page py-10">
+      <p className="editorial-kicker mb-2">Tu compra</p>
+      <h1 className="font-serif text-4xl md:text-5xl text-charcoal mb-8">Checkout</h1>
 
       {/* Steps */}
-      <div className="flex items-center gap-4 mb-10">
+      <div className="checkout-progress flex items-center gap-4 mb-10" aria-label={`Paso ${step} de 3`}>
         {['Envío', 'Pago', 'Confirmación'].map((s, i) => (
           <div key={s} className="flex items-center gap-2">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${step > i + 1 ? 'bg-green-500 text-white' : step === i + 1 ? 'bg-gold text-white' : 'bg-gray-200 text-gray-500'}`}>
+            <div className={`checkout-step w-8 h-8 flex items-center justify-center text-sm ${step > i + 1 ? 'complete' : step === i + 1 ? 'active' : ''}`}>
               {step > i + 1 ? '✓' : i + 1}
             </div>
             <span className={`text-sm ${step === i + 1 ? 'text-charcoal font-medium' : 'text-gray-400'}`}>{s}</span>
@@ -156,7 +169,7 @@ export default function CheckoutPage() {
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           {step === 1 && (
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="checkout-panel bg-white p-6 md:p-8 shadow-sm">
               <h2 className="text-lg font-semibold text-charcoal mb-4">Dirección de envío</h2>
               {addresses.length > 0 && !useNew && (
                 <div className="space-y-3 mb-4">
@@ -195,7 +208,7 @@ export default function CheckoutPage() {
           )}
 
           {step === 2 && (
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="checkout-panel bg-white p-6 md:p-8 shadow-sm">
               <h2 className="text-lg font-semibold text-charcoal mb-4">Método de pago</h2>
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
                 <p className="text-sm text-amber-700">Entorno de pruebas — usa una tarjeta de prueba de Stripe. No se procesará una transacción real.</p>
@@ -216,7 +229,7 @@ export default function CheckoutPage() {
           )}
 
           {step === 3 && (
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="checkout-panel bg-white p-6 md:p-8 shadow-sm">
               <h2 className="text-lg font-semibold text-charcoal mb-4">Resumen del pedido</h2>
               <div className="space-y-3 mb-6">
                 {items.map((item) => (
@@ -238,7 +251,7 @@ export default function CheckoutPage() {
         </div>
 
         {/* Summary sidebar */}
-        <div className="bg-white rounded-lg p-6 shadow-sm h-fit">
+        <div className="checkout-summary bg-white p-6 shadow-sm h-fit">
           <h3 className="text-sm font-semibold text-charcoal mb-4">RESUMEN</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span>{formatPrice(subtotal)}</span></div>
