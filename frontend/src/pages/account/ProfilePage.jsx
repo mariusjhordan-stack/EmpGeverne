@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
+import SectionHeader from '../../components/common/SectionHeader';
 
 export default function ProfilePage() {
   const { user, fetchProfile } = useAuth();
@@ -38,11 +39,11 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10 animate-fade-in">
-      <h1 className="font-serif text-3xl text-charcoal mb-8 animate-fade-in-up">Mi Perfil</h1>
+    <div className="page-wrap profile-page editorial-section animate-fade-in max-w-4xl">
+      <SectionHeader titleAs="h1" eyebrow="Su cuenta" title={<>Mi <em>perfil</em></>} />
 
-      <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-        <h2 className="text-lg font-semibold text-charcoal mb-4">Información personal</h2>
+      <div className="bg-white p-6 md:p-8 shadow-sm mb-6">
+        <h2 className="font-serif text-2xl font-medium text-charcoal mb-5">Información personal</h2>
         <form onSubmit={saveProfile} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -71,8 +72,8 @@ export default function ProfilePage() {
         </form>
       </div>
 
-      <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-        <h2 className="text-lg font-semibold text-charcoal mb-4">Cambiar contraseña</h2>
+      <div className="bg-white p-6 md:p-8 shadow-sm mb-6">
+        <h2 className="font-serif text-2xl font-medium text-charcoal mb-5">Cambiar contraseña</h2>
         <form onSubmit={changePassword} className="space-y-4">
           <input type="password" placeholder="Contraseña actual" value={pwForm.old_password}
             onChange={(e) => setPwForm({ ...pwForm, old_password: e.target.value })}
@@ -84,8 +85,8 @@ export default function ProfilePage() {
         </form>
       </div>
 
-      <div className="bg-white rounded-lg p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-charcoal mb-4">Direcciones</h2>
+      <div className="bg-white p-6 md:p-8 shadow-sm">
+        <h2 className="font-serif text-2xl font-medium text-charcoal mb-5">Direcciones</h2>
         {addresses.length === 0 ? (
           <p className="text-sm text-gray-500">No tienes direcciones guardadas.</p>
         ) : (

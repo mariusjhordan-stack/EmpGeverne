@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import SectionHeader from '../../components/common/SectionHeader';
 
 const faqs = [
   { q: '¿Los relojes son originales?', a: 'Todos los relojes en nuestra plataforma son auténticos y cuentan con la garantía oficial de sus fabricantes.' },
@@ -14,20 +15,17 @@ export default function FAQPage() {
   const [open, setOpen] = useState(null);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <p className="text-gold tracking-[0.3em] text-xs mb-3">AYUDA</p>
-        <h1 className="font-serif text-4xl text-charcoal">Preguntas Frecuentes</h1>
-      </div>
+    <div className="page-wrap editorial-section max-w-3xl">
+      <SectionHeader titleAs="h1" eyebrow="Ayuda" title={<>Preguntas <em>frecuentes</em></>} description="Respuestas a las consultas más habituales sobre nuestra selección y servicio." />
       <div className="space-y-3">
         {faqs.map((f, i) => (
-          <div key={i} className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <button onClick={() => setOpen(open === i ? null : i)}
+          <div key={i} className="luxury-card overflow-hidden">
+            <button type="button" aria-expanded={open === i} aria-controls={`faq-answer-${i}`} onClick={() => setOpen(open === i ? null : i)}
               className="w-full flex items-center justify-between p-5 text-left">
               <span className="text-sm font-medium text-charcoal">{f.q}</span>
               <ChevronDown size={18} className={`text-gray-400 transition-transform ${open === i ? 'rotate-180' : ''}`} />
             </button>
-            {open === i && <div className="px-5 pb-5 text-sm text-gray-600 leading-relaxed">{f.a}</div>}
+            {open === i && <div id={`faq-answer-${i}`} className="px-5 pb-5 text-sm text-gray-600 leading-relaxed">{f.a}</div>}
           </div>
         ))}
       </div>

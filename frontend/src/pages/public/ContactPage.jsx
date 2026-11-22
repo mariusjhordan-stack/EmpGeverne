@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ArrowUpRight } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SectionHeader from '../../components/common/SectionHeader';
+import FloatingInput from '../../components/common/FloatingInput';
+import Reveal from '../../components/common/Reveal';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -15,39 +18,36 @@ export default function ContactPage() {
     setForm({ name: '', email: '', subject: '', message: '' });
   };
 
+  const contactItems = [
+    { icon: MapPin, title: 'Dirección', text: 'Av. Javier Prado Este 4200, Lima, Perú' },
+    { icon: Phone, title: 'Teléfono', text: '+51 (1) 555-0100' },
+    { icon: Mail, title: 'Email', text: 'contacto@cronosgeneve.com' },
+    { icon: Clock, title: 'Horario', text: 'Lun - Sáb: 10:00 - 20:00' },
+  ];
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <p className="text-gold tracking-[0.3em] text-xs mb-3">CONTÁCTENOS</p>
-        <h1 className="font-serif text-4xl text-charcoal">Estamos aquí para ayudarle</h1>
-      </div>
-      <div className="grid md:grid-cols-2 gap-12">
-        <div>
-          <div className="space-y-6">
-            {[
-              { icon: MapPin, title: 'Dirección', text: 'Av. Javier Prado Este 4200, Lima, Perú' },
-              { icon: Phone, title: 'Teléfono', text: '+51 (1) 555-0100' },
-              { icon: Mail, title: 'Email', text: 'contacto@cronosgeneve.com' },
-              { icon: Clock, title: 'Horario', text: 'Lun - Sáb: 10:00 - 20:00' },
-            ].map((i) => (
-              <div key={i.title} className="flex gap-4">
-                <i.icon className="text-gold flex-shrink-0" size={20} />
-                <div><h3 className="text-sm font-semibold text-charcoal">{i.title}</h3><p className="text-sm text-gray-500">{i.text}</p></div>
-              </div>
-            ))}
+    <div className="page-wrap contact-page editorial-section">
+      <Reveal><SectionHeader titleAs="h1" eyebrow="Atención Cronos" title={<>Estamos aquí para <em>ayudarle</em></>} description="Nuestro equipo está disponible para acompañarle en su búsqueda." /></Reveal>
+      <div className="grid md:grid-cols-[.8fr_1.2fr] gap-10 lg:gap-20">
+        <Reveal>
+          <div className="contact-details">
+            {contactItems.map(({ icon: Icon, title, text }) => <div key={title} className="contact-item">
+              <span className="contact-icon"><Icon size={18} strokeWidth={1.4} /></span>
+              <div><h2>{title}</h2><p>{text}</p></div>
+            </div>)}
+            <div className="contact-note"><p className="editorial-kicker">Cronos Genève</p><p>Excelencia en relojería suiza.</p></div>
           </div>
-        </div>
-        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-sm space-y-4">
-          <input placeholder="Nombre *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-          <input type="email" placeholder="Email *" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-          <input placeholder="Asunto" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-          <textarea placeholder="Mensaje *" rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-          <button type="submit" className="w-full bg-gold hover:bg-gold-dark text-white py-3 rounded-lg text-sm tracking-wider">ENVIAR MENSAJE</button>
-        </form>
+        </Reveal>
+        <Reveal delay={100}>
+          <form onSubmit={handleSubmit} className="contact-form surface-panel p-6 md:p-9 space-y-5">
+            <p className="editorial-kicker mb-2">Escríbanos</p>
+            <FloatingInput id="contact-name" name="name" label="Nombre *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+            <FloatingInput id="contact-email" name="email" label="Correo electrónico *" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+            <FloatingInput id="contact-subject" name="subject" label="Asunto" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
+            <FloatingInput as="textarea" id="contact-message" name="message" label="Mensaje *" rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required />
+            <button type="submit" className="button-gold w-full">Enviar mensaje <ArrowUpRight size={15} /></button>
+          </form>
+        </Reveal>
       </div>
     </div>
   );

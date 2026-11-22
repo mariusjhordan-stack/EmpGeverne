@@ -4,6 +4,15 @@ import { ArrowRight, Shield, Truck, Award, Clock } from 'lucide-react';
 import api from '../../services/api';
 import WatchCard from '../../components/catalog/WatchCard';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import Reveal from '../../components/common/Reveal';
+import RevealText from '../../components/common/RevealText';
+import SectionHeader from '../../components/common/SectionHeader';
+import Button from '../../components/common/Button';
+import heroLifestyle from '../../assets/editorial/hero-lifestyle.jpg';
+import atelierMovement from '../../assets/editorial/atelier-movement.jpg';
+import luxeInterior from '../../assets/editorial/luxe-interior.jpg';
+
+const collectionImages = [luxeInterior, atelierMovement, heroLifestyle, atelierMovement];
 
 export default function HomePage() {
   const [featured, setFeatured] = useState([]);
@@ -11,117 +20,106 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      api.get('/catalog/watches/featured/'),
-      api.get('/catalog/collections/'),
-    ]).then(([fw, cw]) => {
-      setFeatured(fw.data);
-      setCollections(cw.data.results || cw.data);
-    }).catch(() => {}).finally(() => setLoading(false));
+    Promise.all([api.get('/catalog/watches/featured/'), api.get('/catalog/collections/')])
+      .then(([fw, cw]) => {
+        setFeatured(fw.data);
+        setCollections(cw.data.results || cw.data);
+      }).catch(() => {}).finally(() => setLoading(false));
   }, []);
+
+  const features = [
+    { icon: Shield, title: 'Autenticidad', desc: 'Garantía de autenticidad en cada pieza' },
+    { icon: Truck, title: 'Envío seguro', desc: 'Envío asegurado con seguimiento' },
+    { icon: Award, title: 'Certificación', desc: 'Relojes certificados por sus fabricantes' },
+    { icon: Clock, title: 'Garantía', desc: 'Garantía oficial del fabricante' },
+  ];
 
   return (
     <div>
-      {/* Hero */}
-      <section className="bg-charcoal text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 py-24 md:py-36 relative z-10">
-          <div className="max-w-2xl">
-            <p className="animate-fade-in-up text-gold tracking-[0.3em] text-xs mb-4">HAUTE HORLOGERIE</p>
-            <h1 className="animate-fade-in-up stagger-1 font-serif text-4xl md:text-6xl lg:text-7xl leading-tight mb-6">
-              El arte de medir el tiempo
-            </h1>
-            <p className="animate-fade-in-up stagger-2 text-gray-400 text-lg mb-8 leading-relaxed">
-              Descubra nuestra colección exclusiva de relojes de las más prestigiosas casas relojeras del mundo.
-            </p>
-            <Link to="/catalogo" className="animate-fade-in-up stagger-3 inline-flex items-center gap-2 bg-gold hover:bg-gold-dark text-charcoal px-8 py-3 text-sm tracking-wider transition-all duration-300 hover:gap-4">
-              EXPLORAR CATÁLOGO <ArrowRight size={16} />
-            </Link>
-          </div>
+      <section className="hero-editorial hero-photographic">
+        <div className="hero-photo" aria-hidden="true">
+          <img src={heroLifestyle} alt="" fetchPriority="high" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/95 to-charcoal/70" />
+        <div className="hero-grid">
+          <div className="hero-copy">
+            <p className="editorial-kicker animate-fade-in-up">Alta relojería · Selección Genève</p>
+            <h1><RevealText>El arte de medir el <em>tiempo.</em></RevealText></h1>
+            <p className="animate-fade-in-up stagger-2">Una selección de relojes excepcionales, elegidos por su maestría técnica y su presencia atemporal.</p>
+            <Button as={Link} to="/catalogo" className="animate-fade-in-up stagger-3">Explorar catálogo <ArrowRight size={15} /></Button>
+          </div>
+          <div aria-hidden="true" />
+        </div>
+        <div className="hero-bottomline page-wrap" aria-hidden="true"><span>CRONOS GENÈVE</span><span>01 / 04</span></div>
       </section>
 
-      {/* Featured */}
-      <section className="max-w-7xl mx-auto px-4 py-20">
-        <div className="text-center mb-12 animate-fade-in-up">
-          <p className="text-gold tracking-[0.3em] text-xs mb-3">SELECCIÓN</p>
-          <h2 className="font-serif text-3xl md:text-4xl text-charcoal">Piezas Destacadas</h2>
-        </div>
-        {loading ? <LoadingSpinner /> : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featured.map((w, i) => (
-              <div key={w.id} className={`animate-fade-in-up stagger-${i + 1}`}>
-                <WatchCard watch={w} />
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="text-center mt-10 animate-fade-in">
-          <Link to="/catalogo" className="inline-flex items-center gap-2 text-sm tracking-wider text-charcoal hover:text-gold transition-all duration-300 border-b border-charcoal hover:border-gold pb-1 hover:gap-4">
-            VER TODO EL CATÁLOGO <ArrowRight size={14} />
-          </Link>
-        </div>
-      </section>
-
-      {/* Collections */}
-      {collections.length > 0 && (
-        <section className="bg-white py-20">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <p className="text-gold tracking-[0.3em] text-xs mb-3">COLECCIONES</p>
-              <h2 className="font-serif text-3xl md:text-4xl text-charcoal">Nuestras Líneas</h2>
+      <section className="featured-band">
+        <div className="editorial-section page-wrap">
+          <Reveal>
+            <SectionHeader eyebrow="Selección curada" title={<>Piezas <em>destacadas</em></>} description="Relojes que unen precisión, carácter y diseño en una misma pieza." />
+          </Reveal>
+          {loading ? <LoadingSpinner text="Cargando selección..." /> : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {featured.map((watch, index) => <Reveal key={watch.id} delay={index * 75}><WatchCard watch={watch} /></Reveal>)}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {collections.map((c, i) => (
-                <Link key={c.id} to={`/catalogo?collection=${c.id}`} className={`animate-fade-in-up stagger-${i + 1} group text-center p-8 bg-ivory rounded-lg hover:shadow-md transition-all duration-300 hover:-translate-y-1`}>
-                  <h3 className="font-serif text-xl text-charcoal mb-2 group-hover:text-gold transition-colors duration-300">{c.name}</h3>
-                  <p className="text-sm text-gray-500 mb-3">{c.description}</p>
-                  <span className="text-xs text-gold tracking-wider">{c.watch_count} relojes</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* About brand */}
-      <section className="max-w-7xl mx-auto px-4 py-20">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <p className="text-gold tracking-[0.3em] text-xs mb-3">NUESTRA HISTORIA</p>
-            <h2 className="font-serif text-3xl md:text-4xl text-charcoal mb-6">La esencia de la relojería suiza</h2>
-            <p className="text-gray-600 leading-relaxed mb-6">
-              Cronos Genève nace de la pasión por la alta relojería y el compromiso con la excelencia.
-              Cada pieza en nuestra colección ha sido seleccionada por su maestría técnica, diseño excepcional y herencia relojera.
-            </p>
-            <Link to="/nosotros" className="text-sm tracking-wider text-gold hover:text-gold-dark transition-colors">
-              CONOCER MÁS →
-            </Link>
-          </div>
-          <div className="bg-charcoal rounded-lg p-12 text-center">
-            <span className="font-serif text-6xl text-gold">CG</span>
-            <p className="text-gray-400 mt-4 tracking-wider text-sm">SINCE 2024</p>
-          </div>
+          )}
+          <div className="mt-10 flex justify-end"><Link to="/catalogo" className="button-link">Ver todo el catálogo <ArrowRight size={14} /></Link></div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="bg-charcoal text-white py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { icon: Shield, title: 'Autenticidad', desc: 'Garantía de autenticidad en cada pieza' },
-              { icon: Truck, title: 'Envío seguro', desc: 'Envío asegurado con seguimiento' },
-              { icon: Award, title: 'Certificación', desc: 'Relojes certificados por sus fabricantes' },
-              { icon: Clock, title: 'Garantía', desc: 'Garantía oficial del fabricante' },
-            ].map((f, i) => (
-              <div key={f.title} className={`animate-fade-in-up stagger-${i + 1} text-center group`}>
-                <f.icon className="mx-auto mb-4 text-gold transition-transform duration-300 group-hover:scale-110" size={32} />
-                <h3 className="text-sm font-semibold tracking-wider mb-2">{f.title.toUpperCase()}</h3>
-                <p className="text-sm text-gray-400">{f.desc}</p>
-              </div>
-            ))}
+      {collections.length > 0 && <section className="collections-band section-divider">
+        <div className="page-wrap editorial-section">
+          <Reveal><SectionHeader eyebrow="Universos Cronos" title={<>Nuestras <em>colecciones</em></>} description="Explore las líneas disponibles y encuentre la pieza que expresa su manera de medir el tiempo." /></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {collections.map((collection, index) => <Reveal key={collection.id} delay={index * 60}>
+              <Link to={`/catalogo?collection=${collection.id}`} className="collection-tile group block">
+                <img src={collectionImages[index % collectionImages.length]} alt="" aria-hidden="true" loading="lazy" />
+                <span className="collection-shade" aria-hidden="true" />
+                <span className="editorial-kicker">Línea 0{index + 1}</span>
+                <h3 className="mt-8 font-serif text-3xl text-charcoal group-hover:text-gold transition-colors">{collection.name}</h3>
+                <p className="mt-3 max-w-[240px] text-sm leading-6 text-gray-500">{collection.description}</p>
+                <span className="mt-6 inline-block text-xs tracking-wider text-gold">{collection.watch_count} relojes <span aria-hidden="true">→</span></span>
+              </Link>
+            </Reveal>)}
           </div>
+        </div>
+      </section>}
+
+      <section className="brand-story-band">
+        <div className="page-wrap brand-story-grid">
+          <Reveal className="brand-story-copy">
+            <p className="editorial-kicker">Nuestra casa</p>
+            <h2 className="editorial-title mt-4 mb-6 text-5xl md:text-6xl">La esencia de la relojería <em>suiza</em></h2>
+            <p className="max-w-xl leading-8 text-gray-500">Cronos Genève nace de la pasión por la alta relojería y el compromiso con la excelencia. Cada pieza de nuestra colección ha sido seleccionada por su maestría técnica, diseño excepcional y herencia relojera.</p>
+            <Link to="/nosotros" className="button-link mt-7">Conocer más <ArrowRight size={14} /></Link>
+          </Reveal>
+          <Reveal delay={120}>
+            <figure className="brand-story-image">
+              <img src={luxeInterior} alt="Interior de tonos piedra y madera, inspiración para la selección Cronos Genève" loading="lazy" />
+              <figcaption>Elegancia que trasciende el tiempo <span>— CRONOS GENÈVE</span></figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="atelier-editorial">
+        <div className="atelier-photo"><img src={atelierMovement} alt="Detalle de un movimiento mecánico de reloj" loading="lazy" /></div>
+        <div className="atelier-copy page-wrap">
+          <Reveal>
+            <p className="editorial-kicker">El arte en cada detalle</p>
+            <h2 className="editorial-title">Precisión que se <em>siente.</em></h2>
+            <p>Una mirada cercana a la mecánica, los acabados y la dedicación que dan carácter a la alta relojería.</p>
+            <Link to="/catalogo" className="button-outline">Descubrir la selección <ArrowRight size={14} /></Link>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="trust-band">
+        <div className="page-wrap grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map(({ icon: Icon, title, desc }) => <div key={title} className="trust-item group">
+            <Icon className="mb-5 text-gold transition-transform duration-300 group-hover:-translate-y-1" size={25} strokeWidth={1.35} />
+            <h3 className="text-xs font-medium uppercase tracking-[.15em] text-white">{title}</h3>
+            <p className="mt-2 max-w-[220px] text-xs leading-6 text-gray-500">{desc}</p>
+          </div>)}
         </div>
       </section>
     </div>

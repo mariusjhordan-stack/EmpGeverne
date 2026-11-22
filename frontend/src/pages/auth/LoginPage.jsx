@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import FloatingInput from '../../components/common/FloatingInput';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -29,35 +31,31 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 animate-fade-in">
-      <div className="w-full max-w-md animate-fade-in-up">
-        <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl text-charcoal mb-2">Iniciar Sesión</h1>
-          <p className="text-sm text-gray-500">Accede a tu cuenta Cronos Genève</p>
+    <div className="auth-page">
+      <section className="auth-layout animate-fade-in">
+        <div className="auth-editorial">
+          <p className="editorial-kicker">CRONOS GENÈVE · CUENTA</p>
+          <h2>El tiempo, a su manera.</h2>
+          <p>Acceda a su espacio Cronos Genève y continúe explorando nuestra selección.</p>
+          <span className="auth-edition">HAUTE HORLOGERIE · LIMA</span>
         </div>
-        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-sm animate-scale-in stagger-1">
-          {errors.general && <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded">{errors.general}</div>}
-          <div className="mb-4">
-            <label className="block text-sm text-gray-600 mb-1">Correo electrónico</label>
-            <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-            {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-          </div>
-          <div className="mb-6">
-            <label className="block text-sm text-gray-600 mb-1">Contraseña</label>
-            <input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-            {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
-          </div>
-          <button type="submit" disabled={loading}
-            className="w-full bg-gold hover:bg-gold-dark text-white py-3 rounded-lg text-sm tracking-wider transition-colors disabled:opacity-50">
-            {loading ? 'INGRESANDO...' : 'INGRESAR'}
-          </button>
-          <p className="text-center text-sm text-gray-500 mt-6">
-            ¿No tienes cuenta? <Link to="/registro" className="text-gold hover:text-gold-dark">Regístrate</Link>
-          </p>
-        </form>
-      </div>
+        <div className="auth-form-wrap">
+          <form onSubmit={handleSubmit} className="animate-fade-in-up">
+            <p className="editorial-kicker">Bienvenido de nuevo</p>
+            <h1 className="font-serif text-4xl text-charcoal mt-2 mb-2">Iniciar sesión</h1>
+            <p className="text-sm text-gray-500 mb-8">Accede a tu cuenta Cronos Genève.</p>
+            {errors.general && <div className="mb-5 border border-red-500/30 bg-red-50 p-3 text-sm text-red-600" role="alert">{errors.general}</div>}
+            <div className="space-y-5">
+              <FloatingInput id="login-email" name="email" label="Correo electrónico" type="email" autoComplete="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} error={errors.email} />
+              <FloatingInput id="login-password" name="password" label="Contraseña" type="password" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} error={errors.password} />
+            </div>
+            <button type="submit" disabled={loading} className="button-gold w-full mt-7 disabled:opacity-50">
+              {loading ? 'Ingresando...' : 'Ingresar'} <ArrowUpRight size={15} />
+            </button>
+            <p className="text-center text-sm text-gray-500 mt-7">¿No tienes cuenta? <Link to="/registro" className="ml-1 text-gold hover:text-gold-light">Regístrate</Link></p>
+          </form>
+        </div>
+      </section>
     </div>
   );
 }
