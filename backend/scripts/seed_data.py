@@ -8,6 +8,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from catalog.models import Brand, Collection, Watch, WatchImage
 
@@ -276,7 +277,17 @@ for wd in watches_data:
     else:
         print(f"  Watch exists: {w.name}")
 
+    img_path = f"watches/{w.slug}.jpg"
+    full_path = os.path.join(settings.MEDIA_ROOT, img_path)
+    if os.path.exists(full_path):
+        WatchImage.objects.get_or_create(
+            watch=w,
+            is_primary=True,
+            defaults={'image': img_path, 'alt_text': f"{w.brand.name} {w.name}", 'order': 1}
+        )
+
 print("\nSeed data loaded successfully!")
 print(f"  Brands: {Brand.objects.count()}")
 print(f"  Collections: {Collection.objects.count()}")
 print(f"  Watches: {Watch.objects.count()}")
+print(f"  Watch Images: {WatchImage.objects.count()}")
