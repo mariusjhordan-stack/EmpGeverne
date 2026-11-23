@@ -1,3 +1,5 @@
-export default function RevealText({ as: Element = 'span', children, className = '' }) {
-  return <Element className={`reveal-text ${className}`}>{children}</Element>;
+import { RevealLines } from './Reveal';
+
+export default function RevealText({ as = 'span', children, className = '' }) {
+  return <RevealLines as={as} className={className} lines={[children]} />;
 }
