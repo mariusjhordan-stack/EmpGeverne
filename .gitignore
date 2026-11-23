@@ -35,6 +35,7 @@ frontend/dist/
 # IDE
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
@@ -54,3 +55,8 @@ htmlcov/
 # mypy
 .mypy_cache/
 
+# Project documentation (excluded from repository)
+/docs/
+/scripts/
+/CLAUDE.md
+/README.md
