@@ -4,6 +4,9 @@ import { ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import FloatingInput from '../../components/common/FloatingInput';
+import Button from '../../components/common/Button';
+import Reveal from '../../components/common/Reveal';
+import lifestyleImage from '../../assets/editorial/hero-lifestyle.jpg';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -31,30 +34,32 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="auth-page">
-      <section className="auth-layout animate-fade-in">
-        <div className="auth-editorial">
-          <p className="editorial-kicker">CRONOS GENÈVE · CUENTA</p>
-          <h2>El tiempo, a su manera.</h2>
-          <p>Acceda a su espacio Cronos Genève y continúe explorando nuestra selección.</p>
-          <span className="auth-edition">HAUTE HORLOGERIE · LIMA</span>
-        </div>
-        <div className="auth-form-wrap">
-          <form onSubmit={handleSubmit} className="animate-fade-in-up">
-            <p className="editorial-kicker">Bienvenido de nuevo</p>
-            <h1 className="font-serif text-4xl text-charcoal mt-2 mb-2">Iniciar sesión</h1>
-            <p className="text-sm text-gray-500 mb-8">Accede a tu cuenta Cronos Genève.</p>
-            {errors.general && <div className="mb-5 border border-red-500/30 bg-red-50 p-3 text-sm text-red-600" role="alert">{errors.general}</div>}
-            <div className="space-y-5">
+    <div className="grid min-h-[calc(100vh-72px)] lg:grid-cols-2">
+      <aside className="tile hidden min-h-full flex-col lg:flex">
+        <img src={lifestyleImage} alt="" className="tile__img" aria-hidden="true" />
+        <span className="tile__shade" aria-hidden="true" />
+        <Reveal><p className="eyebrow eyebrow--accent">Cronos Genève · cuenta</p></Reveal>
+        <Reveal delay={100} className="mt-auto max-w-xl">
+          <p className="quote mb-8">El tiempo, <em>a su manera.</em></p>
+          <p className="lede">Acceda a su espacio Cronos Genève y continúe explorando nuestra selección.</p>
+        </Reveal>
+        <Reveal delay={180}><p className="eyebrow">Haute horlogerie · Lima</p></Reveal>
+      </aside>
+      <section className="flex items-center justify-center px-6 py-16 md:px-12">
+        <Reveal delay={80} className="w-full max-w-md">
+          <form onSubmit={handleSubmit}>
+            <p className="eyebrow eyebrow--accent mb-5">Bienvenido de nuevo</p>
+            <h1 className="display-md mb-4">Iniciar <em>sesión</em></h1>
+            <p className="text-dim mb-10">Acceda a su cuenta Cronos Genève.</p>
+            {errors.general && <div className="alert alert--danger mb-6" role="alert">{errors.general}</div>}
+            <div className="grid gap-5">
               <FloatingInput id="login-email" name="email" label="Correo electrónico" type="email" autoComplete="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} error={errors.email} />
               <FloatingInput id="login-password" name="password" label="Contraseña" type="password" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} error={errors.password} />
             </div>
-            <button type="submit" disabled={loading} className="button-gold w-full mt-7 disabled:opacity-50">
-              {loading ? 'Ingresando...' : 'Ingresar'} <ArrowUpRight size={15} />
-            </button>
-            <p className="text-center text-sm text-gray-500 mt-7">¿No tienes cuenta? <Link to="/registro" className="ml-1 text-gold hover:text-gold-light">Regístrate</Link></p>
+            <Button type="submit" disabled={loading} block size="lg" className="mt-8">{loading ? 'Ingresando...' : 'Ingresar'} <ArrowUpRight size={17} /></Button>
+            <p className="body-sm mt-8 text-center">¿Aún no tiene cuenta? <Link to="/registro" className="btn-link ml-1">Regístrese</Link></p>
           </form>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

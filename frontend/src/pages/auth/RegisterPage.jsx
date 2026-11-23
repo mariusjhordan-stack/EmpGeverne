@@ -4,6 +4,9 @@ import { ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import FloatingInput from '../../components/common/FloatingInput';
+import Button from '../../components/common/Button';
+import Reveal from '../../components/common/Reveal';
+import lifestyleImage from '../../assets/editorial/hero-lifestyle.jpg';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -47,35 +50,37 @@ export default function RegisterPage() {
   const field = (name, label, type = 'text', autoComplete) => <FloatingInput key={name} id={`register-${name}`} name={name} label={label} type={type} autoComplete={autoComplete} value={form[name]} onChange={(e) => setForm({ ...form, [name]: e.target.value })} error={errorText(name)} />;
 
   return (
-    <div className="auth-page">
-      <section className="auth-layout animate-fade-in">
-        <div className="auth-editorial">
-          <p className="editorial-kicker">CRONOS GENÈVE · MEMBRES</p>
-          <h2>Una selección que perdura.</h2>
-          <p>Descubra piezas distinguidas de las casas relojeras más prestigiosas.</p>
-          <span className="auth-edition">PRECISIÓN · ELEGANCIA · TRADICIÓN</span>
-        </div>
-        <div className="auth-form-wrap">
-          <form onSubmit={handleSubmit} className="animate-fade-in-up">
-            <p className="editorial-kicker">Su espacio Cronos</p>
-            <h1 className="font-serif text-4xl text-charcoal mt-2 mb-2">Crear cuenta</h1>
-            <p className="text-sm text-gray-500 mb-7">Únete a Cronos Genève.</p>
-            {errors.general && <div className="mb-5 border border-red-500/30 bg-red-50 p-3 text-sm text-red-600" role="alert">{errors.general}</div>}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid min-h-[calc(100vh-72px)] lg:grid-cols-2">
+      <aside className="tile hidden min-h-full flex-col lg:flex">
+        <img src={lifestyleImage} alt="" className="tile__img" aria-hidden="true" />
+        <span className="tile__shade" aria-hidden="true" />
+        <Reveal><p className="eyebrow eyebrow--accent">Cronos Genève · membres</p></Reveal>
+        <Reveal delay={100} className="mt-auto max-w-xl">
+          <p className="quote mb-8">Una selección que <em>perdura.</em></p>
+          <p className="lede">Descubra piezas distinguidas de las casas relojeras más prestigiosas.</p>
+        </Reveal>
+        <Reveal delay={180}><p className="eyebrow">Precisión · elegancia · tradición</p></Reveal>
+      </aside>
+      <section className="flex items-center justify-center px-6 py-16 md:px-12">
+        <Reveal delay={80} className="w-full max-w-md">
+          <form onSubmit={handleSubmit}>
+            <p className="eyebrow eyebrow--accent mb-5">Su espacio Cronos</p>
+            <h1 className="display-md mb-4">Crear <em>cuenta</em></h1>
+            <p className="text-dim mb-10">Únase a Cronos Genève.</p>
+            {errors.general && <div className="alert alert--danger mb-6" role="alert">{errors.general}</div>}
+            <div className="grid gap-4 sm:grid-cols-2">
               {field('first_name', 'Nombres', 'text', 'given-name')}
               {field('last_name', 'Apellidos', 'text', 'family-name')}
             </div>
-            <div className="mt-4 space-y-4">
+            <div className="mt-4 grid gap-4">
               {field('email', 'Correo electrónico', 'email', 'email')}
               {field('password', 'Contraseña', 'password', 'new-password')}
               {field('password_confirm', 'Confirmar contraseña', 'password', 'new-password')}
             </div>
-            <button type="submit" disabled={loading} className="button-gold w-full mt-7 disabled:opacity-50">
-              {loading ? 'Creando cuenta...' : 'Crear cuenta'} <ArrowUpRight size={15} />
-            </button>
-            <p className="text-center text-sm text-gray-500 mt-7">¿Ya tienes cuenta? <Link to="/login" className="ml-1 text-gold hover:text-gold-light">Ingresar</Link></p>
+            <Button type="submit" disabled={loading} block size="lg" className="mt-8">{loading ? 'Creando cuenta...' : 'Crear cuenta'} <ArrowUpRight size={17} /></Button>
+            <p className="body-sm mt-8 text-center">¿Ya tiene cuenta? <Link to="/login" className="btn-link ml-1">Ingresar</Link></p>
           </form>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

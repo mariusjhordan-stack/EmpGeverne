@@ -1,5 +1,7 @@
 import Reveal from '../../components/common/Reveal';
-import SectionHeader from '../../components/common/SectionHeader';
+import { PageHero } from '../../components/common/SectionHeader';
+import Button from '../../components/common/Button';
+import { Link } from 'react-router-dom';
 import atelierImage from '../../assets/editorial/atelier-movement.jpg';
 import interiorImage from '../../assets/editorial/luxe-interior.jpg';
 
@@ -11,40 +13,53 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <div className="page-wrap about-page editorial-section">
-      <Reveal><SectionHeader titleAs="h1" eyebrow="Cronos Genève · Savoir-faire" title={<>Una pasión por el <em>tiempo</em></>} description="Excelencia, herencia suiza y devoción por los detalles mecánicos que perduran a través de generaciones." /></Reveal>
-      <div className="about-lead grid lg:grid-cols-[.7fr_1.3fr] gap-8 lg:gap-24">
-        <Reveal><p className="editorial-kicker about-side-note">Nuestra historia<br />desde la alta relojería</p></Reveal>
-        <Reveal delay={100}>
-          <div className="about-copy">
-            <p>Cronos Genève nace de la pasión por la alta relojería y el compromiso con la excelencia. Nuestra plataforma reúne las piezas más distinguidas de las casas relojeras más prestigiosas del mundo.</p>
-            <p>Cada reloj en nuestra colección ha sido cuidadosamente seleccionado por su maestría técnica, diseño excepcional y herencia relojera. Creemos que un reloj es más que un instrumento para medir el tiempo: es una obra de arte, una declaración de estilo y un legado que trasciende generaciones.</p>
-          </div>
-        </Reveal>
-      </div>
-      <section className="about-visual-story">
-        <Reveal className="about-visual-main">
-          <img src={atelierImage} alt="Detalle de un movimiento mecánico de reloj y sus engranajes" loading="lazy" />
-          <span>EL CORAZÓN MECÁNICO</span>
-        </Reveal>
-        <Reveal delay={120} className="about-visual-secondary">
-          <img src={interiorImage} alt="Arquitectura interior de mármol y madera en tonos cálidos" loading="lazy" />
-          <p>Una mirada editorial a la precisión, los materiales y los espacios que inspiran la alta relojería.</p>
-        </Reveal>
+    <div>
+      <PageHero eyebrow="Cronos Genève · savoir-faire" title={<>Una pasión por el <em>tiempo</em></>} description="Excelencia, herencia suiza y devoción por los detalles que perduran." />
+      <section className="container section">
+        <div className="split">
+          <Reveal>
+            <p className="eyebrow eyebrow--accent mb-8">Nuestra historia</p>
+            <h2 className="display-xl mb-10">Cada segundo <em>merece</em> una historia.</h2>
+            <p className="lede mb-6">Cronos Genève nace de la pasión por la alta relojería y el compromiso con la excelencia.</p>
+            <p className="text-dim" style={{ lineHeight: 1.75 }}>Nuestra plataforma reúne las piezas más distinguidas de las casas relojeras más prestigiosas. Cada reloj ha sido seleccionado por su maestría técnica, diseño excepcional y herencia relojera.</p>
+          </Reveal>
+          <Reveal delay={120} className="parallax-frame"><img src={atelierImage} alt="Detalle de un movimiento mecánico de reloj y sus engranajes" loading="lazy" /></Reveal>
+        </div>
       </section>
-      <section className="values-section section-divider mt-20 pt-12">
-        <Reveal><p className="editorial-kicker mb-8">Lo que nos define</p></Reveal>
-        <div className="grid md:grid-cols-3 gap-0">
-          {values.map((value, index) => <Reveal key={value.n} delay={index * 75}>
-            <article className="value-item">
-              <span className="value-number">{value.n}</span>
-              <h2 className="font-serif text-3xl text-charcoal">{value.title}</h2>
-              <p className="mt-3 text-sm leading-7 text-gray-500">{value.description}</p>
-            </article>
+      <section className="section section--ink-2">
+        <div className="container">
+          <div className="split">
+            <Reveal className="parallax-frame"><img src={interiorImage} alt="Arquitectura interior de mármol y madera en tonos cálidos" loading="lazy" /></Reveal>
+            <Reveal delay={120}>
+              <p className="eyebrow eyebrow--accent mb-8">Más que un instrumento</p>
+              <blockquote className="quote mb-8">Un reloj es una obra de arte, una declaración de estilo y un <em>legado</em> que trasciende generaciones.</blockquote>
+              <p className="text-dim" style={{ lineHeight: 1.75 }}>La precisión, los materiales y la atención al detalle guían cada elección de nuestra colección.</p>
+            </Reveal>
+          </div>
+          <Reveal delay={160} className="stats mt-20">
+            <div className="stat"><span className="stat__value">01</span><span className="stat__label">Una selección con criterio</span></div>
+            <div className="stat"><span className="stat__value">03</span><span className="stat__label">Valores que nos definen</span></div>
+            <div className="stat"><span className="stat__value">100<sup>%</sup></span><span className="stat__label">Compromiso con la autenticidad</span></div>
+            <div className="stat"><span className="stat__value">∞</span><span className="stat__label">Historias por descubrir</span></div>
+          </Reveal>
+        </div>
+      </section>
+      <section className="container section">
+        <Reveal><p className="eyebrow eyebrow--line mb-8">Lo que nos define</p><h2 className="display-lg mb-14">Nuestros <em>valores</em></h2></Reveal>
+        <div className="grid gap-10 md:grid-cols-3">
+          {values.map((value, index) => <Reveal key={value.n} delay={index * 70} as="article">
+            <div className="divider mb-7" /><span className="eyebrow eyebrow--accent">{value.n}</span>
+            <h3 className="display-sm my-5">{value.title}</h3><p className="text-dim" style={{ lineHeight: 1.75 }}>{value.description}</p>
           </Reveal>)}
         </div>
       </section>
-      <Reveal><p className="about-closing font-serif">Con sede en el corazón de la tradición relojera, Cronos Genève se posiciona como el destino definitivo para los amantes de la relojería de lujo.</p></Reveal>
+      <section className="container pb-20">
+        <Reveal className="cta-band">
+          <p className="eyebrow">Cronos Genève</p>
+          <h2 className="display-xl">Encuentre su próxima <em>historia.</em></h2>
+          <Button as={Link} to="/catalogo" variant="accent" className="justify-self-start">Explorar el catálogo</Button>
+        </Reveal>
+      </section>
     </div>
   );
 }
