@@ -59,7 +59,7 @@ watches_data = [
         'brand': brands['audemars-piguet'],
         'collection': collections['lujo'],
         'description': 'Reloj icónico con caja octogonal y bisel con tornillos visibles. Movimiento automático de manufactura con masa oscilante de oro.',
-        'price': 28500.00,
+        'price': 28600.00,
         'stock': 3,
         'movement': 'automatic',
         'case_material': 'Acero inoxidable',
@@ -77,7 +77,7 @@ watches_data = [
         'brand': brands['patek-philippe'],
         'collection': collections['lujo'],
         'description': 'Reloj deportivo de lujo con caja redondeada y bisel octogonal. Calibre automático de alta relojería.',
-        'price': 35000.00,
+        'price': 34890.00,
         'stock': 2,
         'movement': 'automatic',
         'case_material': 'Acero inoxidable',
@@ -95,7 +95,7 @@ watches_data = [
         'brand': brands['rolex'],
         'collection': collections['deportiva'],
         'description': 'Reloj de buceo profesional con bisel giratorio unidireccional. Referencia en la relojería deportiva.',
-        'price': 12500.00,
+        'price': 11350.00,
         'stock': 5,
         'movement': 'automatic',
         'case_material': 'Acero Oystersteel',
@@ -113,7 +113,7 @@ watches_data = [
         'brand': brands['rolex'],
         'collection': collections['clasica'],
         'description': 'Reloj clásico con ventana de fecha y lente Cyclops. Símbolo de elegancia desde 1945.',
-        'price': 9800.00,
+        'price': 10250.00,
         'stock': 7,
         'movement': 'automatic',
         'case_material': 'Acero Oystersteel y oro amarillo',
@@ -131,7 +131,7 @@ watches_data = [
         'brand': brands['omega'],
         'collection': collections['deportiva'],
         'description': 'El reloj que llegó a la Luna. Cronógrafo manual con historia espacial incomparable.',
-        'price': 7200.00,
+        'price': 7800.00,
         'stock': 8,
         'movement': 'manual',
         'case_material': 'Acero inoxidable',
@@ -149,7 +149,7 @@ watches_data = [
         'brand': brands['omega'],
         'collection': collections['deportiva'],
         'description': 'Reloj de buceo con válvula de escape de helio y bisel cerámico. Co-Axial Master Chronometer.',
-        'price': 5800.00,
+        'price': 5900.00,
         'stock': 6,
         'movement': 'automatic',
         'case_material': 'Acero inoxidable',
@@ -167,7 +167,7 @@ watches_data = [
         'brand': brands['tag-heuer'],
         'collection': collections['deportiva'],
         'description': 'Cronógrafo deportivo inspirado en las carreras de automóviles. Diseño legible y dinámico.',
-        'price': 4500.00,
+        'price': 6800.00,
         'stock': 10,
         'movement': 'automatic',
         'case_material': 'Acero inoxidable',
@@ -185,7 +185,7 @@ watches_data = [
         'brand': brands['tag-heuer'],
         'collection': collections['edicion-limitada'],
         'description': 'Icónico reloj cuadrado con cronógrafo. Homenaje a la tradición de las carreras.',
-        'price': 6800.00,
+        'price': 8300.00,
         'stock': 4,
         'movement': 'automatic',
         'case_material': 'Acero inoxidable',
@@ -203,7 +203,7 @@ watches_data = [
         'brand': brands['cartier'],
         'collection': collections['clasica'],
         'description': 'Primer reloj de pulsera para caballero. Diseño cuadrado con tornillos visibles y bisel pulido.',
-        'price': 8200.00,
+        'price': 9200.00,
         'stock': 5,
         'movement': 'automatic',
         'case_material': 'Acero inoxidable',
@@ -221,7 +221,7 @@ watches_data = [
         'brand': brands['cartier'],
         'collection': collections['clasica'],
         'description': 'Elegante reloj rectangular con cadena integrada al caso. Un ícono del Art Déco.',
-        'price': 5600.00,
+        'price': 3700.00,
         'stock': 6,
         'movement': 'quartz',
         'case_material': 'Acero inoxidable',
@@ -239,7 +239,7 @@ watches_data = [
         'brand': brands['patek-philippe'],
         'collection': collections['clasica'],
         'description': 'La esencia de la relojería clásica. Fondo de cristal de zafiro con grabado a mano.',
-        'price': 32000.00,
+        'price': 42200.00,
         'stock': 1,
         'movement': 'automatic',
         'case_material': 'Oro rosa 18k',
@@ -257,7 +257,7 @@ watches_data = [
         'brand': brands['audemars-piguet'],
         'collection': collections['deportiva'],
         'description': 'Versión de buceo del Royal Oak con caja de 42mm y resistencia al agua de 300 metros.',
-        'price': 24000.00,
+        'price': 28500.00,
         'stock': 2,
         'movement': 'automatic',
         'case_material': 'Acero inoxidable',
@@ -277,7 +277,9 @@ for wd in watches_data:
     else:
         print(f"  Watch exists: {w.name}")
 
-    img_path = f"watches/{w.slug}.jpg"
+    # Official Patek Philippe photo (CC BY-SA 4.0) replaced the old illustration under a new name
+    image_overrides = {'nautilus-5711': 'nautilus-5711-1a'}
+    img_path = f"watches/{image_overrides.get(w.slug, w.slug)}.jpg"
     full_path = os.path.join(settings.MEDIA_ROOT, img_path)
     if os.path.exists(full_path):
         WatchImage.objects.get_or_create(

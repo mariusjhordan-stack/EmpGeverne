@@ -16,6 +16,7 @@ from config.permissions import IsAdminUser
 
 class BrandViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = BrandSerializer
+    pagination_class = None  # short public lists: return them whole for filters/menus
     permission_classes = [permissions.AllowAny]
     ordering = ['name']
 
@@ -25,6 +26,7 @@ class BrandViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CollectionSerializer
+    pagination_class = None  # short public lists: return them whole for filters/menus
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
