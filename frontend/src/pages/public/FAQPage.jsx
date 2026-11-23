@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { PageHero } from '../../components/common/SectionHeader';
+import Reveal from '../../components/common/Reveal';
 
 const faqs = [
   { q: '¿Los relojes son originales?', a: 'Todos los relojes en nuestra plataforma son auténticos y cuentan con la garantía oficial de sus fabricantes.' },
@@ -14,23 +16,22 @@ export default function FAQPage() {
   const [open, setOpen] = useState(null);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <p className="text-gold tracking-[0.3em] text-xs mb-3">AYUDA</p>
-        <h1 className="font-serif text-4xl text-charcoal">Preguntas Frecuentes</h1>
-      </div>
-      <div className="space-y-3">
-        {faqs.map((f, i) => (
-          <div key={i} className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <button onClick={() => setOpen(open === i ? null : i)}
-              className="w-full flex items-center justify-between p-5 text-left">
-              <span className="text-sm font-medium text-charcoal">{f.q}</span>
-              <ChevronDown size={18} className={`text-gray-400 transition-transform ${open === i ? 'rotate-180' : ''}`} />
-            </button>
-            {open === i && <div className="px-5 pb-5 text-sm text-gray-600 leading-relaxed">{f.a}</div>}
-          </div>
-        ))}
-      </div>
+    <div>
+      <PageHero eyebrow="Ayuda" title={<>Preguntas <em>frecuentes</em></>} description="Respuestas a las consultas más habituales sobre nuestra selección y servicio." />
+      <section className="container container--narrow section section--tight">
+        <Reveal><p className="eyebrow eyebrow--accent mb-8">Todo lo que necesita saber</p></Reveal>
+        <div className="divider" />
+        {faqs.map((f, i) => <Reveal key={i} delay={Math.min(i, 6) * 70}>
+          <details open={open === i}>
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-7" onClick={(event) => { event.preventDefault(); setOpen(open === i ? null : i); }}>
+              <span className="display-sm">{f.q}</span>
+              <span className="btn-icon shrink-0" aria-hidden="true"><Plus size={19} style={{ transform: open === i ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform .3s var(--ease)' }} /></span>
+            </summary>
+            <p className="text-dim max-w-2xl pb-8" style={{ lineHeight: 1.75 }}>{f.a}</p>
+          </details>
+          <div className="divider" />
+        </Reveal>)}
+      </section>
     </div>
   );
 }

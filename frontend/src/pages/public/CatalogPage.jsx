@@ -3,7 +3,10 @@ import { useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import api from '../../services/api';
 import WatchCard from '../../components/catalog/WatchCard';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { PageHero } from '../../components/common/SectionHeader';
+import Button from '../../components/common/Button';
+import Reveal from '../../components/common/Reveal';
+import { WatchCardSkeleton } from '../../components/common/Skeleton';
 
 export default function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -13,7 +16,6 @@ export default function CatalogPage() {
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [filtersOpen, setFiltersOpen] = useState(false);
-
   const [filters, setFilters] = useState({
     search: searchParams.get('search') || '',
     brand: searchParams.get('brand') || '',
@@ -42,9 +44,7 @@ export default function CatalogPage() {
     if (filters.max_price) params.set('max_price', filters.max_price);
     if (filters.ordering) params.set('ordering', filters.ordering);
     params.set('page', filters.page);
-
     setSearchParams(params);
-
     api.get(`/catalog/watches/?${params.toString()}`)
       .then(({ data }) => {
         setWatches(data.results || data);
@@ -55,113 +55,77 @@ export default function CatalogPage() {
   }, [filters, setSearchParams]);
 
   const updateFilter = (key, value) => setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
-  const clearFilters = () => setFilters({ search: '', brand: '', collection: '', min_price: '', max_price: '', ordering: '-created_at', page: 1 });
 
+  // debounce typing: query the API once the user pauses, not on every keystroke
+  const [searchInput, setSearchInput] = useState(filters.search);
+  useEffect(() => { setSearchInput(filters.search); }, [filters.search]);
+  useEffect(() => {
+    if (searchInput === filters.search) return undefined;
+    const t = setTimeout(() => updateFilter('search', searchInput), 350);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchInput]);
+  const clearFilters = () => setFilters({ search: '', brand: '', collection: '', min_price: '', max_price: '', ordering: '-created_at', page: 1 });
   const totalPages = Math.ceil(totalCount / 12);
   const hasFilters = filters.search || filters.brand || filters.collection || filters.min_price || filters.max_price;
+  const activeFilters = [
+    filters.brand && { key: 'brand', label: brands.find((item) => String(item.id) === String(filters.brand))?.name },
+    filters.collection && { key: 'collection', label: collections.find((item) => String(item.id) === String(filters.collection))?.name },
+    filters.min_price && { key: 'min_price', label: `Desde ${filters.min_price}` },
+    filters.max_price && { key: 'max_price', label: `Hasta ${filters.max_price}` },
+    filters.search && { key: 'search', label: `“${filters.search}”` },
+  ].filter(Boolean);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 animate-fade-in">
-      <div className="mb-8 animate-fade-in-up">
-        <p className="text-gold tracking-[0.3em] text-xs mb-2">CRONOS GENÈVE</p>
-        <h1 className="font-serif text-3xl md:text-4xl text-charcoal">Catálogo</h1>
+    <div>
+      <PageHero eyebrow="Cronos Genève · selección" title={<>El catálogo <em>completo</em></>} description="Piezas elegidas por su precisión, diseño y carácter.">
+        <span className="eyebrow eyebrow--accent num" aria-live="polite">{totalCount} {totalCount === 1 ? 'pieza' : 'piezas'}</span>
+      </PageHero>
+      <div className="catalog-toolbar sticky-under-header">
+        <div className="container catalog-toolbar__inner">
+          <div className="catalog-search">
+            <label className="sr-only" htmlFor="catalog-search">Buscar relojes</label>
+            <Search className="catalog-search__icon" size={16} aria-hidden="true" />
+            <input id="catalog-search" type="search" placeholder="Buscar marca, modelo o referencia" value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)} />
+          </div>
+          <div className="chip-scroller" role="group" aria-label="Filtrar por marca">
+            <button type="button" className={`chip ${!filters.brand ? 'is-active' : ''}`} onClick={() => updateFilter('brand', '')}>Todas</button>
+            {brands.map((brand) => <button type="button" key={brand.id} className={`chip ${String(filters.brand) === String(brand.id) ? 'is-active' : ''}`} onClick={() => updateFilter('brand', String(brand.id))}>{brand.name}</button>)}
+          </div>
+          <div className="catalog-toolbar__actions">
+            <label className="sr-only" htmlFor="catalog-ordering">Ordenar</label>
+            <select id="catalog-ordering" className="select-pill" value={filters.ordering} onChange={(e) => updateFilter('ordering', e.target.value)}>
+              <option value="-created_at">Novedades</option>
+              <option value="price">Menor precio</option>
+              <option value="-price">Mayor precio</option>
+              <option value="name">Nombre A–Z</option>
+            </select>
+            <button type="button" className={`chip ${filtersOpen ? 'is-active' : ''}`} onClick={() => setFiltersOpen(!filtersOpen)} aria-expanded={filtersOpen} aria-controls="catalog-filters">
+              <SlidersHorizontal size={14} /> Filtros{activeFilters.length > 0 && <span className="chip__count num">{activeFilters.length}</span>}
+            </button>
+          </div>
+        </div>
       </div>
-
-      {/* Search bar */}
-      <div className="flex gap-3 mb-6">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input
-            type="text" placeholder="Buscar relojes..." value={filters.search}
-            onChange={(e) => updateFilter('search', e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold"
-          />
-        </div>
-        <button onClick={() => setFiltersOpen(!filtersOpen)}
-          className="flex items-center gap-2 px-4 py-3 border border-gray-200 rounded-lg text-sm hover:border-gold transition-colors">
-          <SlidersHorizontal size={16} /> Filtros
-        </button>
-      </div>
-
-      {/* Filters panel */}
-      {filtersOpen && (
-        <div className="bg-white rounded-lg p-6 mb-6 border border-gray-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 animate-fade-in-down">
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Marca</label>
-            <select value={filters.brand} onChange={(e) => updateFilter('brand', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">
-              <option value="">Todas</option>
-              {brands.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Colección</label>
-            <select value={filters.collection} onChange={(e) => updateFilter('collection', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">
-              <option value="">Todas</option>
-              {collections.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Precio mín.</label>
-            <input type="number" placeholder="0" value={filters.min_price}
-              onChange={(e) => updateFilter('min_price', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold" />
-          </div>
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Precio máx.</label>
-            <input type="number" placeholder="99999" value={filters.max_price}
-              onChange={(e) => updateFilter('max_price', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold" />
-          </div>
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Ordenar</label>
-            <select value={filters.ordering} onChange={(e) => updateFilter('ordering', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold">
-              <option value="-created_at">Más recientes</option>
-              <option value="price">Precio: menor a mayor</option>
-              <option value="-price">Precio: mayor a menor</option>
-              <option value="name">Nombre A-Z</option>
-            </select>
-          </div>
-        </div>
-      )}
-
-      {hasFilters && (
-        <div className="flex items-center gap-2 mb-6">
-          <span className="text-sm text-gray-500">{totalCount} resultados</span>
-          <button onClick={clearFilters} className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700">
-            <X size={14} /> Limpiar filtros
-          </button>
-        </div>
-      )}
-
-      {/* Results */}
-      {loading ? <LoadingSpinner text="Cargando catálogo..." /> : watches.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-gray-500 mb-4">No se encontraron relojes.</p>
-          {hasFilters && <button onClick={clearFilters} className="text-sm text-gold hover:text-gold-dark">Limpiar filtros</button>}
-        </div>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {watches.map((w) => <WatchCard key={w.id} watch={w} />)}
-          </div>
-
-          {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-10">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                <button key={p}
-                  onClick={() => setFilters((prev) => ({ ...prev, page: p }))}
-                  className={`w-10 h-10 rounded text-sm ${p === filters.page ? 'bg-gold text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-gold'}`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
-          )}
-        </>
-      )}
+      <section className="container section section--tight">
+        {filtersOpen && <Reveal id="catalog-filters" variant="fade" className="card mb-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="field"><label className="field-label" htmlFor="filter-brand">Marca</label><select id="filter-brand" value={filters.brand} onChange={(e) => updateFilter('brand', e.target.value)}><option value="">Todas</option>{brands.map((brand) => <option key={brand.id} value={brand.id}>{brand.name}</option>)}</select></div>
+          <div className="field"><label className="field-label" htmlFor="filter-collection">Colección</label><select id="filter-collection" value={filters.collection} onChange={(e) => updateFilter('collection', e.target.value)}><option value="">Todas</option>{collections.map((collection) => <option key={collection.id} value={collection.id}>{collection.name}</option>)}</select></div>
+          <div className="field"><label className="field-label" htmlFor="filter-min">Precio mínimo</label><input id="filter-min" type="number" placeholder="0" value={filters.min_price} onChange={(e) => updateFilter('min_price', e.target.value)} /></div>
+          <div className="field"><label className="field-label" htmlFor="filter-max">Precio máximo</label><input id="filter-max" type="number" placeholder="99999" value={filters.max_price} onChange={(e) => updateFilter('max_price', e.target.value)} /></div>
+        </Reveal>}
+        {hasFilters && <Reveal className="flex flex-wrap items-center gap-2 mb-8">
+          <span className="eyebrow mr-2">Filtros activos</span>
+          {activeFilters.map((filter) => filter.label && <button type="button" key={filter.key} onClick={() => updateFilter(filter.key, '')} className="chip">{filter.label}<X size={12} /></button>)}
+          <Button variant="link" type="button" onClick={clearFilters}>Limpiar todo</Button>
+        </Reveal>}
+        {loading ? <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4 md:gap-x-6" aria-label="Cargando catálogo">{Array.from({ length: 8 }, (_, i) => <WatchCardSkeleton key={i} />)}</div> : watches.length === 0 ? (
+          <Reveal className="empty-state"><p className="eyebrow eyebrow--accent">Sin resultados</p><h2 className="display-sm">No encontramos esa pieza</h2><p className="text-dim">Pruebe ajustando su búsqueda o los filtros seleccionados.</p>{hasFilters && <Button variant="ghost" type="button" onClick={clearFilters}>Limpiar filtros</Button>}</Reveal>
+        ) : <>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4 md:gap-x-6">{watches.map((watch, index) => <Reveal key={watch.id} delay={Math.min(index, 6) * 70}><WatchCard watch={watch} /></Reveal>)}</div>
+          {totalPages > 1 && <Reveal as="nav" className="flex justify-center gap-2 mt-16" aria-label="Paginación del catálogo">{Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => <button type="button" key={page} aria-current={page === filters.page ? 'page' : undefined} onClick={() => setFilters((prev) => ({ ...prev, page }))} className={`chip num ${page === filters.page ? 'is-active' : ''}`}>{String(page).padStart(2, '0')}</button>)}</Reveal>}
+        </>}
+      </section>
     </div>
   );
 }

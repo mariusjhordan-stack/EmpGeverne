@@ -3,6 +3,9 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import Reveal from '../../components/common/Reveal';
+import FloatingInput from '../../components/common/FloatingInput';
+import Button from '../../components/common/Button';
 
 export default function AdminBrandsPage() {
   const [brands, setBrands] = useState([]);
@@ -50,54 +53,37 @@ export default function AdminBrandsPage() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-charcoal">Marcas</h1>
-        <button onClick={() => { setEditMode('new'); setForm({ name: '', slug: '', description: '', country: '', is_active: true }); }}
-          className="flex items-center gap-2 bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-sm"><Plus size={16} /> Nueva marca</button>
+    <div className="grid gap-7">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div><p className="eyebrow eyebrow--accent mb-3">Catálogo</p><h2 className="display-md">Marcas <em>curadas</em> <span className="num text-mute align-middle">{brands.length}</span></h2></div>
+        <Button onClick={() => { setEditMode('new'); setForm({ name: '', slug: '', description: '', country: '', is_active: true }); }}><Plus size={16} /> Nueva marca</Button>
       </div>
-
-      {editMode && (
-        <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><label className="block text-xs text-gray-500 mb-1">Nombre</label>
-              <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold" /></div>
-            <div><label className="block text-xs text-gray-500 mb-1">Slug</label>
-              <input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold" /></div>
-            <div><label className="block text-xs text-gray-500 mb-1">País</label>
-              <input value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold" /></div>
-            <div><label className="block text-xs text-gray-500 mb-1">Descripción</label>
-              <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-gold" /></div>
-          </div>
-          <label className="flex items-center gap-2 text-sm mt-4"><input type="checkbox" checked={form.is_active} onChange={(e) => setForm({ ...form, is_active: e.target.checked })} /> Activa</label>
-          <div className="flex gap-3 mt-4">
-            <button onClick={save} disabled={saving} className="bg-gold text-white px-6 py-2 rounded-lg text-sm disabled:opacity-50">{saving ? 'Guardando...' : 'Guardar'}</button>
-            <button onClick={() => setEditMode(null)} className="border border-gray-200 text-gray-600 px-6 py-2 rounded-lg text-sm">Cancelar</button>
-          </div>
+      {editMode && <Reveal className="card">
+        <p className="eyebrow eyebrow--accent mb-3">{editMode === 'new' ? 'Nueva marca' : 'Editar marca'}</p>
+        <h3 className="card-title mb-6">Datos de la marca</h3>
+        <div className="grid gap-4 md:grid-cols-2">
+          <FloatingInput id="brand-name" label="Nombre" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          <FloatingInput id="brand-slug" label="Slug" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
+          <FloatingInput id="brand-country" label="País" value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
+          <FloatingInput id="brand-description" label="Descripción" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
         </div>
-      )}
-
-      <div className="bg-white rounded-lg shadow-sm overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead><tr className="text-left text-xs text-gray-500 border-b bg-gray-50">
-            <th className="p-4">Nombre</th><th className="p-4">País</th><th className="p-4">Relojes</th><th className="p-4">Estado</th><th className="p-4">Acciones</th>
-          </tr></thead>
-          <tbody>
-            {brands.map((b) => (
-              <tr key={b.id} className="border-b border-gray-50">
-                <td className="p-4 font-medium">{b.name}</td>
-                <td className="p-4 text-gray-600">{b.country}</td>
-                <td className="p-4">{b.watch_count || 0}</td>
-                <td className="p-4">{b.is_active ? <span className="text-green-600 text-xs">Activa</span> : <span className="text-gray-400 text-xs">Inactiva</span>}</td>
-                <td className="p-4 flex gap-2">
-                  <button onClick={() => { setEditMode(b.id); setForm(b); }} className="text-gray-400 hover:text-blue-600"><Pencil size={16} /></button>
-                  <button onClick={() => deleteBrand(b.id, b.name)} className="text-gray-400 hover:text-red-600"><Trash2 size={16} /></button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+        <label className="field-label flex items-center gap-3 mt-5"><input type="checkbox" checked={form.is_active} onChange={(e) => setForm({ ...form, is_active: e.target.checked })} /> Activa</label>
+        <div className="flex flex-wrap gap-3 mt-7"><Button onClick={save} disabled={saving}>{saving ? 'Guardando...' : 'Guardar'}</Button><Button onClick={() => setEditMode(null)} variant="ghost">Cancelar</Button></div>
+      </Reveal>}
+      <Reveal delay={80} className="table-wrap">
+        <table className="table">
+          <thead><tr><th>Nombre</th><th>País</th><th>Relojes</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody>{brands.map((b) => <tr key={b.id}>
+            <td className="display-sm">{b.name}</td><td className="text-dim">{b.country}</td><td className="num">{b.watch_count || 0}</td>
+            <td><span className={`badge badge--${b.is_active ? 'success' : 'warn'}`}>{b.is_active ? 'Activa' : 'Inactiva'}</span></td>
+            <td><div className="flex gap-2">
+              <button onClick={() => { setEditMode(b.id); setForm(b); }} className="btn btn-ghost btn-sm" aria-label={`Editar ${b.name}`}><Pencil size={15} />Editar</button>
+              <button onClick={() => deleteBrand(b.id, b.name)} className="btn btn-danger btn-sm" aria-label={`Eliminar ${b.name}`}><Trash2 size={15} />Eliminar</button>
+            </div></td>
+          </tr>)}</tbody>
         </table>
-      </div>
+        {brands.length === 0 && <p className="empty-state text-mute">No hay marcas registradas.</p>}
+      </Reveal>
     </div>
   );
 }

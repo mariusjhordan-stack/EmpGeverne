@@ -1,76 +1,94 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Package } from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { PageHero } from '../../components/common/SectionHeader';
+import Reveal from '../../components/common/Reveal';
+
+const statusVariant = { pending: 'warn', paid: 'info', preparing: 'accent', shipped: 'info', delivered: 'success', cancelled: 'danger' };
+const stages = [{ key: 'pending', label: 'Pedido recibido' }, { key: 'paid', label: 'Pago registrado' }, { key: 'preparing', label: 'En preparación' }, { key: 'shipped', label: 'En camino' }, { key: 'delivered', label: 'Entregado' }];
 
 export default function OrderDetailPage() {
   const { orderNumber } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const formatPrice = (p) => new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'USD' }).format(p);
-
   useEffect(() => {
-    api.get(`/orders/${orderNumber}/`)
-      .then(({ data }) => setOrder(data))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    api.get(`/orders/${orderNumber}/`).then(({ data }) => setOrder(data)).catch(() => {}).finally(() => setLoading(false));
   }, [orderNumber]);
-
   if (loading) return <LoadingSpinner text="Cargando pedido..." />;
-  if (!order) return <div className="max-w-4xl mx-auto px-4 py-10"><p className="text-gray-500">Pedido no encontrado</p></div>;
-
+  if (!order) return <><PageHero eyebrow="Pedidos" title={<>Pedido no <em>encontrado</em></>} /><div className="container section--tight"><Link to="/pedidos" className="btn-link">Volver a mis pedidos</Link></div></>;
+  const currentStage = stages.findIndex((stage) => stage.key === order.status);
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
-      <Link to="/pedidos" className="flex items-center gap-2 text-sm text-gray-500 hover:text-charcoal mb-8">
-        <ArrowLeft size={16} /> Mis pedidos
-      </Link>
-
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="font-serif text-2xl text-charcoal">Pedido {order.order_number}</h1>
-        <span className="text-sm px-4 py-1.5 rounded-full bg-gold/10 text-gold-dark">{order.status_display}</span>
-      </div>
-
-      <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-        <h2 className="text-sm font-semibold text-charcoal mb-4">PRODUCTOS</h2>
-        <div className="space-y-3">
-          {order.items?.map((item) => (
-            <div key={item.id} className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
-              <div>
-                <p className="text-sm font-medium">{item.watch_name}</p>
-                <p className="text-xs text-gray-500">{item.watch_brand} · Ref. {item.watch_reference}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm">{item.quantity} × {formatPrice(item.unit_price)}</p>
-                <p className="text-sm font-semibold">{formatPrice(item.subtotal)}</p>
-              </div>
-            </div>
-          ))}
+    <>
+      <PageHero eyebrow="Detalle del pedido" title={<>Pedido <em>{order.order_number}</em></>} description={`Realizado el ${new Date(order.created_at).toLocaleDateString('es-PE')}`}>
+        <div className="flex flex-wrap items-center gap-5">
+          <span className={`badge badge--${statusVariant[order.status] || 'accent'}`}>{order.status_display}</span>
+          <Link to="/pedidos" className="btn-link"><ArrowLeft size={16} /> Mis pedidos</Link>
         </div>
-        <div className="border-t mt-4 pt-4 space-y-1 text-sm">
-          <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span>{formatPrice(order.subtotal)}</span></div>
-          <div className="flex justify-between"><span className="text-gray-500">IGV</span><span>{formatPrice(order.tax)}</span></div>
-          <div className="flex justify-between font-semibold text-lg"><span>Total</span><span>{formatPrice(order.total)}</span></div>
+      </PageHero>
+      <div className="container section--tight grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+        <div className="grid gap-6">
+          <Reveal className="card">
+            <p className="eyebrow eyebrow--accent mb-3">Su selección</p>
+            <h2 className="card-title mb-6">Piezas del pedido</h2>
+            <div className="divider" />
+            {order.items?.map((item, i) => (
+              <Reveal key={item.id} delay={Math.min(i, 5) * 70}>
+                <div className="flex flex-wrap items-center gap-4 py-5">
+                  <div className="media-well h-20 w-20 shrink-0">{item.watch_image ? <img src={item.watch_image} alt={item.watch_name} className="p-2" /> : <div className="grid h-full place-items-center"><Package size={24} className="text-mute" /></div>}</div>
+                  <div className="min-w-0 flex-1">
+                    <p className="eyebrow">{item.watch_brand} · Ref. {item.watch_reference}</p>
+                    <p className="display-sm mt-2">{item.watch_name}</p>
+                    <p className="body-sm mt-2">{item.quantity} × <span className="num">{formatPrice(item.unit_price)}</span></p>
+                  </div>
+                  <span className="price">{formatPrice(item.subtotal)}</span>
+                </div>
+                <div className="divider" />
+              </Reveal>
+            ))}
+          </Reveal>
+          <Reveal delay={80} className="card">
+            <p className="eyebrow eyebrow--accent mb-3">Destino</p>
+            <h2 className="card-title mb-5">Dirección de envío</h2>
+            <p className="text-dim">{order.shipping_street}<br />{order.shipping_city}, {order.shipping_state} {order.shipping_postal_code}<br />{order.shipping_country}</p>
+          </Reveal>
+          {order.payment && <Reveal delay={120} className="card">
+            <p className="eyebrow eyebrow--accent mb-3">Transacción</p>
+            <h2 className="card-title mb-5">Pago</h2>
+            <dl className="spec-list">
+              <div className="spec-row"><dt>Método</dt><dd>{order.payment.method === 'demo_card' ? 'Tarjeta de demostración' : 'Transferencia de demostración'}</dd></div>
+              <div className="spec-row"><dt>Referencia</dt><dd className="num">{order.payment.reference}</dd></div>
+              <div className="spec-row"><dt>Monto</dt><dd className="price">{formatPrice(order.payment.amount)}</dd></div>
+            </dl>
+            {order.payment.is_demo && <p className="body-sm mt-4">Pago de demostración académica</p>}
+          </Reveal>}
+        </div>
+        <div className="grid gap-6 lg:sticky lg:top-24">
+          <Reveal delay={100} className="card">
+            <p className="eyebrow eyebrow--accent mb-3">Importes</p>
+            <h2 className="card-title mb-5">Total del pedido</h2>
+            <dl className="spec-list">
+              <div className="spec-row"><dt>Subtotal</dt><dd className="num">{formatPrice(order.subtotal)}</dd></div>
+              <div className="spec-row"><dt>IGV</dt><dd className="num">{formatPrice(order.tax)}</dd></div>
+              <div className="spec-row"><dt>Total</dt><dd className="price price--lg">{formatPrice(order.total)}</dd></div>
+            </dl>
+          </Reveal>
+          <Reveal delay={160} className="card">
+            <p className="eyebrow eyebrow--accent mb-3">Seguimiento</p>
+            <h2 className="card-title mb-6">Recorrido</h2>
+            {order.status === 'cancelled' ? <span className="badge badge--danger">Pedido cancelado</span> : (
+              <ol className="grid gap-0">
+                {stages.map((stage, i) => <li key={stage.key} className="flex gap-4">
+                  <div className="flex flex-col items-center"><span className={`badge badge--plain ${i <= currentStage ? 'badge--accent' : ''}`}>{String(i + 1).padStart(2, '0')}</span>{i < stages.length - 1 && <span className="divider w-px min-h-8" />}</div>
+                  <span className={i <= currentStage ? 'text-dim pt-0.5' : 'text-mute pt-0.5'}>{stage.label}</span>
+                </li>)}
+              </ol>
+            )}
+          </Reveal>
         </div>
       </div>
-
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg p-6 shadow-sm">
-          <h2 className="text-sm font-semibold text-charcoal mb-3">DIRECCIÓN DE ENVÍO</h2>
-          <p className="text-sm text-gray-600">{order.shipping_street}</p>
-          <p className="text-sm text-gray-600">{order.shipping_city}, {order.shipping_state} {order.shipping_postal_code}</p>
-          <p className="text-sm text-gray-600">{order.shipping_country}</p>
-        </div>
-        {order.payment && (
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-charcoal mb-3">PAGO</h2>
-            <p className="text-sm text-gray-600">Método: {order.payment.method === 'demo_card' ? 'Tarjeta de demostración' : 'Transferencia de demostración'}</p>
-            <p className="text-sm text-gray-600">Referencia: {order.payment.reference}</p>
-            <p className="text-sm text-gray-600">Monto: {formatPrice(order.payment.amount)}</p>
-            {order.payment.is_demo && <p className="text-xs text-amber-600 mt-2">Pago de demostración académica</p>}
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 }

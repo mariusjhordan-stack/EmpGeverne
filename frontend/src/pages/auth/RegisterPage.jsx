@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import FloatingInput from '../../components/common/FloatingInput';
+import Button from '../../components/common/Button';
+import Reveal from '../../components/common/Reveal';
+import lifestyleImage from '../../assets/editorial/hero-lifestyle.jpg';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -23,8 +28,8 @@ export default function RegisterPage() {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    const v = validate();
-    if (Object.keys(v).length) { setErrors(v); return; }
+    const validation = validate();
+    if (Object.keys(validation).length) { setErrors(validation); return; }
     setErrors({});
     setLoading(true);
     try {
@@ -34,51 +39,49 @@ export default function RegisterPage() {
       navigate('/');
     } catch (err) {
       const data = err.response?.data?.errors || err.response?.data;
-      if (data && typeof data === 'object') {
-        setErrors(data);
-      } else {
-        setErrors({ general: 'Error al crear la cuenta' });
-      }
+      if (data && typeof data === 'object') setErrors(data);
+      else setErrors({ general: 'Error al crear la cuenta' });
     } finally {
       setLoading(false);
     }
   };
 
-  const field = (name, label, type = 'text') => (
-    <div className="mb-4">
-      <label className="block text-sm text-gray-600 mb-1">{label}</label>
-      <input type={type} value={form[name]}
-        onChange={(e) => setForm({ ...form, [name]: e.target.value })}
-        className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-      {errors[name] && <p className="text-xs text-red-500 mt-1">{Array.isArray(errors[name]) ? errors[name][0] : errors[name]}</p>}
-    </div>
-  );
+  const errorText = (name) => Array.isArray(errors[name]) ? errors[name][0] : errors[name];
+  const field = (name, label, type = 'text', autoComplete) => <FloatingInput key={name} id={`register-${name}`} name={name} label={label} type={type} autoComplete={autoComplete} value={form[name]} onChange={(e) => setForm({ ...form, [name]: e.target.value })} error={errorText(name)} />;
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 animate-fade-in">
-      <div className="w-full max-w-md animate-fade-in-up">
-        <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl text-charcoal mb-2">Crear Cuenta</h1>
-          <p className="text-sm text-gray-500">Únete a Cronos Genève</p>
-        </div>
-        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-sm animate-scale-in stagger-1">
-          {errors.general && <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded">{errors.general}</div>}
-          <div className="grid grid-cols-2 gap-4">
-            {field('first_name', 'Nombres')}
-            {field('last_name', 'Apellidos')}
-          </div>
-          {field('email', 'Correo electrónico', 'email')}
-          {field('password', 'Contraseña', 'password')}
-          {field('password_confirm', 'Confirmar contraseña', 'password')}
-          <button type="submit" disabled={loading}
-            className="w-full bg-gold hover:bg-gold-dark text-white py-3 rounded-lg text-sm tracking-wider transition-colors disabled:opacity-50 mt-2">
-            {loading ? 'CREANDO CUENTA...' : 'CREAR CUENTA'}
-          </button>
-          <p className="text-center text-sm text-gray-500 mt-6">
-            ¿Ya tienes cuenta? <Link to="/login" className="text-gold hover:text-gold-dark">Ingresar</Link>
-          </p>
-        </form>
-      </div>
+    <div className="grid min-h-[calc(100vh-72px)] lg:grid-cols-2">
+      <aside className="tile hidden min-h-full flex-col lg:flex">
+        <img src={lifestyleImage} alt="" className="tile__img" aria-hidden="true" />
+        <span className="tile__shade" aria-hidden="true" />
+        <Reveal><p className="eyebrow eyebrow--accent">Cronos Genève · membres</p></Reveal>
+        <Reveal delay={100} className="mt-auto max-w-xl">
+          <p className="quote mb-8">Una selección que <em>perdura.</em></p>
+          <p className="lede">Descubra piezas distinguidas de las casas relojeras más prestigiosas.</p>
+        </Reveal>
+        <Reveal delay={180}><p className="eyebrow">Precisión · elegancia · tradición</p></Reveal>
+      </aside>
+      <section className="flex items-center justify-center px-6 py-16 md:px-12">
+        <Reveal delay={80} className="w-full max-w-md">
+          <form onSubmit={handleSubmit}>
+            <p className="eyebrow eyebrow--accent mb-5">Su espacio Cronos</p>
+            <h1 className="display-md mb-4">Crear <em>cuenta</em></h1>
+            <p className="text-dim mb-10">Únase a Cronos Genève.</p>
+            {errors.general && <div className="alert alert--danger mb-6" role="alert">{errors.general}</div>}
+            <div className="grid gap-4 sm:grid-cols-2">
+              {field('first_name', 'Nombres', 'text', 'given-name')}
+              {field('last_name', 'Apellidos', 'text', 'family-name')}
+            </div>
+            <div className="mt-4 grid gap-4">
+              {field('email', 'Correo electrónico', 'email', 'email')}
+              {field('password', 'Contraseña', 'password', 'new-password')}
+              {field('password_confirm', 'Confirmar contraseña', 'password', 'new-password')}
+            </div>
+            <Button type="submit" disabled={loading} block size="lg" className="mt-8">{loading ? 'Creando cuenta...' : 'Crear cuenta'} <ArrowUpRight size={17} /></Button>
+            <p className="body-sm mt-8 text-center">¿Ya tiene cuenta? <Link to="/login" className="btn-link ml-1">Ingresar</Link></p>
+          </form>
+        </Reveal>
+      </section>
     </div>
   );
 }

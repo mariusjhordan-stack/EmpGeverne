@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import FloatingInput from '../../components/common/FloatingInput';
+import Button from '../../components/common/Button';
+import Reveal from '../../components/common/Reveal';
+import lifestyleImage from '../../assets/editorial/hero-lifestyle.jpg';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -29,35 +34,33 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-16 animate-fade-in">
-      <div className="w-full max-w-md animate-fade-in-up">
-        <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl text-charcoal mb-2">Iniciar Sesión</h1>
-          <p className="text-sm text-gray-500">Accede a tu cuenta Cronos Genève</p>
-        </div>
-        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-sm animate-scale-in stagger-1">
-          {errors.general && <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded">{errors.general}</div>}
-          <div className="mb-4">
-            <label className="block text-sm text-gray-600 mb-1">Correo electrónico</label>
-            <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-            {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-          </div>
-          <div className="mb-6">
-            <label className="block text-sm text-gray-600 mb-1">Contraseña</label>
-            <input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gold" />
-            {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
-          </div>
-          <button type="submit" disabled={loading}
-            className="w-full bg-gold hover:bg-gold-dark text-white py-3 rounded-lg text-sm tracking-wider transition-colors disabled:opacity-50">
-            {loading ? 'INGRESANDO...' : 'INGRESAR'}
-          </button>
-          <p className="text-center text-sm text-gray-500 mt-6">
-            ¿No tienes cuenta? <Link to="/registro" className="text-gold hover:text-gold-dark">Regístrate</Link>
-          </p>
-        </form>
-      </div>
+    <div className="grid min-h-[calc(100vh-72px)] lg:grid-cols-2">
+      <aside className="tile hidden min-h-full flex-col lg:flex">
+        <img src={lifestyleImage} alt="" className="tile__img" aria-hidden="true" />
+        <span className="tile__shade" aria-hidden="true" />
+        <Reveal><p className="eyebrow eyebrow--accent">Cronos Genève · cuenta</p></Reveal>
+        <Reveal delay={100} className="mt-auto max-w-xl">
+          <p className="quote mb-8">El tiempo, <em>a su manera.</em></p>
+          <p className="lede">Acceda a su espacio Cronos Genève y continúe explorando nuestra selección.</p>
+        </Reveal>
+        <Reveal delay={180}><p className="eyebrow">Haute horlogerie · Lima</p></Reveal>
+      </aside>
+      <section className="flex items-center justify-center px-6 py-16 md:px-12">
+        <Reveal delay={80} className="w-full max-w-md">
+          <form onSubmit={handleSubmit}>
+            <p className="eyebrow eyebrow--accent mb-5">Bienvenido de nuevo</p>
+            <h1 className="display-md mb-4">Iniciar <em>sesión</em></h1>
+            <p className="text-dim mb-10">Acceda a su cuenta Cronos Genève.</p>
+            {errors.general && <div className="alert alert--danger mb-6" role="alert">{errors.general}</div>}
+            <div className="grid gap-5">
+              <FloatingInput id="login-email" name="email" label="Correo electrónico" type="email" autoComplete="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} error={errors.email} />
+              <FloatingInput id="login-password" name="password" label="Contraseña" type="password" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} error={errors.password} />
+            </div>
+            <Button type="submit" disabled={loading} block size="lg" className="mt-8">{loading ? 'Ingresando...' : 'Ingresar'} <ArrowUpRight size={17} /></Button>
+            <p className="body-sm mt-8 text-center">¿Aún no tiene cuenta? <Link to="/registro" className="btn-link ml-1">Regístrese</Link></p>
+          </form>
+        </Reveal>
+      </section>
     </div>
   );
 }

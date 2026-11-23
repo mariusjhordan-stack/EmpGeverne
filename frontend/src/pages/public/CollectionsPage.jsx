@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import { PageHero } from '../../components/common/SectionHeader';
+import Reveal from '../../components/common/Reveal';
+import interiorImage from '../../assets/editorial/luxe-interior.jpg';
+import movementImage from '../../assets/editorial/atelier-movement.jpg';
+import wristImage from '../../assets/editorial/hero-lifestyle.jpg';
+
+const collectionImages = [interiorImage, movementImage, wristImage];
 
 export default function CollectionsPage() {
   const [collections, setCollections] = useState([]);
@@ -14,24 +21,27 @@ export default function CollectionsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <LoadingSpinner text="Cargando colecciones..." />;
-
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <p className="text-gold tracking-[0.3em] text-xs mb-3">NUESTRAS LÍNEAS</p>
-        <h1 className="font-serif text-4xl text-charcoal">Colecciones</h1>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {collections.map((c) => (
-          <Link key={c.id} to={`/catalogo?collection=${c.id}`}
-            className="group bg-white rounded-lg p-10 text-center shadow-sm hover:shadow-md transition-shadow">
-            <h2 className="font-serif text-2xl text-charcoal mb-3 group-hover:text-gold transition-colors">{c.name}</h2>
-            <p className="text-gray-500 mb-4">{c.description}</p>
-            <span className="text-sm text-gold tracking-wider">{c.watch_count} relojes →</span>
-          </Link>
-        ))}
-      </div>
+    <div>
+      <PageHero eyebrow="Nuestras líneas" title={<>Colecciones <em>Cronos</em></>} description="Cada colección revela una identidad propia. Explore las piezas que la definen." />
+      <section className="container section section--tight">
+        {loading ? <LoadingSpinner text="Cargando colecciones..." /> : collections.length === 0 ? <Reveal className="empty-state"><h2 className="display-sm">Próximamente, nuevas <em>colecciones</em></h2></Reveal> :
+          <div className="bento">
+            {collections.map((collection, index) => <Reveal key={collection.id} delay={Math.min(index, 6) * 70} className={index % 3 === 0 ? 'span-6 lg-span-7 tile--tall' : 'span-3 lg-span-5'}>
+              <Link to={`/catalogo?collection=${collection.id}`} className="tile h-full min-h-[280px]">
+                <img className="tile__img" src={collectionImages[index % collectionImages.length]} alt="" aria-hidden="true" loading="lazy" />
+                <span className="tile__shade" aria-hidden="true" />
+                <span className="eyebrow eyebrow--accent">Selección {String(index + 1).padStart(2, '0')}</span>
+                <div className="mt-auto">
+                  <h2 className="tile__title mb-3">{collection.name}</h2>
+                  <p className="body-sm text-dim max-w-md">{collection.description}</p>
+                  <p className="eyebrow mt-5">{collection.watch_count} relojes</p>
+                </div>
+                <span className="tile__arrow" aria-hidden="true">↗</span>
+              </Link>
+            </Reveal>)}
+          </div>}
+      </section>
     </div>
   );
 }
