@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
-import SectionHeader from '../../components/common/SectionHeader';
+import { PageHero } from '../../components/common/SectionHeader';
 import Reveal from '../../components/common/Reveal';
 import interiorImage from '../../assets/editorial/luxe-interior.jpg';
 import movementImage from '../../assets/editorial/atelier-movement.jpg';
@@ -21,25 +21,27 @@ export default function CollectionsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <LoadingSpinner text="Cargando colecciones..." />;
-
   return (
-    <div className="collections-page">
-      <div className="page-wrap editorial-section">
-        <Reveal><SectionHeader titleAs="h1" eyebrow="Nuestras líneas" title={<>Colecciones <em>Cronos</em></>} description="Cada colección reúne piezas con una identidad y una presencia propias." /></Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {collections.map((collection, index) => <Reveal key={collection.id} delay={index * 70}>
-            <Link to={`/catalogo?collection=${collection.id}`} className="collection-feature group">
-              <img src={collectionImages[index % collectionImages.length]} alt="" aria-hidden="true" loading="lazy" />
-              <span className="collection-feature-shade" aria-hidden="true" />
-              <span className="editorial-kicker">Selección 0{index + 1}</span>
-              <h2 className="font-serif text-4xl md:text-5xl text-white group-hover:text-gold transition-colors">{collection.name}</h2>
-              <p className="mt-4 max-w-lg text-sm leading-7 text-[#DDD6CA]">{collection.description}</p>
-              <span className="mt-8 inline-flex items-center gap-3 text-xs uppercase tracking-[.14em] text-gold">{collection.watch_count} relojes <span aria-hidden="true">↗</span></span>
-            </Link>
-          </Reveal>)}
-        </div>
-      </div>
+    <div>
+      <PageHero eyebrow="Nuestras líneas" title={<>Colecciones <em>Cronos</em></>} description="Cada colección revela una identidad propia. Explore las piezas que la definen." />
+      <section className="container section section--tight">
+        {loading ? <LoadingSpinner text="Cargando colecciones..." /> : collections.length === 0 ? <Reveal className="empty-state"><h2 className="display-sm">Próximamente, nuevas <em>colecciones</em></h2></Reveal> :
+          <div className="bento">
+            {collections.map((collection, index) => <Reveal key={collection.id} delay={Math.min(index, 6) * 70} className={index % 3 === 0 ? 'span-6 lg-span-7 tile--tall' : 'span-3 lg-span-5'}>
+              <Link to={`/catalogo?collection=${collection.id}`} className="tile h-full min-h-[280px]">
+                <img className="tile__img" src={collectionImages[index % collectionImages.length]} alt="" aria-hidden="true" loading="lazy" />
+                <span className="tile__shade" aria-hidden="true" />
+                <span className="eyebrow eyebrow--accent">Selección {String(index + 1).padStart(2, '0')}</span>
+                <div className="mt-auto">
+                  <h2 className="tile__title mb-3">{collection.name}</h2>
+                  <p className="body-sm text-dim max-w-md">{collection.description}</p>
+                  <p className="eyebrow mt-5">{collection.watch_count} relojes</p>
+                </div>
+                <span className="tile__arrow" aria-hidden="true">↗</span>
+              </Link>
+            </Reveal>)}
+          </div>}
+      </section>
     </div>
   );
 }

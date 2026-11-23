@@ -3,13 +3,10 @@ import { useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import api from '../../services/api';
 import WatchCard from '../../components/catalog/WatchCard';
-import SectionHeader from '../../components/common/SectionHeader';
+import { PageHero } from '../../components/common/SectionHeader';
+import Button from '../../components/common/Button';
 import Reveal from '../../components/common/Reveal';
-import Skeleton from '../../components/common/Skeleton';
-
-function WatchSkeleton() {
-  return <div className="luxury-card overflow-hidden"><Skeleton className="aspect-square w-full" /><div className="space-y-3 p-5"><Skeleton className="h-3 w-1/3" /><Skeleton className="h-6 w-3/4" /><Skeleton className="h-4 w-1/2" /></div></div>;
-}
+import { WatchCardSkeleton } from '../../components/common/Skeleton';
 
 export default function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,6 +55,16 @@ export default function CatalogPage() {
   }, [filters, setSearchParams]);
 
   const updateFilter = (key, value) => setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
+
+  // debounce typing: query the API once the user pauses, not on every keystroke
+  const [searchInput, setSearchInput] = useState(filters.search);
+  useEffect(() => { setSearchInput(filters.search); }, [filters.search]);
+  useEffect(() => {
+    if (searchInput === filters.search) return undefined;
+    const t = setTimeout(() => updateFilter('search', searchInput), 350);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchInput]);
   const clearFilters = () => setFilters({ search: '', brand: '', collection: '', min_price: '', max_price: '', ordering: '-created_at', page: 1 });
   const totalPages = Math.ceil(totalCount / 12);
   const hasFilters = filters.search || filters.brand || filters.collection || filters.min_price || filters.max_price;
@@ -70,53 +77,55 @@ export default function CatalogPage() {
   ].filter(Boolean);
 
   return (
-    <div className="page-wrap catalog-page py-10 md:py-16">
-      <Reveal>
-        <SectionHeader titleAs="h1" eyebrow="CRONOS GENÈVE · SELECCIÓN" title={<>El catálogo <em>completo</em></>} description="Descubra piezas elegidas por su precisión, diseño y carácter." />
-      </Reveal>
-
-      <div className="catalog-toolbar flex flex-col gap-4 md:flex-row md:items-center mb-6">
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={17} />
-          <input aria-label="Buscar relojes" type="search" placeholder="Buscar por marca, modelo o referencia" value={filters.search}
-            onChange={(e) => updateFilter('search', e.target.value)} className="w-full pl-11 pr-4 py-3 border border-gray-200 text-sm" />
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="catalog-count"><strong>{totalCount}</strong> piezas</span>
-          <button type="button" onClick={() => setFiltersOpen(!filtersOpen)} aria-expanded={filtersOpen} className="button-outline">
-            <SlidersHorizontal size={15} /> Filtros
-          </button>
+    <div>
+      <PageHero eyebrow="Cronos Genève · selección" title={<>El catálogo <em>completo</em></>} description="Piezas elegidas por su precisión, diseño y carácter.">
+        <span className="eyebrow eyebrow--accent num" aria-live="polite">{totalCount} {totalCount === 1 ? 'pieza' : 'piezas'}</span>
+      </PageHero>
+      <div className="catalog-toolbar sticky-under-header">
+        <div className="container catalog-toolbar__inner">
+          <div className="catalog-search">
+            <label className="sr-only" htmlFor="catalog-search">Buscar relojes</label>
+            <Search className="catalog-search__icon" size={16} aria-hidden="true" />
+            <input id="catalog-search" type="search" placeholder="Buscar marca, modelo o referencia" value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)} />
+          </div>
+          <div className="chip-scroller" role="group" aria-label="Filtrar por marca">
+            <button type="button" className={`chip ${!filters.brand ? 'is-active' : ''}`} onClick={() => updateFilter('brand', '')}>Todas</button>
+            {brands.map((brand) => <button type="button" key={brand.id} className={`chip ${String(filters.brand) === String(brand.id) ? 'is-active' : ''}`} onClick={() => updateFilter('brand', String(brand.id))}>{brand.name}</button>)}
+          </div>
+          <div className="catalog-toolbar__actions">
+            <label className="sr-only" htmlFor="catalog-ordering">Ordenar</label>
+            <select id="catalog-ordering" className="select-pill" value={filters.ordering} onChange={(e) => updateFilter('ordering', e.target.value)}>
+              <option value="-created_at">Novedades</option>
+              <option value="price">Menor precio</option>
+              <option value="-price">Mayor precio</option>
+              <option value="name">Nombre A–Z</option>
+            </select>
+            <button type="button" className={`chip ${filtersOpen ? 'is-active' : ''}`} onClick={() => setFiltersOpen(!filtersOpen)} aria-expanded={filtersOpen} aria-controls="catalog-filters">
+              <SlidersHorizontal size={14} /> Filtros{activeFilters.length > 0 && <span className="chip__count num">{activeFilters.length}</span>}
+            </button>
+          </div>
         </div>
       </div>
-
-      {filtersOpen && <div className="filter-panel grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 p-5 md:p-6 mb-6 animate-fade-in-down">
-        <div><label className="field-label" htmlFor="filter-brand">Marca</label><select id="filter-brand" value={filters.brand} onChange={(e) => updateFilter('brand', e.target.value)} className="w-full px-3 py-3 border border-gray-200 text-sm"><option value="">Todas</option>{brands.map((brand) => <option key={brand.id} value={brand.id}>{brand.name}</option>)}</select></div>
-        <div><label className="field-label" htmlFor="filter-collection">Colección</label><select id="filter-collection" value={filters.collection} onChange={(e) => updateFilter('collection', e.target.value)} className="w-full px-3 py-3 border border-gray-200 text-sm"><option value="">Todas</option>{collections.map((collection) => <option key={collection.id} value={collection.id}>{collection.name}</option>)}</select></div>
-        <div><label className="field-label" htmlFor="filter-min">Precio mínimo</label><input id="filter-min" type="number" placeholder="0" value={filters.min_price} onChange={(e) => updateFilter('min_price', e.target.value)} className="w-full px-3 py-3 border border-gray-200 text-sm" /></div>
-        <div><label className="field-label" htmlFor="filter-max">Precio máximo</label><input id="filter-max" type="number" placeholder="99999" value={filters.max_price} onChange={(e) => updateFilter('max_price', e.target.value)} className="w-full px-3 py-3 border border-gray-200 text-sm" /></div>
-        <div><label className="field-label" htmlFor="filter-ordering">Ordenar</label><select id="filter-ordering" value={filters.ordering} onChange={(e) => updateFilter('ordering', e.target.value)} className="w-full px-3 py-3 border border-gray-200 text-sm"><option value="-created_at">Más recientes</option><option value="price">Precio: menor a mayor</option><option value="-price">Precio: mayor a menor</option><option value="name">Nombre A-Z</option></select></div>
-      </div>}
-
-      {hasFilters && <div className="active-filter-row flex flex-wrap items-center gap-2 mb-6">
-        <span className="mr-1 text-xs text-gray-500">Filtros activos</span>
-        {activeFilters.map((filter) => filter.label && <button type="button" key={filter.key} onClick={() => updateFilter(filter.key, '')} className="filter-chip">{filter.label}<X size={12} /></button>)}
-        <button type="button" onClick={clearFilters} className="ml-1 text-xs text-gold hover:text-gold-light">Limpiar todo</button>
-      </div>}
-
-      {loading ? <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" aria-label="Cargando catálogo">{Array.from({ length: 8 }, (_, i) => <WatchSkeleton key={i} />)}</div> : watches.length === 0 ? (
-        <div className="empty-state py-24 text-center">
-          <p className="editorial-kicker mb-3">Sin resultados</p><h2 className="font-serif text-3xl text-charcoal mb-4">No encontramos esa pieza</h2>
-          <p className="mb-6 text-sm text-gray-500">Pruebe ajustando su búsqueda o los filtros seleccionados.</p>
-          {hasFilters && <button type="button" onClick={clearFilters} className="button-outline">Limpiar filtros</button>}
-        </div>
-      ) : <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {watches.map((watch, index) => <Reveal key={watch.id} delay={(index % 4) * 45}><WatchCard watch={watch} /></Reveal>)}
-        </div>
-        {totalPages > 1 && <nav className="flex justify-center gap-2 mt-12" aria-label="Paginación del catálogo">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => <button type="button" key={page} aria-current={page === filters.page ? 'page' : undefined} onClick={() => setFilters((prev) => ({ ...prev, page }))} className={`pagination-button ${page === filters.page ? 'active' : ''}`}>{String(page).padStart(2, '0')}</button>)}
-        </nav>}
-      </>}
+      <section className="container section section--tight">
+        {filtersOpen && <Reveal id="catalog-filters" variant="fade" className="card mb-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="field"><label className="field-label" htmlFor="filter-brand">Marca</label><select id="filter-brand" value={filters.brand} onChange={(e) => updateFilter('brand', e.target.value)}><option value="">Todas</option>{brands.map((brand) => <option key={brand.id} value={brand.id}>{brand.name}</option>)}</select></div>
+          <div className="field"><label className="field-label" htmlFor="filter-collection">Colección</label><select id="filter-collection" value={filters.collection} onChange={(e) => updateFilter('collection', e.target.value)}><option value="">Todas</option>{collections.map((collection) => <option key={collection.id} value={collection.id}>{collection.name}</option>)}</select></div>
+          <div className="field"><label className="field-label" htmlFor="filter-min">Precio mínimo</label><input id="filter-min" type="number" placeholder="0" value={filters.min_price} onChange={(e) => updateFilter('min_price', e.target.value)} /></div>
+          <div className="field"><label className="field-label" htmlFor="filter-max">Precio máximo</label><input id="filter-max" type="number" placeholder="99999" value={filters.max_price} onChange={(e) => updateFilter('max_price', e.target.value)} /></div>
+        </Reveal>}
+        {hasFilters && <Reveal className="flex flex-wrap items-center gap-2 mb-8">
+          <span className="eyebrow mr-2">Filtros activos</span>
+          {activeFilters.map((filter) => filter.label && <button type="button" key={filter.key} onClick={() => updateFilter(filter.key, '')} className="chip">{filter.label}<X size={12} /></button>)}
+          <Button variant="link" type="button" onClick={clearFilters}>Limpiar todo</Button>
+        </Reveal>}
+        {loading ? <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4 md:gap-x-6" aria-label="Cargando catálogo">{Array.from({ length: 8 }, (_, i) => <WatchCardSkeleton key={i} />)}</div> : watches.length === 0 ? (
+          <Reveal className="empty-state"><p className="eyebrow eyebrow--accent">Sin resultados</p><h2 className="display-sm">No encontramos esa pieza</h2><p className="text-dim">Pruebe ajustando su búsqueda o los filtros seleccionados.</p>{hasFilters && <Button variant="ghost" type="button" onClick={clearFilters}>Limpiar filtros</Button>}</Reveal>
+        ) : <>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4 md:gap-x-6">{watches.map((watch, index) => <Reveal key={watch.id} delay={Math.min(index, 6) * 70}><WatchCard watch={watch} /></Reveal>)}</div>
+          {totalPages > 1 && <Reveal as="nav" className="flex justify-center gap-2 mt-16" aria-label="Paginación del catálogo">{Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => <button type="button" key={page} aria-current={page === filters.page ? 'page' : undefined} onClick={() => setFilters((prev) => ({ ...prev, page }))} className={`chip num ${page === filters.page ? 'is-active' : ''}`}>{String(page).padStart(2, '0')}</button>)}</Reveal>}
+        </>}
+      </section>
     </div>
   );
 }
