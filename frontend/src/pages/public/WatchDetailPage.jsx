@@ -9,6 +9,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import toast from 'react-hot-toast';
 import Reveal from '../../components/common/Reveal';
 import SectionHeader from '../../components/common/SectionHeader';
+import Button from '../../components/common/Button';
 
 export default function WatchDetailPage() {
   const { slug } = useParams();
@@ -82,101 +83,56 @@ export default function WatchDetailPage() {
   ];
 
   return (
-    <div className="page-wrap product-detail py-8 md:py-12 animate-fade-in">
-      <button onClick={() => navigate(-1)} className="back-link flex items-center gap-2 text-xs text-gray-500 hover:text-charcoal mb-8 transition-colors duration-200">
-        <ArrowLeft size={16} /> Volver
-      </button>
-
-      <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-8 lg:gap-16">
-        {/* Images */}
-        <div className="product-gallery animate-fade-in-up">
-          <div className="product-stage aspect-square overflow-hidden mb-4 p-6 md:p-10">
-            {currentImage ? (
-              <img src={currentImage.image} alt={currentImage.alt_text || watch.name} className="w-full h-full object-contain transition-transform duration-700 hover:scale-105" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-300">
-                <svg className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <div className="container section section--tight">
+      <Reveal><Button variant="link" type="button" onClick={() => navigate(-1)}><ArrowLeft size={16} /> Volver a la selección</Button></Reveal>
+      <div className="grid gap-10 pt-10 lg:grid-cols-[1.1fr_.9fr] lg:gap-20">
+        <Reveal className="min-w-0">
+          <div className="media-well aspect-[4/5] p-8 md:p-14">
+            {currentImage ? <img key={selectedImage} src={currentImage.image} alt={currentImage.alt_text || watch.name} className="animate-fade-in" />
+              : <div className="grid h-full place-items-center text-mute"><ShoppingBag size={56} strokeWidth={1} /></div>}
+          </div>
+          {images.length > 1 && <div className="flex gap-3 overflow-x-auto pt-4">
+            {images.map((img, i) => <button type="button" key={img.id} onClick={() => setSelectedImage(i)} aria-label={`Ver imagen ${i + 1} de ${watch.name}`} aria-pressed={i === selectedImage}
+              className="media-well h-20 w-20 shrink-0 p-2" style={{ border: i === selectedImage ? '2px solid var(--champagne)' : '2px solid var(--line)' }}>
+              <img src={img.image} alt="" />
+            </button>)}
+          </div>}
+        </Reveal>
+        <Reveal delay={120} className="lg:sticky lg:top-28 lg:self-start">
+          <p className="eyebrow eyebrow--accent mb-5">{watch.brand?.name}</p>
+          <h1 className="display-lg mb-5">{watch.name}</h1>
+          <p className="eyebrow mb-9">Referencia · {watch.reference}</p>
+          <p className="price price--lg mb-8">{formatPrice(watch.price)}</p>
+          <div className="mb-7">{watch.is_available
+            ? <span className="badge badge--success"><Check size={13} /> En stock · {watch.stock} disponibles</span>
+            : <span className="badge badge--danger">Agotado</span>}</div>
+          <p className="lede mb-9">{watch.description}</p>
+          <div className="grid gap-3 mb-4">
+            {watch.is_available && <>
+              <div className="card flex w-fit items-center gap-2 !p-1">
+                <button type="button" aria-label="Reducir cantidad" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="btn-icon"><Minus size={15} /></button>
+                <span className="num min-w-6 text-center">{quantity}</span>
+                <button type="button" aria-label="Aumentar cantidad" onClick={() => setQuantity(Math.min(watch.stock, quantity + 1))} className="btn-icon"><Plus size={15} /></button>
               </div>
-            )}
-          </div>
-          {images.length > 1 && (
-            <div className="flex gap-2">
-              {images.map((img, i) => (
-                <button key={img.id} onClick={() => setSelectedImage(i)}
-                  className={`w-20 h-20 rounded overflow-hidden border-2 ${i === selectedImage ? 'border-gold' : 'border-transparent'}`}>
-                  <img src={img.image} alt="" className="w-full h-full object-contain p-1.5" />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Info */}
-        <div className="animate-fade-in-up stagger-2">
-          <div className="product-summary mb-6">
-            <p className="editorial-kicker mb-3">{watch.brand?.name}</p>
-            <h1 className="font-serif text-4xl md:text-5xl text-charcoal mb-3">{watch.name}</h1>
-            <p className="text-xs tracking-[.12em] text-gray-500">REFERENCIA · {watch.reference}</p>
-          </div>
-
-          <p className="detail-price mb-6">{formatPrice(watch.price)}</p>
-
-          <p className="text-gray-600 leading-relaxed mb-8">{watch.description}</p>
-
-          {/* Stock */}
-          <div className="mb-6">
-            {watch.is_available ? (
-              <span className="inline-flex items-center gap-1 text-sm text-green-600"><Check size={16} /> En stock ({watch.stock} disponibles)</span>
-            ) : (
-              <span className="text-sm text-red-500">Agotado</span>
-            )}
-          </div>
-
-          {/* Quantity + Add */}
-          {watch.is_available && (
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <div className="flex items-center border border-gray-200">
-                <button aria-label="Reducir cantidad" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3 hover:bg-gray-50"><Minus size={15} /></button>
-                <span className="px-4 text-sm font-medium">{quantity}</span>
-                <button aria-label="Aumentar cantidad" onClick={() => setQuantity(Math.min(watch.stock, quantity + 1))} className="p-3 hover:bg-gray-50"><Plus size={15} /></button>
-              </div>
-              <button onClick={handleAddToCart} disabled={adding}
-                className="button-gold flex-1 flex items-center justify-center gap-2 disabled:opacity-50">
-                <ShoppingBag size={18} /> {adding ? 'AGREGANDO...' : 'AGREGAR AL CARRITO'}
+            </>}
+            <div className="flex items-center gap-3">
+              {watch.is_available && <Button size="lg" block type="button" onClick={handleAddToCart} disabled={adding}><ShoppingBag size={18} /> {adding ? 'Agregando...' : 'Agregar al carrito'}</Button>}
+              <button type="button" onClick={toggleFavorite} aria-label={isFavorited ? 'Quitar de favoritos' : 'Agregar a favoritos'} aria-pressed={isFavorited} className={`btn-icon h-14 w-14 shrink-0 ${isFavorited ? 'text-accent' : ''}`}>
+                <Heart size={19} fill={isFavorited ? 'currentColor' : 'none'} />
               </button>
             </div>
-          )}
-
-          <button onClick={toggleFavorite}
-            className={`flex items-center gap-2 text-sm ${isFavorited ? 'text-red-500' : 'text-gray-500 hover:text-red-500'} transition-colors`}>
-            <Heart size={18} fill={isFavorited ? 'currentColor' : 'none'} />
-            {isFavorited ? 'En favoritos' : 'Agregar a favoritos'}
-          </button>
-
-          {/* Specs */}
-          <div className="mt-10 border-t border-gray-200 pt-8">
-            <h2 className="editorial-kicker mb-3">Especificaciones</h2>
-            <div className="specification-list">
-              {specs.map((s) => (
-                <div key={s.label} className="specification-row flex justify-between gap-5 text-sm py-3 border-b border-gray-100">
-                  <span className="text-gray-500">{s.label}</span>
-                  <span className="text-charcoal font-medium">{s.value}</span>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
+          <p className="body-sm mb-10">{isFavorited ? 'Guardado en favoritos' : 'Guarde esta pieza en sus favoritos'} · Compra segura · Atención personalizada</p>
+          <div className="divider mb-8" />
+          <h2 className="display-sm mb-5">Los <em>detalles</em></h2>
+          <dl className="spec-list">{specs.map((s) => <div key={s.label} className="spec-row"><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
+        </Reveal>
       </div>
-
-      {/* Related */}
-      {watch.related_watches?.length > 0 && (
-        <section className="editorial-section section-divider mt-16">
-          <SectionHeader eyebrow="También en la selección" title={<>Piezas <em>relacionadas</em></>} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {watch.related_watches.map((w, index) => <Reveal key={w.id} delay={index * 60}><WatchCard watch={w} /></Reveal>)}
-          </div>
-        </section>
-      )}
+      {watch.related_watches?.length > 0 && <section className="section">
+        <div className="divider mb-16" />
+        <Reveal><SectionHeader eyebrow="También en la selección" title={<>También le puede <em>interesar</em></>} /></Reveal>
+        <div className="rail mt-10">{watch.related_watches.map((w, index) => <Reveal key={w.id} delay={Math.min(index, 6) * 70}><WatchCard watch={w} /></Reveal>)}</div>
+      </section>}
     </div>
   );
 }
