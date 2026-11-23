@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import toast from 'react-hot-toast';
 import api from '../../services/api';
+import Button from '../common/Button';
+import Reveal from '../common/Reveal';
 
 export default function StripePaymentForm({ orderNumber, onSuccess }) {
   const stripe = useStripe();
@@ -39,17 +41,18 @@ export default function StripePaymentForm({ orderNumber, onSuccess }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg p-6 shadow-sm max-w-xl mx-auto">
-      <h2 className="text-lg font-semibold text-charcoal mb-1">Pagar con tarjeta</h2>
-      <p className="text-xs text-gray-400 mb-4">Pedido {orderNumber} · Pago de prueba</p>
+    <Reveal as="form" onSubmit={handleSubmit} className="card max-w-xl mx-auto">
+      <p className="eyebrow eyebrow--accent mb-3">Pago seguro</p>
+      <h2 className="card-title mb-2">Pagar con tarjeta</h2>
+      <p className="body-sm mb-6">Pedido <span className="num">{orderNumber}</span> · Pago de prueba</p>
       <PaymentElement />
-      <button
+      <Button
         type="submit"
         disabled={!stripe || !elements || loading}
-        className="w-full mt-6 bg-gold hover:bg-gold-dark text-white py-3 rounded-lg text-sm tracking-wider disabled:opacity-50"
+        block size="lg" className="mt-8"
       >
-        {loading ? 'PROCESANDO...' : 'PAGAR'}
-      </button>
-    </form>
+        {loading ? 'Procesando...' : 'Pagar'}
+      </Button>
+    </Reveal>
   );
 }
