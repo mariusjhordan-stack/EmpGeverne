@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Watch turntable renderer</title>
+  <style>
+    html, body { margin: 0; background: #fff; font: 13px system-ui, sans-serif; }
+    #stage { width: 1000px; height: 1000px; display: block; }
+    #ui { position: fixed; top: 8px; left: 8px; display: flex; gap: 8px; align-items: center; background: rgba(255,255,255,.85); padding: 6px 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <!--
+    Dev tool (not part of the store build). Open /tools/render-watch.html while `npm run dev` runs.
+    ?frame=N  shows frame N · ?export=1 renders all frames and saves them to public/sequence/.
+  -->
+  <div id="ui"><input id="slider" type="range" min="0" max="119" value="0" /><span id="status">frame 0</span></div>
+  <canvas id="stage"></canvas>
+  <script type="module" src="./render-watch.js"></script>
+</body>
+</html>
