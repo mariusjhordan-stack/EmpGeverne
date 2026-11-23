@@ -27,6 +27,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "oxlint": "^1.90.0",
     "tailwindcss": "^4.3.5",
+    "three": "^0.181.2",
     "vite": "^8.3.6"
   }
 }
