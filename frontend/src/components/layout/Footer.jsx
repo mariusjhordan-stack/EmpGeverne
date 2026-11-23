@@ -1,34 +1,47 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import Reveal from '../common/Reveal';
 
 const currentYear = new Date().getFullYear();
 
 export default function Footer() {
   return (
     <footer className="site-footer">
-      <div className="footer-top page-wrap">
-        <div className="footer-brand-block">
-          <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio"><strong>CRONOS</strong><span>GENÈVE</span></Link>
-          <p>Precisión, elegancia y tradición en cada pieza seleccionada.</p>
-        </div>
-        <div className="footer-column">
-          <h2>Explorar</h2>
-          <Link to="/catalogo">Catálogo</Link><Link to="/colecciones">Colecciones</Link><Link to="/nosotros">Nuestra casa</Link><Link to="/contacto">Contacto</Link>
-        </div>
-        <div className="footer-column">
-          <h2>Atención</h2>
-          <Link to="/perfil">Mi cuenta</Link><Link to="/pedidos">Mis pedidos</Link><Link to="/favoritos">Favoritos</Link><Link to="/faq">Preguntas frecuentes</Link>
-        </div>
-        <div className="footer-column footer-contact">
-          <h2>Visítanos</h2>
-          <p>Av. Javier Prado Este 4200<br />Lima, Perú</p>
-          <Link to="/contacto" className="footer-contact-link">Escríbenos <ArrowUpRight size={14} /></Link>
+      <div className="container">
+        <div className="footer-grid">
+          <Reveal className="footer-col grid content-start gap-6">
+            <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio"><strong>Cronos</strong><span>GENÈVE</span></Link>
+            <p className="display-sm max-w-[16ch]" style={{ color: 'var(--fg)' }}>Relojes que se heredan, <em>no que se reemplazan.</em></p>
+            <Link to="/contacto" className="btn-link w-fit">Agendar una visita privada <ArrowUpRight size={14} /></Link>
+          </Reveal>
+          <Reveal className="footer-col" delay={80}>
+            <h2>Explorar</h2>
+            <Link to="/catalogo">Catálogo</Link>
+            <Link to="/colecciones">Colecciones</Link>
+            <Link to="/nosotros">Nuestra casa</Link>
+            <Link to="/contacto">Contacto</Link>
+          </Reveal>
+          <Reveal className="footer-col" delay={160}>
+            <h2>Atención</h2>
+            <Link to="/perfil">Mi cuenta</Link>
+            <Link to="/pedidos">Mis pedidos</Link>
+            <Link to="/favoritos">Favoritos</Link>
+            <Link to="/faq">Preguntas frecuentes</Link>
+          </Reveal>
+          <Reveal className="footer-col" delay={240}>
+            <h2>Boutique</h2>
+            <p>Av. Javier Prado Este 4200<br />Lima, Perú</p>
+            <p className="num text-mute">Lun — Sáb · 10:00 — 20:00</p>
+          </Reveal>
         </div>
       </div>
-      <div className="footer-bottom page-wrap">
-        <span>© {currentYear} Cronos Genève · Empresariales</span>
-        <div><Link to="/privacidad">Privacidad</Link><Link to="/terminos">Términos</Link></div>
-        <span className="footer-signature">HECHA PARA PERDURAR</span>
+      <p className="footer-wordmark" aria-hidden="true">Cronos</p>
+      <div className="container">
+        <div className="footer-bottom">
+          <span>© {currentYear} Cronos Genève</span>
+          <div className="flex gap-6"><Link to="/privacidad">Privacidad</Link><Link to="/terminos">Términos</Link></div>
+          <span>Genève · Lima</span>
+        </div>
       </div>
     </footer>
   );
