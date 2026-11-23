@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Heart, UserRound, Menu, X, LogOut, Package, Settings, ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
@@ -16,22 +16,44 @@ export default function Header() {
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const { itemCount } = useCart();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(window.scrollY > 24);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
+  // Sticky navbar: glass after 24px, hides while scrolling down, returns on scroll up.
   useEffect(() => {
-    const updateScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener('scroll', updateScroll, { passive: true });
-    return () => window.removeEventListener('scroll', updateScroll);
+    let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      setHidden(y > 240 && y > lastY.current + 4);
+      if (y < lastY.current - 4 || y <= 240) setHidden(false);
+      lastY.current = y;
+      ticking = false;
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => { setMobileOpen(false); setUserMenuOpen(false); }, [pathname]);
+
+  // let sticky page toolbars slide up when the header hides
   useEffect(() => {
-    if (!mobileOpen) return undefined;
-    const closeOnEscape = (event) => { if (event.key === 'Escape') setMobileOpen(false); };
-    window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
-  }, [mobileOpen]);
+    document.documentElement.toggleAttribute('data-header-hidden', hidden && !mobileOpen && !userMenuOpen);
+  }, [hidden, mobileOpen, userMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen && !userMenuOpen) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') { setMobileOpen(false); setUserMenuOpen(false); } };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [mobileOpen, userMenuOpen]);
 
   const handleLogout = () => {
     logout();
@@ -39,18 +61,21 @@ export default function Header() {
     navigate('/');
   };
 
-  const closeMobile = () => setMobileOpen(false);
-  const linkClass = ({ isActive }) => `site-nav-link ${isActive ? 'active' : ''}`;
+  const headerClass = ['site-header', (scrolled || mobileOpen) && 'is-scrolled', hidden && !mobileOpen && !userMenuOpen && 'is-hidden'].filter(Boolean).join(' ');
 
   return (
-    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+    <header className={headerClass}>
       <div className="header-inner">
-        <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio" onClick={closeMobile}>
-          <strong>CRONOS</strong><span>GENÈVE</span>
+        <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio">
+          <strong>Cronos</strong><span>GENÈVE</span>
         </Link>
 
-        <nav className="site-nav desktop" aria-label="Navegación principal">
-          {navLinks.map((link) => <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClass}>{link.label}</NavLink>)}
+        <nav className="site-nav" aria-label="Navegación principal">
+          {navLinks.map((link) => (
+            <NavLink key={link.to} to={link.to} end={link.to === '/'} className={({ isActive }) => `site-nav-link ${isActive ? 'active' : ''}`}>
+              {link.label}
+            </NavLink>
+          ))}
         </nav>
 
         <div className="header-actions">
@@ -68,33 +93,37 @@ export default function Header() {
                 <UserRound size={18} strokeWidth={1.5} />
               </button>
               {userMenuOpen && <>
-                <button type="button" aria-label="Cerrar menú" className="fixed inset-0 z-40 cursor-default" onClick={() => setUserMenuOpen(false)} />
-                <div className="user-popover animate-fade-in-down">
-                  <div className="border-b border-gray-800 px-3 py-3">
-                    <p className="truncate text-sm text-white">{user?.first_name} {user?.last_name}</p>
-                    <p className="mt-1 truncate text-xs text-gray-400">{user?.email}</p>
+                <button type="button" aria-label="Cerrar menú" className="fixed inset-0 z-40 cursor-default bg-transparent border-0" onClick={() => setUserMenuOpen(false)} />
+                <div className="user-popover">
+                  <div className="px-3 pt-2 pb-3 mb-1 border-b" style={{ borderColor: 'var(--line)' }}>
+                    <p className="truncate text-sm">{user?.first_name} {user?.last_name}</p>
+                    <p className="mt-1 truncate text-xs text-mute">{user?.email}</p>
                   </div>
-                  <Link to="/perfil" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 text-sm hover:text-gold"><Settings size={15} /> Mi perfil</Link>
-                  <Link to="/pedidos" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 text-sm hover:text-gold"><Package size={15} /> Mis pedidos</Link>
-                  {isAdmin && <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 text-sm text-gold"><ArrowUpRight size={15} /> Panel de administración</Link>}
-                  <button type="button" onClick={handleLogout} className="flex w-full items-center gap-3 px-3 py-3 text-left text-sm text-red-400 hover:text-red-300"><LogOut size={15} /> Cerrar sesión</button>
+                  <Link to="/perfil"><Settings size={15} /> Mi perfil</Link>
+                  <Link to="/pedidos"><Package size={15} /> Mis pedidos</Link>
+                  {isAdmin && <Link to="/admin" className="text-accent"><ArrowUpRight size={15} /> Panel de administración</Link>}
+                  <button type="button" onClick={handleLogout} style={{ color: 'var(--danger)' }}><LogOut size={15} /> Cerrar sesión</button>
                 </div>
               </>}
             </div>
           ) : <Link to="/login" className="header-login">Ingresar</Link>}
           <button type="button" className="menu-toggle" aria-label={mobileOpen ? 'Cerrar navegación' : 'Abrir navegación'} aria-expanded={mobileOpen} onClick={() => setMobileOpen(!mobileOpen)}>
-            {mobileOpen ? <X size={21} /> : <Menu size={21} />}
+            {mobileOpen ? <X size={19} /> : <Menu size={19} />}
           </button>
         </div>
       </div>
 
-      {mobileOpen && <nav className="mobile-nav" aria-label="Navegación móvil">
-        <p className="editorial-kicker mb-5">CRONOS GENÈVE · EXPLORAR</p>
-        {navLinks.map((link, index) => <NavLink key={link.to} to={link.to} end={link.to === '/'} onClick={closeMobile} className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}>
-          <span className="mobile-nav-index">0{index + 1}</span>{link.label}
-        </NavLink>)}
-        {!isAuthenticated && <Link to="/login" onClick={closeMobile} className="mobile-login">Acceder a mi cuenta <ArrowUpRight size={16} /></Link>}
-      </nav>}
+      {mobileOpen && (
+        <nav className="mobile-nav" aria-label="Navegación móvil">
+          <p className="eyebrow eyebrow--line mb-6">Explorar</p>
+          {navLinks.map((link, index) => (
+            <NavLink key={link.to} to={link.to} end={link.to === '/'} className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}>
+              <span className="mobile-nav-index">0{index + 1}</span><em className="not-italic">{link.label}</em>
+            </NavLink>
+          ))}
+          {!isAuthenticated && <Link to="/login" className="btn btn-lg">Acceder a mi cuenta <ArrowUpRight size={16} /></Link>}
+        </nav>
+      )}
     </header>
   );
 }
