@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import Reveal from '../../components/common/Reveal';
 
 const STATUS_LABELS = {
   pending: 'Pendiente', paid: 'Pagado', preparing: 'En preparación',
   shipped: 'Enviado', delivered: 'Entregado', cancelled: 'Cancelado',
 };
 const STATUS_COLORS = {
-  pending: 'bg-yellow-100 text-yellow-700', paid: 'bg-blue-100 text-blue-700',
-  preparing: 'bg-purple-100 text-purple-700', shipped: 'bg-indigo-100 text-indigo-700',
-  delivered: 'bg-green-100 text-green-700', cancelled: 'bg-red-100 text-red-700',
+  pending: 'warn', paid: 'info', preparing: 'accent', shipped: 'info',
+  delivered: 'success', cancelled: 'danger',
 };
 const TRANSITIONS = {
   pending: ['paid', 'cancelled'], paid: ['preparing', 'cancelled'],
@@ -52,81 +52,41 @@ export default function AdminOrdersPage() {
   if (loading) return <LoadingSpinner text="Cargando pedidos..." />;
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold text-charcoal mb-6">Pedidos</h1>
-
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead><tr className="text-left text-xs text-gray-500 border-b bg-gray-50">
-              <th className="p-4">Pedido</th><th className="p-4">Cliente</th><th className="p-4">Total</th><th className="p-4">Estado</th><th className="p-4">Fecha</th>
-            </tr></thead>
-            <tbody>
-              {orders.map((o) => (
-                <tr key={o.id} onClick={() => viewDetail(o.id)}
-                  className={`border-b border-gray-50 cursor-pointer hover:bg-gray-50 ${selected === o.id ? 'bg-gold/5' : ''}`}>
-                  <td className="p-4 font-medium">{o.order_number}</td>
-                  <td className="p-4 text-gray-600">{o.user_email}</td>
-                  <td className="p-4">{formatPrice(o.total)}</td>
-                  <td className="p-4"><span className={`text-xs px-2 py-1 rounded-full ${STATUS_COLORS[o.status]}`}>{o.status_display}</span></td>
-                  <td className="p-4 text-gray-500 text-xs">{new Date(o.created_at).toLocaleDateString('es-PE')}</td>
-                </tr>
-              ))}
-            </tbody>
+    <div className="grid gap-7">
+      <div><p className="eyebrow eyebrow--accent mb-3">Operaciones</p><h2 className="display-md">Pedidos <em>recibidos</em> <span className="num text-mute align-middle">{orders.length}</span></h2></div>
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
+        <Reveal className="table-wrap">
+          <table className="table">
+            <thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Fecha</th></tr></thead>
+            <tbody>{orders.map((o) => <tr key={o.id} onClick={() => viewDetail(o.id)} className="cursor-pointer" style={selected === o.id ? { background: 'var(--champagne-dim)' } : undefined}>
+              <td className="num text-accent">{o.order_number}</td><td>{o.user_email}</td><td className="price">{formatPrice(o.total)}</td>
+              <td><span className={`badge badge--${STATUS_COLORS[o.status] || 'accent'}`}>{o.status_display}</span></td>
+              <td className="body-sm">{new Date(o.created_at).toLocaleDateString('es-PE')}</td>
+            </tr>)}</tbody>
           </table>
-          {orders.length === 0 && <p className="text-center py-10 text-gray-500">No hay pedidos</p>}
-        </div>
-
-        <div>
-          {detail ? (
-            <div className="bg-white rounded-lg p-6 shadow-sm sticky top-6">
-              <h2 className="text-lg font-semibold text-charcoal mb-2">{detail.order_number}</h2>
-              <p className="text-sm text-gray-500 mb-4">{detail.user_name} ({detail.user_email})</p>
-
-              <div className="space-y-2 mb-4">
-                {detail.items?.map((item) => (
-                  <div key={item.id} className="flex justify-between text-sm">
-                    <span>{item.quantity}× {item.watch_name}</span>
-                    <span>{formatPrice(item.subtotal)}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t pt-3 mb-4">
-                <div className="flex justify-between text-sm"><span>Subtotal</span><span>{formatPrice(detail.subtotal)}</span></div>
-                <div className="flex justify-between text-sm"><span>IGV</span><span>{formatPrice(detail.tax)}</span></div>
-                <div className="flex justify-between font-semibold mt-1"><span>Total</span><span>{formatPrice(detail.total)}</span></div>
-              </div>
-
-              <div className="mb-4">
-                <p className="text-xs text-gray-500 mb-1">Estado actual</p>
-                <span className={`text-xs px-3 py-1 rounded-full ${STATUS_COLORS[detail.status]}`}>{detail.status_display}</span>
-              </div>
-
-              {TRANSITIONS[detail.status]?.length > 0 && (
-                <div>
-                  <p className="text-xs text-gray-500 mb-2">Cambiar estado:</p>
-                  <div className="flex gap-2 flex-wrap">
-                    {TRANSITIONS[detail.status].map((s) => (
-                      <button key={s} onClick={() => updateStatus(detail.id, s)}
-                        className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg hover:border-gold hover:text-gold transition-colors">
-                        {STATUS_LABELS[s]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="mt-4 pt-4 border-t">
-                <p className="text-xs text-gray-500">Envío: {detail.shipping_street}, {detail.shipping_city}</p>
-              </div>
-            </div>
-          ) : (
-            <div className="bg-white rounded-lg p-6 shadow-sm text-center text-sm text-gray-500">
-              Selecciona un pedido para ver los detalles
-            </div>
-          )}
-        </div>
+          {orders.length === 0 && <p className="empty-state text-mute">No hay pedidos.</p>}
+        </Reveal>
+        <Reveal delay={90} className="xl:sticky xl:top-24">
+          {detail ? <div className="card">
+            <p className="eyebrow eyebrow--accent mb-3">Detalle del pedido</p>
+            <h3 className="card-title num mb-2">{detail.order_number}</h3>
+            <p className="body-sm mb-6">{detail.user_name} ({detail.user_email})</p>
+            <div className="grid gap-3 mb-6">{detail.items?.map((item) => <div key={item.id} className="flex justify-between gap-3 body-sm"><span>{item.quantity} × {item.watch_name}</span><span className="price">{formatPrice(item.subtotal)}</span></div>)}</div>
+            <dl className="spec-list mb-6">
+              <div className="spec-row"><dt>Subtotal</dt><dd className="num">{formatPrice(detail.subtotal)}</dd></div>
+              <div className="spec-row"><dt>IGV</dt><dd className="num">{formatPrice(detail.tax)}</dd></div>
+              <div className="spec-row"><dt>Total</dt><dd className="price">{formatPrice(detail.total)}</dd></div>
+            </dl>
+            <p className="eyebrow mb-2">Estado actual</p>
+            <span className={`badge badge--${STATUS_COLORS[detail.status] || 'accent'}`}>{detail.status_display}</span>
+            {TRANSITIONS[detail.status]?.length > 0 && <div className="mt-6">
+              <p className="field-label mb-3">Cambiar estado</p>
+              <div className="flex flex-wrap gap-2">{TRANSITIONS[detail.status].map((s) => <button key={s} onClick={() => updateStatus(detail.id, s)} className="btn btn-ghost btn-sm">{STATUS_LABELS[s]}</button>)}</div>
+            </div>}
+            <div className="divider my-6" />
+            <p className="body-sm">Envío: {detail.shipping_street}, {detail.shipping_city}</p>
+          </div> : <div className="card empty-state text-mute">Seleccione un pedido para ver los detalles.</div>}
+        </Reveal>
       </div>
     </div>
   );
