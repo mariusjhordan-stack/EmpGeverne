@@ -56,3 +56,7 @@ Files in `backend/media/watches/<slug>.jpg`, from Wikimedia Commons. Changes: cr
 - `spirit-zulu-time.jpg` — [Longines Spirit Zulu Time.jpg](https://commons.wikimedia.org/wiki/File:Longines_Spirit_Zulu_Time.jpg) · Clyde94 · CC BY-SA 4.0
 - `superocean-44.jpg` — [Breitling Superocean 01.jpg](https://commons.wikimedia.org/wiki/File:Breitling_Superocean_01.jpg) · Zenith El Primero (Commons user) · CC BY-SA 3.0
 - `yacht-master-ii.jpg` — [Rolex Yachtmaster II 116680.JPG](https://commons.wikimedia.org/wiki/File:Rolex_Yachtmaster_II_116680.JPG) · Carolyn Maria Adams · CC BY-SA 4.0
+
+## Login / registro
+
+- `submariner-steel.webp` — cuadro 000 de la secuencia 3D propia (`frontend/public/sequence/story_000.webp`, render de Blender), con el fondo blanco quitado y recortado al reloj. Se usa en el panel oscuro de ingresar y registrarse.

@@ -5,8 +5,9 @@ import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import FloatingInput from '../../components/common/FloatingInput';
 import Button from '../../components/common/Button';
-import Reveal from '../../components/common/Reveal';
-import lifestyleImage from '../../assets/editorial/hero-lifestyle.jpg';
+import Reveal, { RevealLines } from '../../components/common/Reveal';
+import AuthShell from '../../components/auth/AuthShell';
+import PasswordField from '../../components/auth/PasswordField';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -46,42 +47,36 @@ export default function RegisterPage() {
     }
   };
 
-  const errorText = (name) => Array.isArray(errors[name]) ? errors[name][0] : errors[name];
-  const field = (name, label, type = 'text', autoComplete) => <FloatingInput key={name} id={`register-${name}`} name={name} label={label} type={type} autoComplete={autoComplete} value={form[name]} onChange={(e) => setForm({ ...form, [name]: e.target.value })} error={errorText(name)} />;
+  const errorText = (name) => (Array.isArray(errors[name]) ? errors[name][0] : errors[name]);
+  const bind = (name) => ({ id: `register-${name}`, name, value: form[name], onChange: (e) => setForm({ ...form, [name]: e.target.value }), error: errorText(name), className: 'field--line' });
 
   return (
-    <div className="grid min-h-[calc(100vh-72px)] lg:grid-cols-2">
-      <aside className="tile hidden min-h-full flex-col lg:flex">
-        <img src={lifestyleImage} alt="" className="tile__img" aria-hidden="true" />
-        <span className="tile__shade" aria-hidden="true" />
-        <Reveal><p className="eyebrow eyebrow--accent">Cronos Genève · membres</p></Reveal>
-        <Reveal delay={100} className="mt-auto max-w-xl">
-          <p className="quote mb-8">Una selección que <em>perdura.</em></p>
-          <p className="lede">Descubra piezas distinguidas de las casas relojeras más prestigiosas.</p>
+    <AuthShell kicker="Membresía" quote={['Una selección', <em key="e">que perdura.</em>]}>
+      <form onSubmit={handleSubmit} noValidate className="auth-form">
+        <Reveal><p className="eyebrow eyebrow--line eyebrow--accent">Su espacio Cronos</p></Reveal>
+        <RevealLines as="h1" className="auth-form__title" delay={80} lines={[<>Crear <em>cuenta</em></>]} />
+        <Reveal delay={160}><p className="auth-form__lede">Guarde sus piezas favoritas, siga sus pedidos y reciba recomendaciones a su medida.</p></Reveal>
+
+        {errors.general && <div className="alert alert--danger mb-6" role="alert">{errors.general}</div>}
+
+        <Reveal delay={220} className="auth-form__fields">
+          <div className="auth-form__pair">
+            <FloatingInput {...bind('first_name')} label="Nombres" autoComplete="given-name" />
+            <FloatingInput {...bind('last_name')} label="Apellidos" autoComplete="family-name" />
+          </div>
+          <FloatingInput {...bind('email')} label="Correo electrónico" type="email" autoComplete="email" placeholder="nombre@correo.com" />
+          <PasswordField {...bind('password')} label="Contraseña" autoComplete="new-password" hint="Mínimo 8 caracteres" />
+          <PasswordField {...bind('password_confirm')} label="Confirmar contraseña" autoComplete="new-password" />
         </Reveal>
-        <Reveal delay={180}><p className="eyebrow">Precisión · elegancia · tradición</p></Reveal>
-      </aside>
-      <section className="flex items-center justify-center px-6 py-16 md:px-12">
-        <Reveal delay={80} className="w-full max-w-md">
-          <form onSubmit={handleSubmit}>
-            <p className="eyebrow eyebrow--accent mb-5">Su espacio Cronos</p>
-            <h1 className="display-md mb-4">Crear <em>cuenta</em></h1>
-            <p className="text-dim mb-10">Únase a Cronos Genève.</p>
-            {errors.general && <div className="alert alert--danger mb-6" role="alert">{errors.general}</div>}
-            <div className="grid gap-4 sm:grid-cols-2">
-              {field('first_name', 'Nombres', 'text', 'given-name')}
-              {field('last_name', 'Apellidos', 'text', 'family-name')}
-            </div>
-            <div className="mt-4 grid gap-4">
-              {field('email', 'Correo electrónico', 'email', 'email')}
-              {field('password', 'Contraseña', 'password', 'new-password')}
-              {field('password_confirm', 'Confirmar contraseña', 'password', 'new-password')}
-            </div>
-            <Button type="submit" disabled={loading} block size="lg" className="mt-8">{loading ? 'Creando cuenta...' : 'Crear cuenta'} <ArrowUpRight size={17} /></Button>
-            <p className="body-sm mt-8 text-center">¿Ya tiene cuenta? <Link to="/login" className="btn-link ml-1">Ingresar</Link></p>
-          </form>
+
+        <Reveal delay={300}>
+          <Button type="submit" disabled={loading} block size="lg" className="auth-form__submit">
+            {loading ? <><span className="auth-form__spin" aria-hidden="true" /> Creando cuenta…</> : <>Crear cuenta <ArrowUpRight size={17} /></>}
+          </Button>
+          <p className="auth-form__or"><span>o</span></p>
+          <Link to="/login" className="btn btn-ghost btn-lg btn-block">Ya tengo cuenta · Ingresar</Link>
         </Reveal>
-      </section>
-    </div>
+      </form>
+    </AuthShell>
   );
 }
