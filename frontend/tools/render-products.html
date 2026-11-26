@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Render de productos 3D</title>
+<body style="margin:0;background:#333;color:#eee;font:14px system-ui">
+<p id="log" style="position:fixed;top:8px;left:8px;margin:0">listo</p>
+<script type="module">
+// Renders 3D de cada reloj (frente, detalle y perfil) con el modelo de la prueba virtual.
+// Uso: con `npm run dev`, abrir /tools/render-products.html y ejecutar `await all()` en la consola.
+// Lee backend/scripts/render_queue.json y guarda en backend/media/watches/3d/<slug>-<vista>.webp.
+import * as THREE from 'three';
+import { studioEnvironment } from '/src/tryon/studio.js';
+import { buildWatch, disposeWatch } from '/src/tryon/watchModel.js';
+const W = 1200, H = 1500;
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+r.setSize(W, H, false); r.domElement.style.cssText = 'height:100vh'; document.body.append(r.domElement);
+r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.05;
+// El mismo fondo marfil con sombra suave que los 137 renders del proyecto Java.
+const bg = document.createElement('canvas'); bg.width = W; bg.height = H; const c = bg.getContext('2d');
+const g = c.createRadialGradient(W * .5, H * .42, 60, W * .5, H * .5, H * .75);
+g.addColorStop(0, '#fbf8f2'); g.addColorStop(.6, '#ece5d8'); g.addColorStop(1, '#d3c8b4'); c.fillStyle = g; c.fillRect(0, 0, W, H);
+c.save(); c.filter = 'blur(38px)'; c.fillStyle = 'rgba(60,48,28,.38)'; c.beginPath(); c.ellipse(W * .53, H * .855, 300, 34, 0, 0, 7); c.fill(); c.restore();
+const bt = new THREE.CanvasTexture(bg); bt.colorSpace = THREE.SRGBColorSpace;
+const log = (t) => { document.getElementById('log').textContent = t; };
+window.go = async (p, view) => {
+  const s = new THREE.Scene(); s.background = bt; s.environment = studioEnvironment(r);
+  const k = new THREE.DirectionalLight(0xffffff, .9); k.position.set(-60, 90, 140); s.add(k);
+  const w = await buildWatch(p); w.getObjectByName('wrist').visible = false; w.getObjectByName('shadow').visible = false; s.add(w);
+  const V = { hero: [-.32, -.42, .06, 88], detail: [-.22, -.2, .03, 54], side: [-.3, .85, .08, 84] }[view];
+  w.rotation.set(V[0], V[1], V[2]);
+  const cam = new THREE.PerspectiveCamera(24, W / H, 10, 3000); cam.position.z = V[3] / (2 * Math.tan(.2094)); cam.updateProjectionMatrix();
+  const b = new THREE.Box3().setFromObject(w); const m = b.getCenter(new THREE.Vector3());
+  if (view !== 'detail') w.position.sub(m); else w.position.z = -22;
+  cam.position.z += view === 'detail' ? 15 : 20;
+  await new Promise((x) => setTimeout(x, 150)); r.render(s, cam);
+  const blob = await new Promise((x) => r.domElement.toBlob(x, 'image/webp', .9));
+  const res = await fetch(`/__save-render?name=${p.slug}-${view}.webp`, { method: 'POST', body: blob });
+  disposeWatch(w); s.environment.dispose();
+  if (!res.ok) throw new Error(`no se guardó ${p.slug}-${view}`);
+  return blob.size;
+};
+window.all = async (views = ['hero', 'detail', 'side']) => {
+  const queue = await (await fetch('/__render-queue')).json();
+  let n = 0;
+  for (const p of queue) for (const v of views) { log(`${++n}/${queue.length * views.length} ${p.slug} ${v}`); await go(p, v); }
+  log(`listo: ${n} imágenes`); return n;
+};
+window.ready = 1;
+</script>

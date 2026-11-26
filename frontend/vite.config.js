@@ -29,6 +29,25 @@ function saveSequenceFrames() {
           res.end('ok')
         })
       })
+      // tools/render-products.html: renders 3D de cada reloj -> backend/media/watches/3d/
+      server.middlewares.use('/__save-render', (req, res) => {
+        if (req.method !== 'POST') { res.statusCode = 405; return res.end() }
+        const name = new URL(req.url, 'http://x').searchParams.get('name') || ''
+        if (!/^[a-z0-9-]+-(hero|detail|side)\.webp$/.test(name)) { res.statusCode = 400; return res.end('bad name') }
+        const dir = path.resolve(__dirname, '../backend/media/watches/3d')
+        const chunks = []
+        req.on('data', (c) => chunks.push(c))
+        req.on('end', () => {
+          fs.mkdirSync(dir, { recursive: true })
+          fs.writeFileSync(path.join(dir, name), Buffer.concat(chunks))
+          res.end('ok')
+        })
+      })
+      // backend/scripts/render_queue.json para la página de render
+      server.middlewares.use('/__render-queue', (req, res) => {
+        res.setHeader('Content-Type', 'application/json')
+        res.end(fs.readFileSync(path.resolve(__dirname, '../backend/scripts/render_queue.json')))
+      })
       server.middlewares.use('/__save-frame', (req, res) => {
         if (req.method !== 'POST') { res.statusCode = 405; return res.end() }
         const name = new URL(req.url, 'http://x').searchParams.get('name') || ''

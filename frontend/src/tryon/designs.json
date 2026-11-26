@@ -1,0 +1,1240 @@
+{
+  "AC-0138": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "AC-0238": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "AC-0340": {
+    "markers": "roman",
+    "hands": "thin",
+    "track": false,
+    "moon": true,
+    "strap": "leather",
+    "strapColor": "#1d2c4d"
+  },
+  "AC-0436": {
+    "markers": "roman",
+    "hands": "thin",
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "AC-0534": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "links": 5
+  },
+  "AC-0639": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "subdials": [
+      6
+    ],
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "AC-0738": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "date": 3,
+    "strap": "mesh"
+  },
+  "AC-0832": {
+    "markers": "gems",
+    "hands": "thin",
+    "track": false,
+    "bezel": "gems",
+    "strap": "mesh"
+  },
+  "AC-0939": {
+    "markers": "baton",
+    "hands": "baton",
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#24402f"
+  },
+  "AC-1040": {
+    "markers": "roman",
+    "hands": "thin",
+    "track": false,
+    "bezel": "fluted",
+    "subdials": [
+      6
+    ],
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1d2c4d"
+  },
+  "AR-0134": {
+    "shape": "rect",
+    "width": 0.74,
+    "markers": "roman",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "AR-0234": {
+    "shape": "rect",
+    "width": 0.74,
+    "markers": "roman",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "AR-0334": {
+    "shape": "rect",
+    "width": 0.74,
+    "markers": "baton",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1d2c4d"
+  },
+  "AR-0436": {
+    "shape": "rect",
+    "width": 0.74,
+    "markers": "thin",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "AR-0538": {
+    "shape": "tonneau",
+    "width": 0.8,
+    "markers": "numerals",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "AR-0638": {
+    "shape": "tonneau",
+    "width": 0.8,
+    "markers": "numerals",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "AR-0738": {
+    "shape": "tonneau",
+    "width": 0.8,
+    "markers": "roman",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#6d1c22"
+  },
+  "AR-0828": {
+    "shape": "rect",
+    "width": 0.74,
+    "markers": "gems",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "mesh"
+  },
+  "AR-0935": {
+    "shape": "rect",
+    "width": 0.74,
+    "markers": "thin",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#24402f"
+  },
+  "AR-1037": {
+    "shape": "cushion",
+    "width": 1,
+    "markers": "numerals",
+    "hands": "baton",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#a9713c"
+  },
+  "MD-0142": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3
+  },
+  "MD-0242": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "bezelColor": "#10264f",
+    "strap": "rubber",
+    "strapColor": "#16305e"
+  },
+  "MD-0344": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "bezelColor": "#1c1c1f",
+    "strap": "rubber",
+    "strapColor": "#c9581b"
+  },
+  "MD-0445": {
+    "bezel": "dive",
+    "markers": "arabic",
+    "hands": "arrow",
+    "guards": true,
+    "date": 3,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "MD-0542": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "bezelColor": "#1d3b2c",
+    "lumeColor": "#e8d9a8",
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "MD-0640": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "bezelColor": "#1f6f70",
+    "strap": "rubber",
+    "strapColor": "#e4e2dc"
+  },
+  "MD-0743": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "accent": "#c8312f"
+  },
+  "MD-0841": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "bezelColor": "#14402c",
+    "cyclops": true
+  },
+  "MD-0936": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "bezelColor": "#16305e",
+    "strap": "rubber",
+    "strapColor": "#e4e2dc"
+  },
+  "MD-1039": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": false,
+    "lumeColor": "#d9b978",
+    "strap": "nato",
+    "strapColor": "#a08a63"
+  },
+  "MT-0140": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#b3202c",
+    "links": 5
+  },
+  "MT-0240": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#b3202c",
+    "bezelTop": "#10264f",
+    "bezelBottom": "#2f6fa5"
+  },
+  "MT-0340": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#b3202c",
+    "bezelTop": "#14402c",
+    "bezelBottom": "#0f1012",
+    "strap": "nato",
+    "strapColor": "#45503a"
+  },
+  "MT-0440": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#d9997a",
+    "bezelTop": "#4a2c1b",
+    "bezelBottom": "#1a1411",
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "MT-0542": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#b3202c",
+    "bezelTop": "#10264f",
+    "bezelBottom": "#8e1f2b",
+    "strap": "rubber",
+    "strapColor": "#16305e"
+  },
+  "MT-0642": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#e0782f",
+    "bezelTop": "#37393d",
+    "bezelBottom": "#0f1012"
+  },
+  "MT-0741": {
+    "bezel": "dodecagon",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#e0782f"
+  },
+  "MT-0841": {
+    "bezel": "dodecagon",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#b3202c",
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "MT-0940": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#b3202c",
+    "bezelTop": "#1a1411",
+    "bezelBottom": "#1a1411",
+    "links": 5
+  },
+  "MT-1043": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "gmtHand": "#b3202c",
+    "bezelTop": "#222428",
+    "bezelBottom": "#6d1420",
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "RC-0142": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "accent": "#c8312f"
+  },
+  "RC-0241": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "accent": "#c8312f",
+    "subRing": "#0b0c0f",
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "RC-0342": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "accent": "#c8312f",
+    "subRing": "#c9ccd1",
+    "strap": "leather",
+    "strapColor": "#1d2c4d"
+  },
+  "RC-0443": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "accent": "#f2f2f2",
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "RC-0543": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "accent": "#e0782f"
+  },
+  "RC-0642": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "bezelColor": "#3a2317",
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "RC-0739": {
+    "bezel": "smooth",
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "accent": "#8e1f2b",
+    "subFill": "#2b2522",
+    "strap": "leather",
+    "strapColor": "#a9713c"
+  },
+  "RC-0842": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "accent": "#c8312f",
+    "subFill": "#17181b",
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "RC-0940": {
+    "bezel": "smooth",
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "accent": "#c8312f",
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "RC-1041": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "subRing": "#0b0c0f"
+  },
+  "RS-0141": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3
+  },
+  "RS-0241": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3
+  },
+  "RS-0341": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3
+  },
+  "RS-0441": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "RS-0533": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3,
+    "markers": "gems"
+  },
+  "RS-0642": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3,
+    "accent": "#c8312f"
+  },
+  "RS-0739": {
+    "bezel": "none",
+    "integrated": false,
+    "date": 6,
+    "square": true,
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "accent": "#c8312f",
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "RS-0839": {
+    "bezel": "none",
+    "integrated": false,
+    "date": 6,
+    "square": true,
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "accent": "#e0782f",
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "RS-0941": {
+    "shape": "cushion",
+    "bezel": "dive",
+    "integrated": false,
+    "date": 3,
+    "markers": "arabic"
+  },
+  "RS-1039": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3,
+    "links": 5,
+    "twoTone": 14198344
+  },
+  "CF-0138": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "strap": "nato",
+    "strapColor": "#45503a"
+  },
+  "CF-0238": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "strap": "nato",
+    "strapColor": "#a08a63"
+  },
+  "CF-0340": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "lumeColor": "#d9b978",
+    "strap": "nato",
+    "strapColor": "#45503a"
+  },
+  "CF-0443": {
+    "markers": "numerals",
+    "hands": "arrow",
+    "bezel": "smooth",
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "CF-0543": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "date": 3,
+    "strap": "leather",
+    "strapColor": "#a9713c"
+  },
+  "CF-0643": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "lumeColor": "#e8d9a8",
+    "subdials": [
+      6
+    ],
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "CF-0741": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "date": 6,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "CF-0840": {
+    "markers": "numerals",
+    "hands": "thin",
+    "bezel": "smooth",
+    "accent": "#c8312f",
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "CF-0941": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "gmtHand": "#e0782f",
+    "date": 3,
+    "strap": "nato",
+    "strapColor": "#55585c"
+  },
+  "CF-1042": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "accent": "#8e1f2b",
+    "strap": "leather",
+    "strapColor": "#a9713c"
+  },
+  "CM-0138": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "CM-0238": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "seconds": false,
+    "strap": "mesh"
+  },
+  "CM-0334": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "seconds": false,
+    "strap": "mesh"
+  },
+  "CM-0440": {
+    "markers": "none",
+    "hands": "thin",
+    "track": false,
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "CM-0538": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1d2c4d"
+  },
+  "CM-0636": {
+    "markers": "thin",
+    "hands": "thin",
+    "track": false,
+    "seconds": false,
+    "strap": "mesh"
+  },
+  "CD-0135": {
+    "digital": true,
+    "shape": "rect",
+    "width": 0.86
+  },
+  "CD-0235": {
+    "digital": true,
+    "shape": "rect",
+    "width": 0.86
+  },
+  "CD-0337": {
+    "digital": true,
+    "shape": "rect",
+    "width": 0.86,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "CD-0437": {
+    "digital": true,
+    "shape": "rect",
+    "width": 0.86,
+    "strap": "rubber",
+    "strapColor": "#16305e"
+  },
+  "124060": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true
+  },
+  "126600": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "cyclops": true
+  },
+  "136660": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3
+  },
+  "124270": {
+    "markers": "arabic",
+    "hands": "luminous"
+  },
+  "226570": {
+    "bezel": "dodecagon",
+    "markers": "dots",
+    "hands": "luminous",
+    "date": 3,
+    "cyclops": true,
+    "gmtHand": "#e0782f",
+    "guards": true
+  },
+  "126900": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "guards": true,
+    "accent": "#2f8a4e"
+  },
+  "126622": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "date": 3,
+    "cyclops": true,
+    "bezelColor": "#8a8c90",
+    "accent": "#3f9cc0"
+  },
+  "228238": {
+    "bezel": "fluted",
+    "date": 3,
+    "cyclops": true,
+    "links": 5,
+    "markers": "roman"
+  },
+  "124300": {},
+  "126711CHNR": {
+    "bezel": "gmt",
+    "markers": "dots",
+    "hands": "luminous",
+    "guards": true,
+    "bezelTop": "#17120f",
+    "bezelBottom": "#4a2c1b",
+    "date": 3,
+    "cyclops": true,
+    "gmtHand": "#d9997a",
+    "twoTone": 14260602
+  },
+  "5811/1G": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "screws": false,
+    "integrated": true,
+    "date": 3
+  },
+  "5990/1A": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "screws": false,
+    "integrated": true,
+    "subdials": [
+      6
+    ],
+    "pushers": true,
+    "seconds": false
+  },
+  "7118/1A": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "screws": false,
+    "integrated": true,
+    "date": 3
+  },
+  "5167A": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "screws": false,
+    "markers": "arabic",
+    "hands": "luminous",
+    "date": 3,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "5227G": {
+    "date": 3,
+    "markers": "baton",
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "6119R": {
+    "bezel": "fluted",
+    "subdials": [
+      6
+    ],
+    "seconds": false,
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#4a2c1b"
+  },
+  "5524G": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "subdials": [
+      6
+    ],
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#a9713c"
+  },
+  "5172G": {
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "markers": "numerals",
+    "strap": "leather",
+    "strapColor": "#1d2c4d"
+  },
+  "5205G": {
+    "moon": true,
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "5738R": {
+    "shape": "cushion",
+    "markers": "thin",
+    "hands": "thin",
+    "seconds": false,
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "15510ST": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "date": 3
+  },
+  "26420SO": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "date": 6,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "15210BC": {
+    "hands": "thin",
+    "date": 3,
+    "strap": "leather",
+    "strapColor": "#1d2c4d"
+  },
+  "WSTA0041": {
+    "shape": "rect",
+    "width": 0.74,
+    "markers": "roman",
+    "hands": "thin",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "WSSA0018": {
+    "square": true,
+    "bezel": "none",
+    "markers": "roman",
+    "hands": "thin"
+  },
+  "WSBB0040": {
+    "markers": "roman",
+    "hands": "thin",
+    "guards": true
+  },
+  "M79030N-0001": {
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "lumeColor": "#d9b978"
+  },
+  "M25407N-0001": {
+    "bezel": "dive",
+    "hands": "luminous",
+    "bezelColor": "#1b1c1f"
+  },
+  "M79830RB-0001": {
+    "bezel": "gmt",
+    "bezelTop": "#6d1420",
+    "bezelBottom": "#10264f",
+    "markers": "dots",
+    "hands": "luminous",
+    "gmtHand": "#d9b978",
+    "date": 3,
+    "lumeColor": "#d9b978"
+  },
+  "AB0138": {
+    "bezel": "fluted",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "subFill": "#d5d6d8",
+    "pushers": true
+  },
+  "A17375": {
+    "bezel": "dive",
+    "bezelColor": "#10264f",
+    "hands": "luminous",
+    "accent": "#e0782f",
+    "strap": "rubber",
+    "strapColor": "#16305e"
+  },
+  "AB0134": {
+    "bezel": "dodecagon",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "subRing": "#c9ccd1"
+  },
+  "IW371605": {
+    "subdials": [
+      12,
+      6
+    ],
+    "pushers": true,
+    "markers": "numerals",
+    "hands": "thin",
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "IW328201": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "date": 3,
+    "bezel": "smooth"
+  },
+  "IW329301": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "Q3858520": {
+    "shape": "rect",
+    "width": 0.66,
+    "markers": "thin",
+    "hands": "baton",
+    "subdials": [
+      6
+    ],
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "Q1368430": {
+    "moon": true,
+    "hands": "thin",
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "Q9068681": {
+    "markers": "arabic",
+    "hands": "luminous",
+    "date": 3,
+    "bezel": "smooth",
+    "strap": "rubber",
+    "strapColor": "#16305e"
+  },
+  "SBGA211": {
+    "date": 3
+  },
+  "SLGH005": {
+    "date": 3
+  },
+  "SBGW231": {
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "PAM01312": {
+    "shape": "cushion",
+    "width": 1,
+    "guards": true,
+    "markers": "arabic",
+    "hands": "luminous",
+    "date": 3,
+    "subdials": [
+      9
+    ],
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "PAM00973": {
+    "shape": "cushion",
+    "width": 1,
+    "guards": true,
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "date": 3,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "220.10.41.21.03.004": {
+    "date": 6
+  },
+  "T137.407.11.041.00": {
+    "integrated": true,
+    "date": 3
+  },
+  "CG-AP-003": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "integrated": true,
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "date": 4
+  },
+  "CG-AP-002": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "guards": true,
+    "markers": "arabic",
+    "hands": "luminous",
+    "date": 3,
+    "strap": "rubber",
+    "strapColor": "#1f3a2a"
+  },
+  "CG-BP-001": {
+    "bezel": "dive",
+    "markers": "arabic",
+    "hands": "luminous",
+    "date": 4,
+    "strap": "textile",
+    "strapColor": "#17181a",
+    "bezelColor": "#0c0d10"
+  },
+  "CG-BG-001": {
+    "bezel": "smooth",
+    "markers": "roman",
+    "hands": "thin",
+    "subdials": [
+      3,
+      9
+    ],
+    "pushers": true,
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "CG-CA-004": {
+    "square": true,
+    "bezel": "none",
+    "markers": "roman",
+    "hands": "thin",
+    "seconds": false,
+    "links": 5
+  },
+  "CG-CA-003": {
+    "bezel": "smooth",
+    "markers": "arabic",
+    "hands": "thin",
+    "date": 4,
+    "strap": "leather",
+    "strapColor": "#1d2b4a"
+  },
+  "CG-CA-002": {
+    "shape": "rect",
+    "width": 0.78,
+    "markers": "roman",
+    "hands": "thin",
+    "seconds": false,
+    "integrated": true
+  },
+  "CG-HM-001": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "strap": "nato",
+    "strapColor": "#45503a"
+  },
+  "CG-IW-001": {
+    "markers": "numerals",
+    "hands": "luminous",
+    "bezel": "smooth",
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "CG-JL-002": {
+    "moon": true,
+    "subdials": [
+      3,
+      9
+    ],
+    "hands": "thin",
+    "track": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "CG-LG-001": {
+    "markers": "arabic",
+    "hands": "thin",
+    "date": 6,
+    "strap": "leather",
+    "strapColor": "#1b1a1a"
+  },
+  "CG-LG-002": {
+    "guards": true,
+    "bezel": "gmt",
+    "markers": "arabic",
+    "hands": "luminous",
+    "date": 3,
+    "gmtHand": "#e0782f",
+    "bezelColor": "#12315f"
+  },
+  "CG-PA-001": {
+    "shape": "cushion",
+    "width": 1,
+    "markers": "arabic",
+    "hands": "luminous",
+    "seconds": false,
+    "strap": "leather",
+    "strapColor": "#5b351c"
+  },
+  "CG-PP-003": {
+    "shape": "octagon",
+    "bezel": "octagon",
+    "screws": false,
+    "markers": "arabic",
+    "hands": "luminous",
+    "date": 3,
+    "strap": "rubber",
+    "strapColor": "#17181a"
+  },
+  "CG-RX-011": {
+    "bezel": "smooth",
+    "markers": "arabic",
+    "hands": "luminous",
+    "accent": "#e0782f",
+    "links": 3
+  },
+  "CG-RX-010": {
+    "bezel": "fluted",
+    "markers": "baton",
+    "date": 3,
+    "cyclops": true,
+    "subdials": [
+      6
+    ],
+    "links": 3
+  },
+  "CG-RX-012": {
+    "guards": true,
+    "bezel": "dive",
+    "markers": "dots",
+    "hands": "luminous",
+    "accent": "#3f9cc0",
+    "bezelColor": "#12315f",
+    "links": 3
+  },
+  "CG-SK-001": {
+    "guards": true,
+    "bezel": "dive",
+    "markers": "baton",
+    "hands": "luminous",
+    "date": 3,
+    "links": 3
+  },
+  "CG-ZN-001": {
+    "bezel": "tachymeter",
+    "subdials": [
+      3,
+      6,
+      9
+    ],
+    "pushers": true,
+    "date": 4,
+    "accent": "#c8312f"
+  }
+}
