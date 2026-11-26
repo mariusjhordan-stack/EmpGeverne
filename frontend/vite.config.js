@@ -73,7 +73,8 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true,
       },
-      '/media': {
+      // con la barra final: '/media' a secas también atrapaba /mediapipe/ (seguimiento de la mano)
+      '/media/': {
         target: 'http://localhost:8000',
         changeOrigin: true,
       },

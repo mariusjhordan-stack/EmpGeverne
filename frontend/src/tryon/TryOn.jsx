@@ -15,6 +15,7 @@ const ERRORS = {
   missing: 'We could not find a camera on this device.',
   busy: 'The camera is being used by another application. Close it and try again.',
   tracking: 'Hand tracking could not start in this browser.',
+  model: 'The 3D watch could not load. Reload the page and try again.',
 };
 
 let handsScript;
@@ -111,7 +112,7 @@ export default function TryOn({ product, onClose }) {
       watch = built;
       holder.add(watch);
       e.watch = watch;
-    }).catch(() => !cancelled && setError('tracking'));
+    }).catch(() => !cancelled && setError('model'));
 
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = stage;

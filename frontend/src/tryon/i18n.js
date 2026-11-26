@@ -17,6 +17,7 @@ const ES = {
   'We could not find a camera on this device.': 'No encontramos una cámara en este dispositivo.',
   'The camera is being used by another application. Close it and try again.': 'Otra aplicación está usando la cámara. Ciérrala y vuelve a intentarlo.',
   'Hand tracking could not start in this browser.': 'El seguimiento de la mano no pudo iniciar en este navegador.',
+  'The 3D watch could not load. Reload the page and try again.': 'No se pudo cargar el reloj 3D. Recargue la página e inténtelo otra vez.',
 };
 
 export const t = (text) => ES[text] ?? text;
