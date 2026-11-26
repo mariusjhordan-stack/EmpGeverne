@@ -1,6 +1,8 @@
 """
 Seed data for Cronos Genève demo.
 Run: python manage.py shell < scripts/seed_data.py
+Then: scripts/seed_more_watches.py (38 more watches, photos) and scripts/seed_java_catalog.py
+(137 watches of the Java catalogue with 3D renders; see its docstring).
 """
 import os
 import django
