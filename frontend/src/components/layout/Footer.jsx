@@ -38,7 +38,11 @@ export default function Footer() {
           </Reveal>
         </div>
       </div>
-      <p className="footer-wordmark" aria-hidden="true">Cronos</p>
+      {/* el nombre sube letra por letra; con el mouse encima se ilumina como metal pulido */}
+      <Reveal as="p" variant="fade" className="footer-wordmark" aria-hidden="true"
+        onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty('--wx', `${e.clientX - r.left}px`); e.currentTarget.style.setProperty('--wy', `${e.clientY - r.top}px`); }}>
+        {'Cronos'.split('').map((l, i) => <span key={i} style={{ '--i': i }}>{l}</span>)}
+      </Reveal>
       <div className="container">
         <div className="footer-bottom">
           <span>© {currentYear} Cronos Genève</span>

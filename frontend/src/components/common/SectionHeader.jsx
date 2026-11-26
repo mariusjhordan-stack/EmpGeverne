@@ -1,4 +1,4 @@
-import Reveal from './Reveal';
+import Reveal, { RevealLines } from './Reveal';
 
 export default function SectionHeader({ eyebrow, title, description, align = 'left', className = '', titleAs: Heading = 'h2', action }) {
   return (
@@ -19,7 +19,8 @@ export function PageHero({ eyebrow, title, description, children }) {
     <header className="page-hero">
       <div className="container">
         {eyebrow && <Reveal><p className="eyebrow eyebrow--line">{eyebrow}</p></Reveal>}
-        <Reveal delay={80}><h1 className="display-lg">{title}</h1></Reveal>
+        <RevealLines as="h1" className="display-lg" delay={80} lines={[title]} />
+        <Reveal variant="fade" delay={200} className="my-7"><div className="tick-rule" aria-hidden="true" /></Reveal>
         {description && <Reveal delay={160}><p className="lede">{description}</p></Reveal>}
         {children && <Reveal delay={220} className="mt-8">{children}</Reveal>}
       </div>

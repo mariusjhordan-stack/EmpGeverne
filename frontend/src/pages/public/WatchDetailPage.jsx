@@ -7,7 +7,7 @@ import { useCart } from '../../context/CartContext';
 import WatchCard from '../../components/catalog/WatchCard';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import toast from 'react-hot-toast';
-import Reveal from '../../components/common/Reveal';
+import Reveal, { RevealLines } from '../../components/common/Reveal';
 import SectionHeader from '../../components/common/SectionHeader';
 import Button from '../../components/common/Button';
 import { toTryOnProduct } from '../../tryon/product';
@@ -109,7 +109,14 @@ export default function WatchDetailPage() {
             {mode === '3d'
               ? <Suspense fallback={<div className="viewer3d aspect-[4/5]" />}><Viewer3D watch={watch} className="!aspect-[4/5]" /></Suspense>
               : (
-                <div className={`media-well aspect-[4/5] ${currentImage && !isRender(currentImage.image) ? 'p-8 md:p-14' : ''}`}>
+                <div className={`media-well aspect-[4/5] ${currentImage && isRender(currentImage.image) ? 'zoomable' : 'p-8 md:p-14'}`}
+                  data-cursor={currentImage && isRender(currentImage.image) ? 'Ampliar' : undefined}
+                  onPointerMove={(e) => {
+                    // lupa: el render se amplía desde el punto donde está el mouse
+                    const r = e.currentTarget.getBoundingClientRect();
+                    e.currentTarget.style.setProperty('--zx', `${((e.clientX - r.left) / r.width) * 100}%`);
+                    e.currentTarget.style.setProperty('--zy', `${((e.clientY - r.top) / r.height) * 100}%`);
+                  }}>
                   {currentImage
                     ? <img key={selectedImage} src={currentImage.image} alt={currentImage.alt_text || `${watch.brand?.name} ${watch.name}`} className="animate-fade-in" style={isRender(currentImage.image) ? undefined : { objectFit: 'contain', mixBlendMode: 'multiply' }} />
                     : <div className="grid h-full place-items-center text-mute"><ShoppingBag size={56} strokeWidth={1} /></div>}
@@ -136,7 +143,7 @@ export default function WatchDetailPage() {
 
         <Reveal delay={120} className="min-w-0">
           <p className="eyebrow eyebrow--accent mb-5">{watch.brand?.name}{watch.brand?.country ? ` · ${watch.brand.country}` : ''}</p>
-          <h1 className="display-lg mb-6">{watch.name}</h1>
+          <RevealLines as="h1" className="display-lg mb-6" delay={160} lines={[watch.name]} />
           <div className="tick-rule mb-6" aria-hidden="true" />
           <div className="flex flex-wrap items-end justify-between gap-4 mb-7">
             <p className="price price--lg">{formatPrice(watch.price)}</p>
