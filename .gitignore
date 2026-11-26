@@ -60,3 +60,11 @@ htmlcov/
 /scripts/
 /CLAUDE.md
 /README.md
+
+# Copiado desde node_modules por scripts/copy-mediapipe.mjs
+frontend/public/mediapipe/
+
+# Blender: copias automáticas y vistas previas locales
+*.blend1
+frontend/tools/blender/preview/
+frontend/tools/blender/preview_story/
