@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import PageTransition from '../common/PageTransition';
+import Concierge from '../advisor/Concierge';
 
 export default function StoreLayout() {
   const { pathname } = useLocation();
@@ -14,6 +15,7 @@ export default function StoreLayout() {
         <PageTransition><Outlet /></PageTransition>
       </main>
       <Footer />
+      <Concierge />
     </div>
   );
 }
