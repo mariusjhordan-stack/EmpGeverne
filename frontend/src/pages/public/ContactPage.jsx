@@ -35,7 +35,7 @@ export default function ContactPage() {
           <div className="grid gap-8">
             {contactItems.map(({ icon: Icon, title, text }, index) => <Reveal key={title} delay={index * 70} className="flex items-start gap-5">
               <span className="btn-icon shrink-0" aria-hidden="true"><Icon size={18} strokeWidth={1.4} /></span>
-              <div><p className="eyebrow mb-2">{title}</p><p className="display-sm break-words">{text}</p></div>
+              <div className="min-w-0"><p className="eyebrow mb-2">{title}</p><p className="display-sm contact-value">{text}</p></div>
             </Reveal>)}
           </div>
           <Reveal delay={200} className="mt-12"><div className="divider mb-6" /><p className="eyebrow eyebrow--accent">Cronos Genève · excelencia en relojería suiza</p></Reveal>

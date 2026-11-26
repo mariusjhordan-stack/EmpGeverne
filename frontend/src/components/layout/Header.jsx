@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Heart, UserRound, Menu, X, LogOut, Package, Settings, ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -56,7 +57,15 @@ export default function Header() {
     const onKey = (e) => { if (e.key === 'Escape') { setMobileOpen(false); setUserMenuOpen(false); } };
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+    // con el menú del celular abierto: la página de atrás no se mueve y el botón del concierge se esconde
+    if (mobileOpen) window.__lenis?.stop();
+    document.documentElement.toggleAttribute('data-nav-open', mobileOpen);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+      window.__lenis?.start();
+      document.documentElement.removeAttribute('data-nav-open');
+    };
   }, [mobileOpen, userMenuOpen]);
 
   const handleLogout = () => {
@@ -120,16 +129,19 @@ export default function Header() {
       </div>
       <span ref={meterRef} className="header-meter" aria-hidden="true" />
 
-      {mobileOpen && (
-        <nav className="mobile-nav" aria-label="Navegación móvil">
+      {/* va directo al <body>: dentro del header (que tiene desenfoque) el panel fijo quedaba aplastado */}
+      {mobileOpen && createPortal(
+        <nav className="mobile-nav" aria-label="Navegación móvil" data-lenis-prevent>
           <p className="eyebrow eyebrow--line mb-6">Índice</p>
-          {navLinks.map((link) => (
-            <NavLink key={link.to} to={link.to} end={link.to === '/'} className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}>
+          {navLinks.map((link, i) => (
+            <NavLink key={link.to} to={link.to} end={link.to === '/'} style={{ '--i': i }} className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}>
               <span className="mobile-nav-index">{link.no}</span><em>{link.label}</em>
             </NavLink>
           ))}
-          {!isAuthenticated && <Link to="/login" className="btn btn-lg">Acceder a mi cuenta <ArrowUpRight size={16} /></Link>}
-        </nav>
+          {!isAuthenticated && <Link to="/login" className="btn btn-lg" style={{ '--i': navLinks.length }}>Acceder a mi cuenta <ArrowUpRight size={16} /></Link>}
+          <p className="mobile-nav-foot">Av. Javier Prado Este 4200 · Lima<br />Lun — Sáb · 10:00 — 20:00</p>
+        </nav>,
+        document.body,
       )}
     </header>
   );

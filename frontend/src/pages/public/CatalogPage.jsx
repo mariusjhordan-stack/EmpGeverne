@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ArrowLeft, ArrowRight } from 'lucide-react';
 import api from '../../services/api';
 import WatchCard from '../../components/catalog/WatchCard';
 import { PageHero } from '../../components/common/SectionHeader';
@@ -67,6 +67,14 @@ export default function CatalogPage() {
   }, [searchInput]);
   const clearFilters = () => setFilters({ search: '', brand: '', collection: '', min_price: '', max_price: '', ordering: '-created_at', page: 1 });
   const totalPages = Math.ceil(totalCount / 12);
+  // al cambiar de página, volver al inicio de la grilla (en celular quedaba uno al fondo)
+  const goToPage = (page) => {
+    setFilters((prev) => ({ ...prev, page }));
+    const top = document.getElementById('catalog-results');
+    if (!top) return;
+    if (window.__lenis) window.__lenis.scrollTo(top, { offset: -220 });
+    else window.scrollTo({ top: top.getBoundingClientRect().top + window.scrollY - 220, behavior: 'smooth' });
+  };
   const hasFilters = filters.search || filters.brand || filters.collection || filters.min_price || filters.max_price;
   const activeFilters = [
     filters.brand && { key: 'brand', label: brands.find((item) => String(item.id) === String(filters.brand))?.name },
@@ -107,7 +115,7 @@ export default function CatalogPage() {
           </div>
         </div>
       </div>
-      <section className="container section section--tight">
+      <section id="catalog-results" className="container section section--tight">
         {filtersOpen && <Reveal id="catalog-filters" variant="fade" className="card mb-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <div className="field"><label className="field-label" htmlFor="filter-brand">Marca</label><select id="filter-brand" value={filters.brand} onChange={(e) => updateFilter('brand', e.target.value)}><option value="">Todas</option>{brands.map((brand) => <option key={brand.id} value={brand.id}>{brand.name}</option>)}</select></div>
           <div className="field"><label className="field-label" htmlFor="filter-collection">Colección</label><select id="filter-collection" value={filters.collection} onChange={(e) => updateFilter('collection', e.target.value)}><option value="">Todas</option>{collections.map((collection) => <option key={collection.id} value={collection.id}>{collection.name}</option>)}</select></div>
@@ -123,9 +131,42 @@ export default function CatalogPage() {
           <Reveal className="empty-state"><p className="eyebrow eyebrow--accent">Sin resultados</p><h2 className="display-sm">No encontramos esa pieza</h2><p className="text-dim">Pruebe ajustando su búsqueda o los filtros seleccionados.</p>{hasFilters && <Button variant="ghost" type="button" onClick={clearFilters}>Limpiar filtros</Button>}</Reveal>
         ) : <>
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4 md:gap-x-6">{watches.map((watch, index) => <Reveal key={watch.id} delay={Math.min(index, 6) * 70}><WatchCard watch={watch} /></Reveal>)}</div>
-          {totalPages > 1 && <Reveal as="nav" className="flex justify-center gap-2 mt-16" aria-label="Paginación del catálogo">{Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => <button type="button" key={page} aria-current={page === filters.page ? 'page' : undefined} onClick={() => setFilters((prev) => ({ ...prev, page }))} className={`chip num ${page === filters.page ? 'is-active' : ''}`}>{String(page).padStart(2, '0')}</button>)}</Reveal>}
+          {totalPages > 1 && <Pager page={filters.page} total={totalPages} onChange={goToPage} />}
         </>}
       </section>
     </div>
+  );
+}
+
+const pad = (n) => String(n).padStart(2, '0');
+
+/* páginas a mostrar: la primera, la última y las vecinas de la actual; el resto se resume con "…" */
+function pageList(page, total) {
+  const keep = new Set([1, total, page - 1, page, page + 1]);
+  const out = [];
+  for (let n = 1; n <= total; n += 1) {
+    if (keep.has(n)) out.push(n);
+    else if (out[out.length - 1] !== '…') out.push('…');
+  }
+  return out;
+}
+
+/** Paginación: en computadora muestra los números; en celular, solo «← 03 / 13 →». */
+function Pager({ page, total, onChange }) {
+  return (
+    <Reveal as="nav" className="pager" aria-label="Paginación del catálogo">
+      <button type="button" className="chip pager__step" disabled={page <= 1} onClick={() => onChange(page - 1)} aria-label="Página anterior">
+        <ArrowLeft size={15} /><span className="pager__word">Anterior</span>
+      </button>
+      <ol className="pager__nums">
+        {pageList(page, total).map((n, i) => (n === '…'
+          ? <li key={`gap-${i}`} className="pager__gap" aria-hidden="true">…</li>
+          : <li key={n}><button type="button" aria-current={n === page ? 'page' : undefined} aria-label={`Página ${n}`} onClick={() => onChange(n)} className={`chip num ${n === page ? 'is-active' : ''}`}>{pad(n)}</button></li>))}
+      </ol>
+      <p className="pager__count num" aria-live="polite">{pad(page)} <span>/ {pad(total)}</span></p>
+      <button type="button" className="chip pager__step" disabled={page >= total} onClick={() => onChange(page + 1)} aria-label="Página siguiente">
+        <span className="pager__word">Siguiente</span><ArrowRight size={15} />
+      </button>
+    </Reveal>
   );
 }

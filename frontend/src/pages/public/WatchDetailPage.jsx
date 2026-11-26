@@ -122,11 +122,11 @@ export default function WatchDetailPage() {
                     : <div className="grid h-full place-items-center text-mute"><ShoppingBag size={56} strokeWidth={1} /></div>}
                 </div>
               )}
-            <span className="absolute left-4 top-4 font-mono text-[10px] tracking-[0.14em] uppercase text-[#111]/55 pointer-events-none">
+            <span className="view-label absolute left-4 top-4 font-mono text-[10px] tracking-[0.14em] uppercase text-[#111]/55 pointer-events-none">
               {mode === '3d' ? 'Modelo 3D interactivo' : `${rendered ? 'Render' : 'Foto'} · ${VIEW_NAMES[selectedImage] ?? selectedImage + 1}`}
             </span>
           </div>
-          <div className="flex gap-3 overflow-x-auto pt-4" role="tablist" aria-label="Vistas del reloj">
+          <div className="view-strip flex gap-3 overflow-x-auto pt-4" role="tablist" aria-label="Vistas del reloj">
             {images.map((img, i) => (
               <button type="button" role="tab" key={img.id} onClick={() => { setMode('photo'); setSelectedImage(i); }} aria-label={`Ver ${VIEW_NAMES[i] ?? `imagen ${i + 1}`}`} aria-selected={mode === 'photo' && i === selectedImage}
                 className="media-well h-24 w-20 shrink-0" style={{ outline: mode === 'photo' && i === selectedImage ? '1px solid var(--fg)' : '1px solid var(--line)', outlineOffset: 2 }}>

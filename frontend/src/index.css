@@ -1015,3 +1015,110 @@ html.intro-lock { overflow: hidden; }
 .field-eye { position: absolute; right: -6px; top: 50%; translate: 0 -50%; width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: transparent; color: var(--mute); transition: color .3s; }
 .field-eye:hover, .field-eye[aria-pressed="true"] { color: var(--champagne); }
 @media (prefers-reduced-motion: reduce) { .auth__watch, .auth__ring { animation: none; } }
+
+/* ==========================================================================
+   Celulares: menú, paginación, toques cómodos y textos que no se salen
+   ========================================================================== */
+@layer components {
+  /* menú del celular (ahora vive en <body>, fuera del header con desenfoque) */
+  .mobile-nav { padding-bottom: calc(28px + env(safe-area-inset-bottom)); overscroll-behavior: contain; }
+  .mobile-nav-link, .mobile-nav .btn { animation: cg-fade-up .6s var(--ease) backwards; animation-delay: calc(80ms + var(--i, 0) * 60ms); }
+  .mobile-nav-foot { margin: auto 0 0; padding-top: 36px; font-family: var(--font-mono); font-size: 11px; line-height: 2; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); animation: fade-in .8s var(--ease) .5s backwards; }
+
+  /* paginación del catálogo */
+  .pager { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 64px; }
+  .pager__nums { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .pager__gap { display: grid; place-items: center; width: 22px; color: var(--mute); }
+  .pager__step:disabled { opacity: .35; pointer-events: none; }
+  .pager__count { display: none; margin: 0; font-size: 15px; color: var(--fg); }
+  .pager__count span { color: var(--mute); }
+
+  /* contacto: el correo largo no empuja la página */
+  .contact-value { overflow-wrap: anywhere; }
+
+  @media (max-width: 640px) {
+    .pager { justify-content: space-between; margin-top: 48px; }
+    .pager__nums { display: none; }
+    .pager__count { display: block; }
+    .pager__step { height: 46px; padding: 0 18px; }
+
+    .contact-value { font-size: clamp(1.1rem, 5.2vw, 1.45rem); }
+
+    /* fichas angostas: la etiqueta "Destacado" tapaba el número; marca en una sola línea */
+    .product-card__tag ~ .product-card__no { display: none; }
+    .product-card { grid-template-columns: minmax(0, 1fr); }
+    .product-card__meta { min-width: 0; }
+    .product-card__meta > div { align-self: stretch; }
+    .product-card__brand { font-size: 10.5px; letter-spacing: .12em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .field-label { font-size: 11px; }
+    .field--line .field-label { font-size: 10.5px; }
+    .auth__foot { font-size: 10px; }
+
+    /* el botón del concierge más discreto y lejos de los textos del pie */
+    .concierge-fab { width: 56px; height: 56px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); }
+    .footer-bottom { padding-bottom: 92px; }
+  }
+
+  /* colecciones: el texto sobre la foto se lee en pantallas chicas */
+  @media (max-width: 767px) {
+    .tile__shade { background: linear-gradient(180deg, rgba(10,10,11,.45) 0%, rgba(10,10,11,.55) 45%, rgba(10,10,11,.88) 100%); }
+  }
+
+  /* dedos, no mouse: zonas de toque más grandes sin mover el diseño */
+  @media (pointer: coarse) {
+    .btn-link, .button-link, .btn-line { position: relative; }
+    .btn-link::after, .button-link::after, .btn-line::after { content: ''; position: absolute; inset: -12px -6px -8px; }
+    .footer-bottom a { display: inline-block; padding-block: 12px; margin-block: -12px; }
+  }
+
+  /* en pantallas táctiles el "hover" se queda pegado tras tocar: sin relleno fijo, solo al presionar */
+  @media (hover: none) {
+    .btn:hover::before, .button-gold:hover::before, .button-primary:hover::before, .btn-solid:hover::before,
+    .btn-ghost:hover::before, .button-outline:hover::before, .button-ghost:hover::before { transform: scaleX(0); }
+    .btn:hover, .button-gold:hover, .button-primary:hover, .btn-solid:hover,
+    .btn-ghost:hover, .button-outline:hover, .button-ghost:hover { color: var(--btn-fg); border-color: var(--btn-bd); }
+    .btn:hover svg { transform: none; }
+    .btn:active::before, .btn-ghost:active::before { transform: scaleX(1); transform-origin: left; transition-duration: .25s; }
+    .btn:active { color: var(--btn-hover-fg, #fff); }
+    .btn-ghost:active, .button-outline:active, .button-ghost:active { color: var(--ink-2); }
+  }
+}
+
+/* con el menú abierto el botón del concierge no tapa los enlaces */
+html[data-nav-open] .concierge-fab { opacity: 0; pointer-events: none; transform: scale(.85); }
+
+/* fuera de capas: tienen que ganarle a las clases de Tailwind del componente */
+@media (max-width: 640px) {
+  /* miniaturas de la ficha: las cuatro entran sin cortarse */
+  .view-strip { padding: 16px 3px 3px; margin-inline: -3px; }
+  .view-strip > button { flex: 1 0 60px; width: auto; max-width: 92px; height: auto; aspect-ratio: 5 / 6; }
+  .view-label { font-size: 11px; }
+}
+@media (pointer: coarse) {
+  .footer-col > a:not(.brand-mark):not(.btn-link), .footer-col > button { padding-block: 8px; margin: 0; }
+}
+
+/* pie de página en celular: dos columnas de enlaces y la boutique como una ficha */
+@media (max-width: 899px) {
+  .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 20px; padding-block: 64px 40px; }
+  .footer-grid > .footer-col:first-child,
+  .footer-grid > .footer-col:last-child { grid-column: 1 / -1; }
+  .footer-col h2 { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 10.5px; letter-spacing: .2em; color: #d6b779; }
+  .footer-col h2::before { content: ''; width: 18px; height: 1px; background: currentColor; opacity: .6; }
+  .footer-col > a:not(.brand-mark):not(.btn-link), .footer-col > button { font-size: 15px; line-height: 1.35; }
+  .footer-col > a:not(.brand-mark):not(.btn-link):active, .footer-col > button:active { color: #fff; }
+
+  .footer-grid > .footer-col:last-child { position: relative; padding: 24px 22px 22px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(160deg, rgba(242,239,232,.05), rgba(242,239,232,.01)); }
+  .footer-grid > .footer-col:last-child h2 { margin-bottom: 18px; }
+  .footer-grid > .footer-col:last-child > p:not(.num) { margin: 0 0 12px; font-family: var(--font-serif); font-size: 1.45rem; line-height: 1.15; color: #f2efe8; }
+  .footer-grid > .footer-col:last-child > p.num { margin: 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12.5px; letter-spacing: .06em; }
+  /* la hora de Ginebra arriba a la derecha, a la altura del título */
+  .footer-grid > .footer-col:last-child > :last-child { position: absolute; top: 22px; right: 22px; margin: 0; }
+}
+@media (max-width: 899px) {
+  /* el riel de colecciones respeta el margen al encajar el primer panel */
+  .rail-track { scroll-padding-inline: var(--gutter); }
+}
+/* tarjetas con foto: la descripción iba en gris oscuro sobre la imagen */
+.tile:has(.tile__img) .text-dim { color: rgba(246, 242, 235, .84); }
