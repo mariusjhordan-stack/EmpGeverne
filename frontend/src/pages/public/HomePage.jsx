@@ -129,7 +129,7 @@ export default function HomePage() {
                 <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Elegir reloj para ver en 3D">
                   {atelier.map((w, i) => (
                     <button key={w.id} type="button" role="radio" aria-checked={i === selected} onClick={() => setSelected(i)}
-                      className="h-16 w-14 overflow-hidden border transition-colors" style={{ borderColor: i === selected ? '#7d95ff' : 'rgba(242,239,232,.18)' }} title={`${w.brand_name} ${w.name}`}>
+                      className="h-16 w-14 overflow-hidden border transition-colors" style={{ borderColor: i === selected ? '#d6b779' : 'rgba(242,239,232,.18)' }} title={`${w.brand_name} ${w.name}`}>
                       {w.primary_image && <img src={w.primary_image} alt={`${w.brand_name} ${w.name}`} className="h-full w-full object-cover" />}
                     </button>
                   ))}
@@ -198,7 +198,7 @@ export default function HomePage() {
         <div className="container">
           <Reveal className="cta-band lg:grid-cols-[1.1fr_1fr] lg:items-center">
             <div className="grid gap-6">
-              <p className="eyebrow eyebrow--line"><span style={{ color: '#9fb0ff' }}>IV</span> — Le Concierge</p>
+              <p className="eyebrow eyebrow--line"><span style={{ color: '#e3c995' }}>IV</span> — Le Concierge</p>
               <h2 className="display-lg" style={{ color: '#f6f2eb' }}>Dígale su presupuesto. <em>Él conoce cada pieza.</em></h2>
               <p className="lede">Un asesor con inteligencia artificial (Gemini) que solo recomienda relojes de este catálogo y dentro de lo que usted quiere gastar, en soles, dólares o euros.</p>
               <div className="flex flex-wrap gap-3">
@@ -207,7 +207,7 @@ export default function HomePage() {
             </div>
             <div className="grid gap-3 font-[15px]" aria-hidden="true">
               <p className="self-end justify-self-end max-w-[80%] px-4 py-3 text-sm" style={{ background: '#f2efe8', color: '#111', borderRadius: 2 }}>Tengo S/ 20,000 y busco un reloj de buceo.</p>
-              <p className="max-w-[90%] border-l-2 pl-4 text-sm leading-relaxed" style={{ borderColor: '#7d95ff', color: 'rgba(242,239,232,.86)' }}>Con S/ 20,000 le propongo tres piezas de buceo, herméticas a 300 m. Se las muestro con su precio en soles…</p>
+              <p className="max-w-[90%] border-l-2 pl-4 text-sm leading-relaxed" style={{ borderColor: '#d6b779', color: 'rgba(242,239,232,.86)' }}>Con S/ 20,000 le propongo tres piezas de buceo, herméticas a 300 m. Se las muestro con su precio en soles…</p>
             </div>
           </Reveal>
         </div>

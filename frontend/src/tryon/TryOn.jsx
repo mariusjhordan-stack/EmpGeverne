@@ -329,7 +329,7 @@ export default function TryOn({ product, onClose }) {
     <div role="dialog" aria-modal="true" aria-label={t('Virtual try-on')} className="fixed inset-0 z-[90] bg-night text-white flex flex-col">
       <div
         ref={stageRef} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
-        className={`relative flex-1 min-h-0 overflow-hidden touch-none ${live ? '' : 'cursor-grab bg-[radial-gradient(circle_at_50%_40%,#3a3a55_0%,#14142a_60%,#0d0d1a_100%)]'}`}
+        className={`relative flex-1 min-h-0 overflow-hidden touch-none ${live ? '' : 'cursor-grab bg-[radial-gradient(circle_at_50%_40%,#3b3328_0%,#17140f_60%,#0c0c0e_100%)]'}`}
       >
         <video ref={videoRef} muted playsInline className={`absolute inset-0 w-full h-full object-cover ${phase === 'preview' ? 'hidden' : ''} ${facing === 'user' ? '-scale-x-100' : ''}`} />
         {/* A camera picture is never razor sharp: a hint of blur keeps the watch from looking pasted on. */}
@@ -337,7 +337,7 @@ export default function TryOn({ product, onClose }) {
 
         <div className="absolute inset-x-0 top-0 p-4 sm:p-6 flex items-start justify-between gap-4 bg-gradient-to-b from-black/55 to-transparent">
           <div>
-            <p className="text-[0.65rem] tracking-[0.28em] uppercase text-[#9fb0ff]">{t('Virtual try-on')}</p>
+            <p className="text-[0.65rem] tracking-[0.28em] uppercase text-[#e3c995]">{t('Virtual try-on')}</p>
             <p className="font-serif text-2xl leading-tight mt-1">{product.name}</p>
             {!traitsFor(product).glb && <p className="text-xs text-white/65 mt-1">{t('Illustrative 3D model')}</p>}
           </div>
@@ -364,8 +364,8 @@ export default function TryOn({ product, onClose }) {
         {live ? (
           <label className="flex items-center gap-4 max-w-md mx-auto text-sm">
             <span className="shrink-0">{t('Size')}</span>
-            <input type="range" min="0.7" max="1.4" step="0.01" value={size} onChange={(ev) => setSize(Number(ev.target.value))} className="flex-1 accent-[#7d95ff]" />
-            <button type="button" onClick={() => setSize(1)} aria-label={t('Reset size')} className="p-2 hover:text-[#9fb0ff]"><RefreshCw size={16} /></button>
+            <input type="range" min="0.7" max="1.4" step="0.01" value={size} onChange={(ev) => setSize(Number(ev.target.value))} className="flex-1 accent-[#d6b779]" />
+            <button type="button" onClick={() => setSize(1)} aria-label={t('Reset size')} className="p-2 hover:text-[#e3c995]"><RefreshCw size={16} /></button>
           </label>
         ) : (
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">

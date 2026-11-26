@@ -32,8 +32,9 @@ export function MiniDial({ size = 52, className = '', ticks = true }) {
       ))}
       <line x1="50" y1="50" x2="50" y2="28" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" transform={`rotate(${h} 50 50)`} />
       <line x1="50" y1="50" x2="50" y2="17" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" transform={`rotate(${m} 50 50)`} />
-      <line x1="50" y1="58" x2="50" y2="14" stroke="#7d95ff" strokeWidth="1.2" transform={`rotate(${s} 50 50)`} />
-      <circle cx="50" cy="50" r="2.6" fill="#7d95ff" />
+      {/* segundero en el color de acento: bronce sobre claro, champán sobre negro */}
+      <line x1="50" y1="58" x2="50" y2="14" style={{ stroke: 'var(--champagne)' }} strokeWidth="1.2" transform={`rotate(${s} 50 50)`} />
+      <circle cx="50" cy="50" r="2.6" style={{ fill: 'var(--champagne)' }} />
     </svg>
   );
 }
