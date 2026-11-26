@@ -164,7 +164,7 @@ export default function WatchDetailPage() {
                   <button type="button" aria-label="Aumentar cantidad" onClick={() => setQuantity(Math.min(watch.stock, quantity + 1))} className="btn-icon border-0"><Plus size={15} /></button>
                 </div>
               )}
-              {watch.is_available && <Button size="lg" type="button" onClick={handleAddToCart} disabled={adding} className="flex-1"><ShoppingBag size={17} /> {adding ? 'Agregando...' : 'Agregar al carrito'}</Button>}
+              {watch.is_available && <Button size="lg" type="button" onClick={handleAddToCart} disabled={adding} className="flex-1 basis-[230px]"><ShoppingBag size={17} /> {adding ? 'Agregando...' : 'Agregar al carrito'}</Button>}
               <button type="button" onClick={toggleFavorite} aria-label={isFavorited ? 'Quitar de favoritos' : 'Agregar a favoritos'} aria-pressed={isFavorited} className={`btn-icon h-[58px] w-[58px] shrink-0 ${isFavorited ? 'text-accent' : ''}`}>
                 <Heart size={19} fill={isFavorited ? 'currentColor' : 'none'} />
               </button>
