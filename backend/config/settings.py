@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'cart',
     'orders',
     'dashboard',
+    'advisor',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +113,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '30/minute',
         'user': '120/minute',
+        'advisor': '15/min',
     },
 }
 
@@ -149,3 +151,10 @@ PAYMENT_GATEWAY = config('PAYMENT_GATEWAY', default='demo')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+
+# Asesor de relojes (Gemini). Sin clave, el asesor responde en modo básico.
+GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
+GEMINI_MODELS = config('GEMINI_MODELS', default='', cast=Csv())  # vacío = cadena por defecto (advisor/gemini.py)
+GEMINI_API_BASE_URL = config('GEMINI_API_BASE_URL', default='https://generativelanguage.googleapis.com')
+GEMINI_TIMEOUT = config('GEMINI_TIMEOUT', default=20, cast=int)  # segundos por modelo
+GEMINI_TOTAL_TIMEOUT = config('GEMINI_TOTAL_TIMEOUT', default=30, cast=int)  # segundos para toda la cadena
