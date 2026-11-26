@@ -124,7 +124,7 @@ export default function Viewer3D({ watch, product, className = '', hint = true }
   }, [key]);
 
   return (
-    <div ref={stageRef} className={`viewer3d ${className}`} role="img" aria-label={item ? `Modelo 3D de ${item.name}. Arrastra para girarlo.` : 'Modelo 3D'}>
+    <div ref={stageRef} className={`viewer3d ${className}`} data-cursor="Girar" role="img" aria-label={item ? `Modelo 3D de ${item.name}. Arrastra para girarlo.` : 'Modelo 3D'}>
       <span className="viewer3d__ring" aria-hidden="true" />
       <canvas ref={canvasRef} />
       {!ready && <div className="viewer3d__loading"><span className="spinner" /></div>}

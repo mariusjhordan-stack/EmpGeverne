@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Camera, MessageCircle } from 'lucide-react';
 import api from '../../services/api';
 import WatchStory from '../../components/home/WatchStory';
+import Manifesto from '../../components/home/Manifesto';
+import CollectionsRail from '../../components/home/CollectionsRail';
+import BrandIndex from '../../components/home/BrandIndex';
 import WatchCard, { formatPrice } from '../../components/catalog/WatchCard';
 import { WatchCardSkeleton } from '../../components/common/Skeleton';
 import Reveal, { RevealLines } from '../../components/common/Reveal';
@@ -90,6 +93,8 @@ export default function HomePage() {
         ))}
       </div>
 
+      <Manifesto />
+
       {/* I — Selección */}
       <section className="section">
         <div className="container">
@@ -129,7 +134,7 @@ export default function HomePage() {
                 <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Elegir reloj para ver en 3D">
                   {atelier.map((w, i) => (
                     <button key={w.id} type="button" role="radio" aria-checked={i === selected} onClick={() => setSelected(i)}
-                      className="h-16 w-14 overflow-hidden border transition-colors" style={{ borderColor: i === selected ? '#d6b779' : 'rgba(242,239,232,.18)' }} title={`${w.brand_name} ${w.name}`}>
+                      className="atelier-thumb h-16 w-14 overflow-hidden border" style={{ borderColor: i === selected ? '#d6b779' : 'rgba(242,239,232,.18)' }} title={`${w.brand_name} ${w.name}`}>
                       {w.primary_image && <img src={w.primary_image} alt={`${w.brand_name} ${w.name}`} className="h-full w-full object-cover" />}
                     </button>
                   ))}
@@ -137,7 +142,7 @@ export default function HomePage() {
               </Reveal>
               {piece && (
                 <Reveal delay={220} className="grid gap-4 border-t pt-6" style={{ borderColor: 'var(--line)' }}>
-                  <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div key={piece.id} className="atelier-piece flex flex-wrap items-baseline justify-between gap-3">
                     <div>
                       <p className="product-card__brand">{piece.brand_name}</p>
                       <p className="display-sm mt-1">{piece.name}</p>
@@ -158,6 +163,7 @@ export default function HomePage() {
       {/* Cifras */}
       <section className="section section--tight">
         <div className="container">
+          <Reveal variant="fade"><div className="tick-rule mb-0" aria-hidden="true" /></Reveal>
           <div className="stats">
             {stats.map((s, i) => (
               <Reveal key={s.label} className="stat" delay={i * 90}>
@@ -169,36 +175,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* III — Las casas */}
+      {/* III — Colecciones (fila horizontal) */}
+      <CollectionsRail />
+
+      {/* IV — Las casas */}
       <section className="section blueprint">
         <div className="container relative">
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
             <div className="grid content-start gap-6 lg:sticky lg:top-[120px]">
-              <Chapter no="III" label="Las casas" />
+              <Chapter no="IV" label="Las casas" />
               <RevealLines as="h2" className="display-lg" lines={['Un índice', <>de <em>manufacturas.</em></>]} />
               <Reveal delay={120}><p className="lede">De la Vallée de Joux a Shiojiri: cada casa con su historia, sus calibres y sus piezas en el catálogo.</p></Reveal>
             </div>
-            <Reveal className="index-list">
-              {(sortedBrands.length ? sortedBrands : []).slice(0, 14).map((b, i) => (
-                <Link key={b.id} to={`/catalogo?brand=${b.id}`} className="index-row">
-                  <span className="index-row__no">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="index-row__name">{b.name}</span>
-                  <span className="index-row__count">{b.watch_count} {b.watch_count === 1 ? 'pieza' : 'piezas'}</span>
-                  <ArrowUpRight size={20} strokeWidth={1.3} />
-                </Link>
-              ))}
-              {!sortedBrands.length && Array.from({ length: 6 }, (_, i) => <div key={i} className="skeleton h-16 my-2" />)}
+            <Reveal>
+              {sortedBrands.length
+                ? <BrandIndex brands={sortedBrands.slice(0, 14)} />
+                : <div className="index-list">{Array.from({ length: 6 }, (_, i) => <div key={i} className="skeleton h-16 my-2" />)}</div>}
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* IV — Concierge */}
+      {/* V — Concierge */}
       <section className="section section--tight">
         <div className="container">
           <Reveal className="cta-band lg:grid-cols-[1.1fr_1fr] lg:items-center">
             <div className="grid gap-6">
-              <p className="eyebrow eyebrow--line"><span style={{ color: '#e3c995' }}>IV</span> — Le Concierge</p>
+              <p className="eyebrow eyebrow--line"><span style={{ color: '#e3c995' }}>V</span> — Le Concierge</p>
               <h2 className="display-lg" style={{ color: '#f6f2eb' }}>Dígale su presupuesto. <em>Él conoce cada pieza.</em></h2>
               <p className="lede">Un asesor con inteligencia artificial (Gemini) que solo recomienda relojes de este catálogo y dentro de lo que usted quiere gastar, en soles, dólares o euros.</p>
               <div className="flex flex-wrap gap-3">
@@ -216,11 +219,11 @@ export default function HomePage() {
       {/* Servicios */}
       <section className="section">
         <div className="container">
-          <div className="tick-rule mb-14" aria-hidden="true" />
+          <Reveal variant="fade"><div className="tick-rule mb-14" aria-hidden="true" /></Reveal>
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((s, i) => (
               <Reveal key={s.n} delay={i * 80} className="grid content-start gap-4">
-                <span className="font-serif italic text-5xl text-accent leading-none">{s.n}</span>
+                <span className="service-no font-serif italic text-5xl text-accent leading-none">{s.n}</span>
                 <h3 className="display-sm">{s.title}</h3>
                 <p className="body-sm max-w-[34ch]">{s.text}</p>
               </Reveal>
