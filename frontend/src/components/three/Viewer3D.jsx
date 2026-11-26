@@ -28,11 +28,11 @@ export default function Viewer3D({ watch, product, className = '', hint = true }
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 1.12;
     const scene = new THREE.Scene();
-    const environment = studioEnvironment(renderer);
+    const environment = studioEnvironment(renderer, { style: 'product' }); // misma luz que las fotos del catálogo
     scene.environment = environment;
-    const light = new THREE.DirectionalLight(0xffffff, 0.9);
+    const light = new THREE.DirectionalLight(0xffffff, 0.75);
     light.position.set(-300, 600, 800);
     scene.add(light);
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 6000);
