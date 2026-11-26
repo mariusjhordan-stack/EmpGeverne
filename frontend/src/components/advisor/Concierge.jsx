@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowUp, RotateCcw, X } from 'lucide-react';
+import { ArrowRight, ArrowUp, ArrowUpRight, RotateCcw, X } from 'lucide-react';
 import { askAdvisor } from '../../services/advisor';
 import { MiniDial } from '../common/GenevaClock';
 
@@ -15,7 +15,7 @@ const STARTERS = {
   EUR: ['Tengo €2,500, ¿qué me recomiendas?', 'Busco un reloj de buceo por €5,000', 'Un reloj de vestir elegante para mi boda', '¿Qué diferencia hay entre automático y cuarzo?'],
 };
 const ROMAN = ['I', 'II', 'III', 'IV'];
-const WELCOME = 'Bienvenido a Cronos Genève. Soy su concierge: cuénteme qué busca y cuál es su presupuesto, y le mostraré solo las piezas que encajan.';
+const PLACEHOLDER = { PEN: 'Ej.: tengo S/ 15,000 y busco un cronógrafo', USD: 'Ej.: tengo US$ 4,500 y busco un cronógrafo', EUR: 'Ej.: tengo €4,000 y busco un cronógrafo' };
 
 /** Asesor de compra con Gemini (en el servidor). Se abre con el botón redondo de la esquina. */
 export default function Concierge() {
@@ -29,7 +29,7 @@ export default function Concierge() {
   const inputRef = useRef(null);
 
   useEffect(() => { try { localStorage.setItem('cg-currency', currency); } catch { /* sin almacenamiento */ } }, [currency]);
-  useEffect(() => { bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight }); }, [messages, busy, open]);
+  useEffect(() => { bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: 'smooth' }); }, [messages, busy, open]);
   useEffect(() => {
     if (!open) return undefined;
     inputRef.current?.focus();
@@ -64,6 +64,9 @@ export default function Concierge() {
     }
   };
 
+  const empty = messages.length === 0;
+  const activeIndex = CURRENCIES.findIndex((c) => c.code === currency);
+
   return (
     <>
       {!open && (
@@ -74,25 +77,23 @@ export default function Concierge() {
       {open && (
         <section className="concierge" role="dialog" aria-modal="false" aria-label="Concierge Cronos Genève">
           <header className="concierge__head">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <MiniDial size={46} />
-                <div>
-                  <p className="eyebrow" style={{ color: 'rgba(242,239,232,.55)' }}>Asesor · Gemini</p>
-                  <p className="concierge__title">Le <em>Concierge</em></p>
-                </div>
+            <div className="concierge__top">
+              <span className="concierge__seal"><MiniDial size={46} /></span>
+              <div className="min-w-0">
+                <p className="concierge__kicker">Asesor<span className="concierge__wide"> privado</span> · Gemini</p>
+                <p className="concierge__title">Le <em>Concierge</em></p>
+                <p className="concierge__status"><i aria-hidden="true" /> En línea<span className="concierge__wide"> · responde en segundos</span></p>
               </div>
-              <div className="flex items-center gap-1">
-                {messages.length > 0 && <button type="button" className="header-icon" style={{ color: '#f2efe8' }} onClick={() => setMessages([])} aria-label="Empezar de nuevo" title="Empezar de nuevo"><RotateCcw size={16} /></button>}
-                <button type="button" className="header-icon" style={{ color: '#f2efe8' }} onClick={() => setOpen(false)} aria-label="Cerrar el concierge"><X size={18} /></button>
+              <div className="concierge__tools">
+                <button type="button" className="concierge__close" onClick={() => setOpen(false)} aria-label="Cerrar el chat" title="Cerrar (Esc)"><X size={15} /> Cerrar</button>
               </div>
             </div>
-            <div className="mt-4 flex items-center gap-2" role="radiogroup" aria-label="Moneda">
+            {/* moneda: control segmentado con un indicador que se desliza */}
+            <div className="concierge__seg" role="radiogroup" aria-label="Moneda" style={{ '--k': activeIndex }}>
+              <span className="concierge__seg-pill" aria-hidden="true" />
               {CURRENCIES.map((c) => (
-                <button key={c.code} type="button" role="radio" aria-checked={currency === c.code} onClick={() => setCurrency(c.code)}
-                  className="h-8 px-3 font-mono text-[11px] tracking-widest border transition-colors"
-                  style={currency === c.code ? { background: '#f2efe8', color: '#111', borderColor: '#f2efe8' } : { borderColor: 'rgba(242,239,232,.25)', color: 'rgba(242,239,232,.75)' }}>
-                  {c.label} {c.code}
+                <button key={c.code} type="button" role="radio" aria-checked={currency === c.code} onClick={() => setCurrency(c.code)}>
+                  <strong>{c.label}</strong> {c.code}
                 </button>
               ))}
             </div>
@@ -100,19 +101,30 @@ export default function Concierge() {
           </header>
 
           <div ref={bodyRef} className="concierge__body" aria-live="polite" data-lenis-prevent>
-            <p className="msg-ai">{WELCOME}</p>
-            {messages.length === 0 && (
+            <div className="concierge__welcome">
+              <p className="concierge__hello">Bienvenido a <em>Cronos Genève.</em></p>
+              <p>Cuénteme qué busca y cuál es su presupuesto: le mostraré solo las piezas que encajan, con su precio en {currency === 'PEN' ? 'soles' : currency === 'USD' ? 'dólares' : 'euros'}.</p>
+            </div>
+
+            {empty && (
               <div className="concierge__starters">
+                <p className="concierge__label">Puede empezar por aquí</p>
                 {STARTERS[currency].map((s, i) => (
-                  <button key={s} type="button" onClick={() => send(s)}><span>{ROMAN[i]}</span>{s}</button>
+                  <button key={s} type="button" onClick={() => send(s)} style={{ '--i': i }}>
+                    <span className="concierge__no">{ROMAN[i]}</span>
+                    <span className="min-w-0">{s}</span>
+                    <ArrowRight size={15} className="concierge__go" aria-hidden="true" />
+                  </button>
                 ))}
               </div>
             )}
+
             {messages.map((m, i) => (m.role === 'user'
               ? <p key={i} className="msg-me">{m.content}</p>
               : (
-                <div key={i}>
-                  <p className="msg-ai" style={m.error ? { borderColor: 'var(--danger)' } : undefined}>{m.content}</p>
+                <div key={i} className="msg-ai-wrap">
+                  <p className="concierge__label">Le Concierge</p>
+                  <p className={`msg-ai ${m.error ? 'is-error' : ''}`}>{m.content}</p>
                   {m.watches?.length > 0 && (
                     <div className="msg-picks">
                       {m.watches.map((w) => (
@@ -123,20 +135,38 @@ export default function Concierge() {
                             <span className="block font-serif text-lg leading-tight truncate">{w.name}</span>
                             <span className="price block mt-1">{w.shown_price ?? w.price}</span>
                           </span>
+                          <ArrowUpRight size={16} className="msg-pick__go" aria-hidden="true" />
                         </Link>
                       ))}
                     </div>
                   )}
-                  {m.mode === 'basic' && <p className="body-sm mt-2">Modo básico: respuesta con el catálogo, sin IA.</p>}
+                  {m.mode === 'basic' && <p className="concierge__note">Modo básico: respuesta con el catálogo, sin IA.</p>}
                 </div>
               )))}
-            {busy && <div className="flex items-center gap-3 text-mute text-sm"><span className="balance" aria-hidden="true" /> Consultando el catálogo…</div>}
+
+            {busy && (
+              <div className="concierge__typing" role="status">
+                <span className="concierge__dots" aria-hidden="true"><i /><i /><i /></span> Consultando el catálogo…
+              </div>
+            )}
           </div>
 
           <form className="concierge__form" onSubmit={(e) => { e.preventDefault(); send(input); }}>
-            <label htmlFor="concierge-input" className="sr-only">Escriba su mensaje</label>
-            <input id="concierge-input" ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} maxLength={600} placeholder="Ej.: tengo S/ 15,000 y busco un cronógrafo" autoComplete="off" />
-            <button type="submit" className="concierge__send" disabled={busy || !input.trim()} aria-label="Enviar"><ArrowUp size={18} /></button>
+            <div className="concierge__composer">
+              <label htmlFor="concierge-input" className="sr-only">Escriba su mensaje</label>
+              <input id="concierge-input" ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} maxLength={600} placeholder={PLACEHOLDER[currency]} autoComplete="off" />
+              <button type="submit" className="concierge__send" disabled={busy || !input.trim()} aria-label="Enviar"><ArrowUp size={17} /></button>
+            </div>
+            <div className={`concierge__fine ${empty ? '' : 'has-reset'}`}>
+              {empty
+                ? <span>Solo recomienda piezas de este catálogo · Precios referenciales</span>
+                : (
+                  <>
+                    <button type="button" onClick={() => { setMessages([]); inputRef.current?.focus(); }}><RotateCcw size={11} /> Nueva consulta</button>
+                    <span>Precios referenciales</span>
+                  </>
+                )}
+            </div>
           </form>
         </section>
       )}
