@@ -62,6 +62,7 @@ class Watch(models.Model):
     water_resistance = models.CharField(max_length=50, default='100m')
     crystal = models.CharField(max_length=20, choices=CRYSTAL_CHOICES, default='sapphire')
     strap_material = models.CharField(max_length=100, default='Acero inoxidable')
+    dial_color = models.CharField(max_length=40, blank=True, default='')
     warranty = models.CharField(max_length=50, default='2 años')
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
