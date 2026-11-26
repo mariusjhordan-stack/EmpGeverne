@@ -1,1 +1,1562 @@
-[]
+[
+  {
+    "slug": "alba-38",
+    "file": "alba-38",
+    "name": "Atelier Cronos Alba 38",
+    "referenceNumber": "AC-0138",
+    "dialColor": "White",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "alba-noir-38",
+    "file": "alba-noir-38",
+    "name": "Atelier Cronos Alba Noir 38",
+    "referenceNumber": "AC-0238",
+    "dialColor": "Black",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "aurora-rose-36",
+    "file": "aurora-rose-36",
+    "name": "Atelier Cronos Aurora Rose 36",
+    "referenceNumber": "AC-0436",
+    "dialColor": "Cream",
+    "caseDiameter": "36mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "barril-carmesi",
+    "file": "barril-carmesi",
+    "name": "Atelier Cronos Barril Carmesi",
+    "referenceNumber": "AR-0738",
+    "dialColor": "Red",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "barril-classic",
+    "file": "barril-classic",
+    "name": "Atelier Cronos Barril Classic",
+    "referenceNumber": "AR-0538",
+    "dialColor": "Silver",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "barril-nocturno",
+    "file": "barril-nocturno",
+    "name": "Atelier Cronos Barril Nocturno",
+    "referenceNumber": "AR-0638",
+    "dialColor": "Black",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "celeste-milano",
+    "file": "celeste-milano",
+    "name": "Atelier Cronos Celeste Milano",
+    "referenceNumber": "AC-0738",
+    "dialColor": "Silver",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "coussin-heritage",
+    "file": "coussin-heritage",
+    "name": "Atelier Cronos Coussin Heritage",
+    "referenceNumber": "AR-1037",
+    "dialColor": "Champagne",
+    "caseDiameter": "37mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "deco-smeraldo",
+    "file": "deco-smeraldo",
+    "name": "Atelier Cronos Deco Smeraldo",
+    "referenceNumber": "AR-0935",
+    "dialColor": "Green",
+    "caseDiameter": "35mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "diana-brillante-32",
+    "file": "diana-brillante-32",
+    "name": "Atelier Cronos Diana Brillante 32",
+    "referenceNumber": "AC-0832",
+    "dialColor": "White",
+    "caseDiameter": "32mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "gatsby-rose",
+    "file": "gatsby-rose",
+    "name": "Atelier Cronos Gatsby Rose",
+    "referenceNumber": "AR-0436",
+    "dialColor": "Black",
+    "caseDiameter": "36mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "lucerna-moonphase",
+    "file": "lucerna-moonphase",
+    "name": "Atelier Cronos Lucerna Moonphase",
+    "referenceNumber": "AC-0340",
+    "dialColor": "Blue",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "nocturne-verde",
+    "file": "nocturne-verde",
+    "name": "Atelier Cronos Nocturne Verde",
+    "referenceNumber": "AC-0939",
+    "dialColor": "Green",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "palacio-azul",
+    "file": "palacio-azul",
+    "name": "Atelier Cronos Palacio Azul",
+    "referenceNumber": "AR-0334",
+    "dialColor": "Blue",
+    "caseDiameter": "34mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "palacio-dorado",
+    "file": "palacio-dorado",
+    "name": "Atelier Cronos Palacio Dorado",
+    "referenceNumber": "AR-0234",
+    "dialColor": "Cream",
+    "caseDiameter": "34mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "palacio-rectangular",
+    "file": "palacio-rectangular",
+    "name": "Atelier Cronos Palacio Rectangular",
+    "referenceNumber": "AR-0134",
+    "dialColor": "White",
+    "caseDiameter": "34mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "petite-ville-28",
+    "file": "petite-ville-28",
+    "name": "Atelier Cronos Petite Ville 28",
+    "referenceNumber": "AR-0828",
+    "dialColor": "Pink",
+    "caseDiameter": "28mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "reserva-imperial",
+    "file": "reserva-imperial",
+    "name": "Atelier Cronos Reserva Imperial",
+    "referenceNumber": "AC-1040",
+    "dialColor": "Blue",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "serena-gold-34",
+    "file": "serena-gold-34",
+    "name": "Atelier Cronos Serena Gold 34",
+    "referenceNumber": "AC-0534",
+    "dialColor": "Champagne",
+    "caseDiameter": "34mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "vesper-salmon",
+    "file": "vesper-salmon",
+    "name": "Atelier Cronos Vesper Salmon",
+    "referenceNumber": "AC-0639",
+    "dialColor": "Salmon",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "code-1159-selfwinding",
+    "file": "audemars-piguet-code-11-59-selfwinding",
+    "name": "Audemars Piguet Code 11.59 Selfwinding",
+    "referenceNumber": "15210BC",
+    "dialColor": "Blue",
+    "caseDiameter": "41mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "royal-oak-chronograph",
+    "file": "royal-oak-chronograph",
+    "name": "Audemars Piguet Royal Oak Chronograph",
+    "referenceNumber": "CG-AP-003",
+    "dialColor": "White",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "royal-oak-offshore-chronograph",
+    "file": "audemars-piguet-royal-oak-offshore-chronograph",
+    "name": "Audemars Piguet Royal Oak Offshore Chronograph",
+    "referenceNumber": "26420SO",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "royal-oak-offshore-diver",
+    "file": "royal-oak-offshore-diver",
+    "name": "Audemars Piguet Royal Oak Offshore Diver",
+    "referenceNumber": "CG-AP-002",
+    "dialColor": "Green",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "royal-oak-selfwinding",
+    "file": "audemars-piguet-royal-oak-selfwinding",
+    "name": "Audemars Piguet Royal Oak Selfwinding",
+    "referenceNumber": "15510ST",
+    "dialColor": "Blue",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "fifty-fathoms",
+    "file": "fifty-fathoms",
+    "name": "Blancpain Fifty Fathoms",
+    "referenceNumber": "CG-BP-001",
+    "dialColor": "Black",
+    "caseDiameter": "45mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "classique-9067",
+    "file": "classique-9067",
+    "name": "Breguet Classique Chronographe 9067",
+    "referenceNumber": "CG-BG-001",
+    "dialColor": "Silver",
+    "caseDiameter": "35mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "chronomat-bluebird",
+    "file": "breitling-chronomat-b01-42",
+    "name": "Breitling Chronomat B01 42",
+    "referenceNumber": "AB0134",
+    "dialColor": "Black",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "navitimer-chronograph",
+    "file": "breitling-navitimer-b01-chronograph-43",
+    "name": "Breitling Navitimer B01 Chronograph 43",
+    "referenceNumber": "AB0138",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "superocean-44",
+    "file": "breitling-superocean-automatic-42",
+    "name": "Breitling Superocean Automatic 42",
+    "referenceNumber": "A17375",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "andes-gmt",
+    "file": "andes-gmt",
+    "name": "Campo Cronos Andes GMT",
+    "referenceNumber": "CF-0941",
+    "dialColor": "Black",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "aviador-bronce",
+    "file": "aviador-bronce",
+    "name": "Campo Cronos Aviador Bronce",
+    "referenceNumber": "CF-0643",
+    "dialColor": "Brown",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Bronze",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "bruma-azul",
+    "file": "bruma-azul",
+    "name": "Campo Cronos Bruma Azul",
+    "referenceNumber": "CM-0538",
+    "dialColor": "Blue",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "expedicion-titanio",
+    "file": "expedicion-titanio",
+    "name": "Campo Cronos Expedicion Titanio",
+    "referenceNumber": "CF-0741",
+    "dialColor": "Grey",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Titanium",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "explorador-38",
+    "file": "explorador-38",
+    "name": "Campo Cronos Explorador 38",
+    "referenceNumber": "CF-0138",
+    "dialColor": "Black",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "explorador-arena",
+    "file": "explorador-arena",
+    "name": "Campo Cronos Explorador Arena",
+    "referenceNumber": "CF-0238",
+    "dialColor": "Cream",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "ferrocarril",
+    "file": "ferrocarril",
+    "name": "Campo Cronos Ferrocarril",
+    "referenceNumber": "CF-0840",
+    "dialColor": "White",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "lienzo-violeta",
+    "file": "lienzo-violeta",
+    "name": "Campo Cronos Lienzo Violeta",
+    "referenceNumber": "CM-0636",
+    "dialColor": "Purple",
+    "caseDiameter": "36mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "norte-38",
+    "file": "norte-38",
+    "name": "Campo Cronos Norte 38",
+    "referenceNumber": "CM-0138",
+    "dialColor": "White",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "norte-grafito",
+    "file": "norte-grafito",
+    "name": "Campo Cronos Norte Grafito",
+    "referenceNumber": "CM-0238",
+    "dialColor": "Grey",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "norte-rose-34",
+    "file": "norte-rose-34",
+    "name": "Campo Cronos Norte Rose 34",
+    "referenceNumber": "CM-0334",
+    "dialColor": "Pink",
+    "caseDiameter": "34mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "patagonia-crono",
+    "file": "patagonia-crono",
+    "name": "Campo Cronos Patagonia Crono",
+    "referenceNumber": "CF-1042",
+    "dialColor": "Cream",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "piloto-43",
+    "file": "piloto-43",
+    "name": "Campo Cronos Piloto 43",
+    "referenceNumber": "CF-0443",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "piloto-azul",
+    "file": "piloto-azul",
+    "name": "Campo Cronos Piloto Azul",
+    "referenceNumber": "CF-0543",
+    "dialColor": "Blue",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "pixel-80",
+    "file": "pixel-80",
+    "name": "Campo Cronos Pixel 80",
+    "referenceNumber": "CD-0135",
+    "dialColor": "Black",
+    "caseDiameter": "35mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "pixel-oro",
+    "file": "pixel-oro",
+    "name": "Campo Cronos Pixel Oro",
+    "referenceNumber": "CD-0235",
+    "dialColor": "Black",
+    "caseDiameter": "35mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "pixel-stealth",
+    "file": "pixel-stealth",
+    "name": "Campo Cronos Pixel Stealth",
+    "referenceNumber": "CD-0337",
+    "dialColor": "Black",
+    "caseDiameter": "37mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "reto-azul",
+    "file": "reto-azul",
+    "name": "Campo Cronos Reto Azul",
+    "referenceNumber": "CD-0437",
+    "dialColor": "Blue",
+    "caseDiameter": "37mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "silencio",
+    "file": "silencio",
+    "name": "Campo Cronos Silencio",
+    "referenceNumber": "CM-0440",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "trinchera-verde",
+    "file": "trinchera-verde",
+    "name": "Campo Cronos Trinchera Verde",
+    "referenceNumber": "CF-0340",
+    "dialColor": "Green",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "ballon-bleu",
+    "file": "cartier-ballon-bleu",
+    "name": "Cartier Ballon Bleu",
+    "referenceNumber": "WSBB0040",
+    "dialColor": "Silver",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "panthere-de-cartier",
+    "file": "panthere-de-cartier",
+    "name": "Cartier Panthère de Cartier",
+    "referenceNumber": "CG-CA-004",
+    "dialColor": "White",
+    "caseDiameter": "27mm",
+    "caseMaterial": "Stainless Steel & Yellow Gold",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "pasha-de-cartier",
+    "file": "pasha-de-cartier",
+    "name": "Cartier Pasha de Cartier",
+    "referenceNumber": "CG-CA-003",
+    "dialColor": "Silver",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "santos-de-cartier",
+    "file": "cartier-santos-de-cartier",
+    "name": "Cartier Santos de Cartier",
+    "referenceNumber": "WSSA0018",
+    "dialColor": "Silver",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "tank-francaise",
+    "file": "tank-francaise",
+    "name": "Cartier Tank Française",
+    "referenceNumber": "CG-CA-002",
+    "dialColor": "Silver",
+    "caseDiameter": "32mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "tank-must",
+    "file": "cartier-tank-must",
+    "name": "Cartier Tank Must",
+    "referenceNumber": "WSTA0041",
+    "dialColor": "Silver",
+    "caseDiameter": "34mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "grand-seiko-sbgw231",
+    "file": "grand-seiko-heritage-37",
+    "name": "Grand Seiko Heritage 37",
+    "referenceNumber": "SBGW231",
+    "dialColor": "Cream",
+    "caseDiameter": "37.3mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "snowflake",
+    "file": "grand-seiko-snowflake",
+    "name": "Grand Seiko Snowflake",
+    "referenceNumber": "SBGA211",
+    "dialColor": "White",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Titanium",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "grand-seiko-hi-beat",
+    "file": "grand-seiko-white-birch",
+    "name": "Grand Seiko White Birch",
+    "referenceNumber": "SLGH005",
+    "dialColor": "White",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "khaki-field-mechanical",
+    "file": "khaki-field-mechanical",
+    "name": "Hamilton Khaki Field Mechanical",
+    "referenceNumber": "CG-HM-001",
+    "dialColor": "Black",
+    "caseDiameter": "38mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "big-pilot-saint-exupery",
+    "file": "big-pilot-saint-exupery",
+    "name": "IWC Schaffhausen Big Pilot Saint-Exupéry",
+    "referenceNumber": "CG-IW-001",
+    "dialColor": "Brown",
+    "caseDiameter": "46mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "big-pilots-watch-43",
+    "file": "iwc-big-pilot-s-watch-43",
+    "name": "IWC Schaffhausen Big Pilot's Watch 43",
+    "referenceNumber": "IW329301",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "pilots-watch-mark-xv",
+    "file": "iwc-pilot-s-watch-mark-xx",
+    "name": "IWC Schaffhausen Pilot's Watch Mark XX",
+    "referenceNumber": "IW328201",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "portugieser-chronograph",
+    "file": "iwc-portugieser-chronograph",
+    "name": "IWC Schaffhausen Portugieser Chronograph",
+    "referenceNumber": "IW371605",
+    "dialColor": "Silver",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "master-ultra-thin-moon",
+    "file": "jaeger-lecoultre-master-ultra-thin-moon",
+    "name": "Jaeger-LeCoultre Master Ultra Thin Moon",
+    "referenceNumber": "Q1368430",
+    "dialColor": "Silver",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "master-ultra-thin-perpetual",
+    "file": "master-ultra-thin-perpetual",
+    "name": "Jaeger-LeCoultre Master Ultra Thin Perpetual",
+    "referenceNumber": "CG-JL-002",
+    "dialColor": "Silver",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "polaris-date",
+    "file": "jaeger-lecoultre-polaris-date",
+    "name": "Jaeger-LeCoultre Polaris Date",
+    "referenceNumber": "Q9068681",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "reverso-classic",
+    "file": "jaeger-lecoultre-reverso-classic-large-small-seconds",
+    "name": "Jaeger-LeCoultre Reverso Classic Large Small Seconds",
+    "referenceNumber": "Q3858520",
+    "dialColor": "Silver",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "master-collection-retrograde",
+    "file": "master-collection-retrograde",
+    "name": "Longines Master Collection Retrograde",
+    "referenceNumber": "CG-LG-001",
+    "dialColor": "Silver",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "spirit-zulu-time",
+    "file": "spirit-zulu-time",
+    "name": "Longines Spirit Zulu Time",
+    "referenceNumber": "CG-LG-002",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "abismo-1000",
+    "file": "abismo-1000",
+    "name": "Marina Cronos Abismo 1000",
+    "referenceNumber": "MD-0445",
+    "dialColor": "Black",
+    "caseDiameter": "45mm",
+    "caseMaterial": "Titanium",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "arrecife-300",
+    "file": "arrecife-300",
+    "name": "Marina Cronos Arrecife 300",
+    "referenceNumber": "MD-0142",
+    "dialColor": "Black",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "arrecife-azul",
+    "file": "arrecife-azul",
+    "name": "Marina Cronos Arrecife Azul",
+    "referenceNumber": "MD-0242",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "arrecife-naranja",
+    "file": "arrecife-naranja",
+    "name": "Marina Cronos Arrecife Naranja",
+    "referenceNumber": "MD-0344",
+    "dialColor": "Orange",
+    "caseDiameter": "44mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "austral-explorer",
+    "file": "austral-explorer",
+    "name": "Marina Cronos Austral Explorer",
+    "referenceNumber": "MT-0841",
+    "dialColor": "Black",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "bahia-36",
+    "file": "bahia-36",
+    "name": "Marina Cronos Bahia 36",
+    "referenceNumber": "MD-0936",
+    "dialColor": "White",
+    "caseDiameter": "36mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "boreal-explorer",
+    "file": "boreal-explorer",
+    "name": "Marina Cronos Boreal Explorer",
+    "referenceNumber": "MT-0741",
+    "dialColor": "White",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "coral-bronze",
+    "file": "coral-bronze",
+    "name": "Marina Cronos Coral Bronze",
+    "referenceNumber": "MD-0542",
+    "dialColor": "Green",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Bronze",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "equinoccio-gold",
+    "file": "equinoccio-gold",
+    "name": "Marina Cronos Equinoccio Gold",
+    "referenceNumber": "MT-0940",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "laguna-turquesa",
+    "file": "laguna-turquesa",
+    "name": "Marina Cronos Laguna Turquesa",
+    "referenceNumber": "MD-0640",
+    "dialColor": "Turquoise",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "marea-verde",
+    "file": "marea-verde",
+    "name": "Marina Cronos Marea Verde",
+    "referenceNumber": "MD-0841",
+    "dialColor": "Green",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "meridiano-cafe",
+    "file": "meridiano-cafe",
+    "name": "Marina Cronos Meridiano Cafe",
+    "referenceNumber": "MT-0440",
+    "dialColor": "Brown",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "meridiano-gmt",
+    "file": "meridiano-gmt",
+    "name": "Marina Cronos Meridiano GMT",
+    "referenceNumber": "MT-0140",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "meridiano-oceano",
+    "file": "meridiano-oceano",
+    "name": "Marina Cronos Meridiano Oceano",
+    "referenceNumber": "MT-0240",
+    "dialColor": "Blue",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "meridiano-selva",
+    "file": "meridiano-selva",
+    "name": "Marina Cronos Meridiano Selva",
+    "referenceNumber": "MT-0340",
+    "dialColor": "Green",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "pacifico-negro-pvd",
+    "file": "pacifico-negro-pvd",
+    "name": "Marina Cronos Pacifico Negro PVD",
+    "referenceNumber": "MD-0743",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "profundo-vintage",
+    "file": "profundo-vintage",
+    "name": "Marina Cronos Profundo Vintage",
+    "referenceNumber": "MD-1039",
+    "dialColor": "Cream",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "regata-42",
+    "file": "regata-42",
+    "name": "Marina Cronos Regata 42",
+    "referenceNumber": "MT-0542",
+    "dialColor": "White",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "regata-titanio",
+    "file": "regata-titanio",
+    "name": "Marina Cronos Regata Titanio",
+    "referenceNumber": "MT-0642",
+    "dialColor": "Grey",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Titanium",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "transatlantico-pvd",
+    "file": "transatlantico-pvd",
+    "name": "Marina Cronos Transatlantico PVD",
+    "referenceNumber": "MT-1043",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "constellation",
+    "file": "omega-constellation",
+    "name": "Omega Constellation",
+    "referenceNumber": "131.10.39.20.03.001",
+    "dialColor": "Blue",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "seamaster-diver-300m",
+    "file": "omega-seamaster-300m",
+    "name": "Omega Seamaster 300M",
+    "referenceNumber": "210.30.42.20.03.001",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "aqua-terra-150m",
+    "file": "omega-seamaster-aqua-terra-150m",
+    "name": "Omega Seamaster Aqua Terra 150M",
+    "referenceNumber": "220.10.41.21.03.004",
+    "dialColor": "Blue",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "seamaster-planet-ocean",
+    "file": "omega-seamaster-planet-ocean",
+    "name": "Omega Seamaster Planet Ocean",
+    "referenceNumber": "215.30.44.21.01.001",
+    "dialColor": "Black",
+    "caseDiameter": "43.5mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "speedmaster-moonwatch",
+    "file": "omega-speedmaster-moonwatch",
+    "name": "Omega Speedmaster Moonwatch",
+    "referenceNumber": "310.30.42.50.01.002",
+    "dialColor": "Black",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "luminor-marina",
+    "file": "panerai-luminor-marina",
+    "name": "Panerai Luminor Marina",
+    "referenceNumber": "PAM01312",
+    "dialColor": "Black",
+    "caseDiameter": "44mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "radiomir-california",
+    "file": "radiomir-california",
+    "name": "Panerai Radiomir California",
+    "referenceNumber": "CG-PA-001",
+    "dialColor": "Black",
+    "caseDiameter": "47mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "submersible",
+    "file": "panerai-submersible",
+    "name": "Panerai Submersible",
+    "referenceNumber": "PAM00973",
+    "dialColor": "Black",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "annual-calendar",
+    "file": "patek-philippe-annual-calendar",
+    "name": "Patek Philippe Annual Calendar",
+    "referenceNumber": "5205G",
+    "dialColor": "Blue",
+    "caseDiameter": "40mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "aquanaut",
+    "file": "patek-philippe-aquanaut",
+    "name": "Patek Philippe Aquanaut",
+    "referenceNumber": "5167A",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "aquanaut-advanced-research",
+    "file": "aquanaut-advanced-research",
+    "name": "Patek Philippe Aquanaut Advanced Research 5650G",
+    "referenceNumber": "CG-PP-003",
+    "dialColor": "Black",
+    "caseDiameter": "40.8mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "calatrava-5196",
+    "file": "patek-philippe-calatrava-clous-de-paris",
+    "name": "Patek Philippe Calatrava Clous de Paris",
+    "referenceNumber": "6119R",
+    "dialColor": "Silver",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Rose Gold",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "calatrava-5227",
+    "file": "patek-philippe-calatrava-date",
+    "name": "Patek Philippe Calatrava Date",
+    "referenceNumber": "5227G",
+    "dialColor": "Cream",
+    "caseDiameter": "39mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "calatrava-travel-time",
+    "file": "patek-philippe-calatrava-pilot-travel-time",
+    "name": "Patek Philippe Calatrava Pilot Travel Time",
+    "referenceNumber": "5524G",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "chronograph",
+    "file": "patek-philippe-chronograph",
+    "name": "Patek Philippe Chronograph",
+    "referenceNumber": "5172G",
+    "dialColor": "Blue",
+    "caseDiameter": "41mm",
+    "caseMaterial": "White Gold",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "golden-ellipse",
+    "file": "patek-philippe-golden-ellipse",
+    "name": "Patek Philippe Golden Ellipse",
+    "referenceNumber": "5738R",
+    "dialColor": "Black",
+    "caseDiameter": "34.5mm",
+    "caseMaterial": "Rose Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "nautilus-5711",
+    "file": "patek-philippe-nautilus",
+    "name": "Patek Philippe Nautilus",
+    "referenceNumber": "5811/1G",
+    "dialColor": "Blue",
+    "caseDiameter": "41mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "nautilus-35",
+    "file": "patek-philippe-nautilus-35",
+    "name": "Patek Philippe Nautilus 35",
+    "referenceNumber": "7118/1A",
+    "dialColor": "Silver",
+    "caseDiameter": "35mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "nautilus-travel-time-chronograph",
+    "file": "patek-philippe-nautilus-travel-time-chronograph",
+    "name": "Patek Philippe Nautilus Travel Time Chronograph",
+    "referenceNumber": "5990/1A",
+    "dialColor": "Blue",
+    "caseDiameter": "40.5mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "boxes-titanio",
+    "file": "boxes-titanio",
+    "name": "Racing Cronos Boxes Titanio",
+    "referenceNumber": "RC-0543",
+    "dialColor": "Grey",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Titanium",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "circuito-azul",
+    "file": "circuito-azul",
+    "name": "Racing Cronos Circuito Azul",
+    "referenceNumber": "RC-0342",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "circuito-panda",
+    "file": "circuito-panda",
+    "name": "Racing Cronos Circuito Panda",
+    "referenceNumber": "RC-0241",
+    "dialColor": "White",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "circuito-uno",
+    "file": "circuito-uno",
+    "name": "Racing Cronos Circuito Uno",
+    "referenceNumber": "RC-0142",
+    "dialColor": "Black",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "cojin-deportivo",
+    "file": "cojin-deportivo",
+    "name": "Racing Cronos Cojin Deportivo",
+    "referenceNumber": "RS-0941",
+    "dialColor": "Orange",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "cronometro-1965",
+    "file": "cronometro-1965",
+    "name": "Racing Cronos Cronometro 1965",
+    "referenceNumber": "RC-0739",
+    "dialColor": "Cream",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "cuadrante-39",
+    "file": "cuadrante-39",
+    "name": "Racing Cronos Cuadrante 39",
+    "referenceNumber": "RS-0739",
+    "dialColor": "White",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "cuadrante-noir",
+    "file": "cuadrante-noir",
+    "name": "Racing Cronos Cuadrante Noir",
+    "referenceNumber": "RS-0839",
+    "dialColor": "Black",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "curva-amarilla",
+    "file": "curva-amarilla",
+    "name": "Racing Cronos Curva Amarilla",
+    "referenceNumber": "RC-0842",
+    "dialColor": "Yellow",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "gran-turismo-rose",
+    "file": "gran-turismo-rose",
+    "name": "Racing Cronos Gran Turismo Rose",
+    "referenceNumber": "RC-0642",
+    "dialColor": "Brown",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "meta-dorada",
+    "file": "meta-dorada",
+    "name": "Racing Cronos Meta Dorada",
+    "referenceNumber": "RC-1041",
+    "dialColor": "Champagne",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Yellow Gold PVD Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "octavia-azul",
+    "file": "octavia-azul",
+    "name": "Racing Cronos Octavia Azul",
+    "referenceNumber": "RS-0141",
+    "dialColor": "Blue",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "octavia-bicolor",
+    "file": "octavia-bicolor",
+    "name": "Racing Cronos Octavia Bicolor",
+    "referenceNumber": "RS-1039",
+    "dialColor": "Champagne",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "octavia-negra",
+    "file": "octavia-negra",
+    "name": "Racing Cronos Octavia Negra",
+    "referenceNumber": "RS-0241",
+    "dialColor": "Black",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "octavia-petite-33",
+    "file": "octavia-petite-33",
+    "name": "Racing Cronos Octavia Petite 33",
+    "referenceNumber": "RS-0533",
+    "dialColor": "Pink",
+    "caseDiameter": "33mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "octavia-rose",
+    "file": "octavia-rose",
+    "name": "Racing Cronos Octavia Rose",
+    "referenceNumber": "RS-0441",
+    "dialColor": "Brown",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Rose Gold PVD Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "octavia-stealth",
+    "file": "octavia-stealth",
+    "name": "Racing Cronos Octavia Stealth",
+    "referenceNumber": "RS-0642",
+    "dialColor": "Black",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "octavia-verde",
+    "file": "octavia-verde",
+    "name": "Racing Cronos Octavia Verde",
+    "referenceNumber": "RS-0341",
+    "dialColor": "Green",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "paddock-salmon",
+    "file": "paddock-salmon",
+    "name": "Racing Cronos Paddock Salmon",
+    "referenceNumber": "RC-0940",
+    "dialColor": "Salmon",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "MANUAL"
+  },
+  {
+    "slug": "pole-position",
+    "file": "pole-position",
+    "name": "Racing Cronos Pole Position",
+    "referenceNumber": "RC-0443",
+    "dialColor": "Red",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "air-king",
+    "file": "rolex-air-king",
+    "name": "Rolex Air-King",
+    "referenceNumber": "126900",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "datejust-36",
+    "file": "rolex-datejust-41",
+    "name": "Rolex Datejust 41",
+    "referenceNumber": "126334",
+    "dialColor": "Blue",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel & White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "day-date-40",
+    "file": "rolex-day-date-40",
+    "name": "Rolex Day-Date 40",
+    "referenceNumber": "228238",
+    "dialColor": "Champagne",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Yellow Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "cosmograph-daytona",
+    "file": "rolex-daytona",
+    "name": "Rolex Daytona",
+    "referenceNumber": "126500LN",
+    "dialColor": "White",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "deepsea-sea-dweller",
+    "file": "rolex-deepsea",
+    "name": "Rolex Deepsea",
+    "referenceNumber": "136660",
+    "dialColor": "Blue",
+    "caseDiameter": "44mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "explorer",
+    "file": "rolex-explorer-36",
+    "name": "Rolex Explorer 36",
+    "referenceNumber": "124270",
+    "dialColor": "Black",
+    "caseDiameter": "36mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "explorer-ii",
+    "file": "rolex-explorer-ii",
+    "name": "Rolex Explorer II",
+    "referenceNumber": "226570",
+    "dialColor": "White",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "gmt-master-ii",
+    "file": "rolex-gmt-master-ii",
+    "name": "Rolex GMT-Master II",
+    "referenceNumber": "126710BLRO",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "gmt-master-ii-rose",
+    "file": "rolex-gmt-master-ii-rose",
+    "name": "Rolex GMT-Master II Rose",
+    "referenceNumber": "126711CHNR",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel & Rose Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "milgauss",
+    "file": "milgauss",
+    "name": "Rolex Milgauss",
+    "referenceNumber": "CG-RX-011",
+    "dialColor": "Black",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "oyster-perpetual-41",
+    "file": "rolex-oyster-perpetual-41",
+    "name": "Rolex Oyster Perpetual 41",
+    "referenceNumber": "124300",
+    "dialColor": "Green",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "sea-dweller",
+    "file": "rolex-sea-dweller",
+    "name": "Rolex Sea-Dweller",
+    "referenceNumber": "126600",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "sky-dweller",
+    "file": "sky-dweller",
+    "name": "Rolex Sky-Dweller",
+    "referenceNumber": "CG-RX-010",
+    "dialColor": "Grey",
+    "caseDiameter": "42mm",
+    "caseMaterial": "White Gold",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "submariner",
+    "file": "rolex-submariner",
+    "name": "Rolex Submariner",
+    "referenceNumber": "124060",
+    "dialColor": "Black",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "submariner-date",
+    "file": "rolex-submariner-date",
+    "name": "Rolex Submariner Date",
+    "referenceNumber": "126610LN",
+    "dialColor": "Black",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "yacht-master-40",
+    "file": "rolex-yacht-master-40",
+    "name": "Rolex Yacht-Master 40",
+    "referenceNumber": "126622",
+    "dialColor": "Grey",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "yacht-master-ii",
+    "file": "yacht-master-ii",
+    "name": "Rolex Yacht-Master II",
+    "referenceNumber": "CG-RX-012",
+    "dialColor": "White",
+    "caseDiameter": "44mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "prospex-marinemaster",
+    "file": "prospex-marinemaster",
+    "name": "Seiko Prospex Marinemaster 300",
+    "referenceNumber": "CG-SK-001",
+    "dialColor": "Black",
+    "caseDiameter": "44mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "aquaracer-chronograph",
+    "file": "tag-heuer-aquaracer-professional-300",
+    "name": "TAG Heuer Aquaracer Professional 300",
+    "referenceNumber": "WBP201B.BA0632",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "carrera-chronograph",
+    "file": "tag-heuer-carrera-chronograph",
+    "name": "TAG Heuer Carrera Chronograph",
+    "referenceNumber": "CBS2210.BA0882",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "formula-1",
+    "file": "tag-heuer-formula-1",
+    "name": "TAG Heuer Formula 1",
+    "referenceNumber": "CAZ1011.BA0842",
+    "dialColor": "Black",
+    "caseDiameter": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "QUARTZ"
+  },
+  {
+    "slug": "monaco-calibre",
+    "file": "tag-heuer-monaco",
+    "name": "TAG Heuer Monaco",
+    "referenceNumber": "CBL2111.BA0644",
+    "dialColor": "Blue",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "prx-chronograph",
+    "file": "tissot-prx-powermatic-80",
+    "name": "Tissot PRX Powermatic 80",
+    "referenceNumber": "T137.407.11.041.00",
+    "dialColor": "Blue",
+    "caseDiameter": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "black-bay-58",
+    "file": "tudor-black-bay-58",
+    "name": "Tudor Black Bay 58",
+    "referenceNumber": "M79030N-0001",
+    "dialColor": "Black",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "black-bay-gmt",
+    "file": "tudor-black-bay-gmt",
+    "name": "Tudor Black Bay GMT",
+    "referenceNumber": "M79830RB-0001",
+    "dialColor": "Black",
+    "caseDiameter": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "pelagos",
+    "file": "tudor-pelagos-39",
+    "name": "Tudor Pelagos 39",
+    "referenceNumber": "M25407N-0001",
+    "dialColor": "Black",
+    "caseDiameter": "39mm",
+    "caseMaterial": "Titanium",
+    "movementType": "AUTOMATIC"
+  },
+  {
+    "slug": "el-primero-chronograph",
+    "file": "el-primero-chronograph",
+    "name": "Zenith El Primero Chronograph",
+    "referenceNumber": "CG-ZN-001",
+    "dialColor": "Blue",
+    "caseDiameter": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "movementType": "AUTOMATIC"
+  }
+]
