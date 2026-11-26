@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Heart, UserRound, Menu, X, LogOut, Package, Settings, ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import GenevaClock, { MiniDial } from '../common/GenevaClock';
 import { useCart } from '../../context/CartContext';
 
 const navLinks = [
-  { label: 'Inicio', to: '/' },
-  { label: 'Catálogo', to: '/catalogo' },
-  { label: 'Colecciones', to: '/colecciones' },
-  { label: 'Nosotros', to: '/nosotros' },
-  { label: 'Contacto', to: '/contacto' },
+  { label: 'Inicio', to: '/', no: 'I' },
+  { label: 'Catálogo', to: '/catalogo', no: 'II' },
+  { label: 'Colecciones', to: '/colecciones', no: 'III' },
+  { label: 'Nosotros', to: '/nosotros', no: 'IV' },
+  { label: 'Contacto', to: '/contacto', no: 'V' },
 ];
 
 export default function Header() {
@@ -22,6 +23,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
+  const meterRef = useRef(null);
 
   // Sticky navbar: glass after 24px, hides while scrolling down, returns on scroll up.
   useEffect(() => {
@@ -29,6 +31,8 @@ export default function Header() {
     const update = () => {
       const y = window.scrollY;
       setScrolled(y > 24);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      meterRef.current?.style.setProperty('--read', max > 0 ? (y / max).toFixed(4) : '0');
       setHidden(y > 240 && y > lastY.current + 4);
       if (y < lastY.current - 4 || y <= 240) setHidden(false);
       lastY.current = y;
@@ -67,18 +71,20 @@ export default function Header() {
     <header className={headerClass}>
       <div className="header-inner">
         <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio">
-          <strong>Cronos</strong><span>GENÈVE</span>
+          <MiniDial size={34} className="brand-mark__seal" />
+          <span className="leading-none"><strong>Cronos</strong><span>GENÈVE<span className="hidden sm:inline"> · MCMLXXXVII</span></span></span>
         </Link>
 
         <nav className="site-nav" aria-label="Navegación principal">
           {navLinks.map((link) => (
             <NavLink key={link.to} to={link.to} end={link.to === '/'} className={({ isActive }) => `site-nav-link ${isActive ? 'active' : ''}`}>
-              {link.label}
+              {link.label}<sup>{link.no}</sup>
             </NavLink>
           ))}
         </nav>
 
         <div className="header-actions">
+          <GenevaClock className="header-clock" />
           {isAuthenticated && (
             <Link to="/favoritos" className="header-icon" aria-label="Favoritos" title="Favoritos"><Heart size={18} strokeWidth={1.5} /></Link>
           )}
@@ -112,13 +118,14 @@ export default function Header() {
           </button>
         </div>
       </div>
+      <span ref={meterRef} className="header-meter" aria-hidden="true" />
 
       {mobileOpen && (
         <nav className="mobile-nav" aria-label="Navegación móvil">
-          <p className="eyebrow eyebrow--line mb-6">Explorar</p>
-          {navLinks.map((link, index) => (
+          <p className="eyebrow eyebrow--line mb-6">Índice</p>
+          {navLinks.map((link) => (
             <NavLink key={link.to} to={link.to} end={link.to === '/'} className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}>
-              <span className="mobile-nav-index">0{index + 1}</span><em className="not-italic">{link.label}</em>
+              <span className="mobile-nav-index">{link.no}</span><em>{link.label}</em>
             </NavLink>
           ))}
           {!isAuthenticated && <Link to="/login" className="btn btn-lg">Acceder a mi cuenta <ArrowUpRight size={16} /></Link>}

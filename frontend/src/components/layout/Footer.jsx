@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import Reveal from '../common/Reveal';
+import GenevaClock, { MiniDial } from '../common/GenevaClock';
 
 const currentYear = new Date().getFullYear();
 
@@ -10,7 +11,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <Reveal className="footer-col grid content-start gap-6">
-            <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio"><strong>Cronos</strong><span>GENÈVE</span></Link>
+            <Link to="/" className="brand-mark" aria-label="Cronos Genève, inicio"><MiniDial size={34} /><span className="leading-none"><strong>Cronos</strong><span>GENÈVE · MCMLXXXVII</span></span></Link>
             <p className="display-sm max-w-[16ch]" style={{ color: 'var(--fg)' }}>Relojes que se heredan, <em>no que se reemplazan.</em></p>
             <Link to="/contacto" className="btn-link w-fit">Agendar una visita privada <ArrowUpRight size={14} /></Link>
           </Reveal>
@@ -20,6 +21,7 @@ export default function Footer() {
             <Link to="/colecciones">Colecciones</Link>
             <Link to="/nosotros">Nuestra casa</Link>
             <Link to="/contacto">Contacto</Link>
+            <button type="button" className="text-left p-0 bg-transparent border-0 text-[14px] mb-[10px]" style={{ color: 'var(--fg-dim)' }} onClick={() => window.dispatchEvent(new Event('concierge:open'))}>Concierge con IA</button>
           </Reveal>
           <Reveal className="footer-col" delay={160}>
             <h2>Atención</h2>
@@ -32,6 +34,7 @@ export default function Footer() {
             <h2>Boutique</h2>
             <p>Av. Javier Prado Este 4200<br />Lima, Perú</p>
             <p className="num text-mute">Lun — Sáb · 10:00 — 20:00</p>
+            <GenevaClock className="num text-mute text-xs inline-flex items-center gap-2 mt-4" />
           </Reveal>
         </div>
       </div>
@@ -40,7 +43,7 @@ export default function Footer() {
         <div className="footer-bottom">
           <span>© {currentYear} Cronos Genève</span>
           <div className="flex gap-6"><Link to="/privacidad">Privacidad</Link><Link to="/terminos">Términos</Link></div>
-          <span>Genève · Lima</span>
+          <span>46°12′N 6°09′E · Genève — Lima</span>
         </div>
       </div>
     </footer>
