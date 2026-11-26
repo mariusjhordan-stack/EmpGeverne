@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, ArrowUp, ArrowUpRight, RotateCcw, X } from 'lucide-react';
 import { askAdvisor } from '../../services/advisor';
 import { MiniDial } from '../common/GenevaClock';
+import { VITRINA } from '../../services/mode';
 
 const CURRENCIES = [
   { code: 'PEN', label: 'S/' },
@@ -80,7 +81,7 @@ export default function Concierge() {
             <div className="concierge__top">
               <span className="concierge__seal"><MiniDial size={46} /></span>
               <div className="min-w-0">
-                <p className="concierge__kicker">Asesor<span className="concierge__wide"> privado</span> · Gemini</p>
+                <p className="concierge__kicker">Asesor<span className="concierge__wide"> privado</span> · {VITRINA ? 'Catálogo' : 'Gemini'}</p>
                 <p className="concierge__title">Le <em>Concierge</em></p>
                 <p className="concierge__status"><i aria-hidden="true" /> En línea<span className="concierge__wide"> · responde en segundos</span></p>
               </div>
@@ -140,7 +141,7 @@ export default function Concierge() {
                       ))}
                     </div>
                   )}
-                  {m.mode === 'basic' && <p className="concierge__note">Modo básico: respuesta con el catálogo, sin IA.</p>}
+                  {m.mode === 'basic' && !VITRINA && <p className="concierge__note">Modo básico: respuesta con el catálogo, sin IA.</p>}
                 </div>
               )))}
 

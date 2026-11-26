@@ -40,7 +40,8 @@ export default function RegisterPage() {
       navigate('/');
     } catch (err) {
       const data = err.response?.data?.errors || err.response?.data;
-      if (data && typeof data === 'object') setErrors(data);
+      if (data?.detail) setErrors({ general: data.detail });
+      else if (data && typeof data === 'object') setErrors(data);
       else setErrors({ general: 'Error al crear la cuenta' });
     } finally {
       setLoading(false);

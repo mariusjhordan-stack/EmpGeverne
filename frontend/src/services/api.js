@@ -1,9 +1,15 @@
 import axios from 'axios';
+import { VITRINA } from './mode';
 
 const api = axios.create({
   baseURL: '/api',
   headers: { 'Content-Type': 'application/json' },
 });
+
+// Vitrina estática (Firebase): no hay servidor; las respuestas salen de /static-api/*.json en el navegador.
+if (VITRINA) {
+  api.defaults.adapter = (config) => import('./vitrina').then((m) => m.default(config));
+}
 
 api.interceptors.request.use((config) => {
   const tokens = JSON.parse(localStorage.getItem('tokens') || 'null');

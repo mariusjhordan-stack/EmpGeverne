@@ -68,3 +68,6 @@ frontend/public/mediapipe/
 *.blend1
 frontend/tools/blender/preview/
 frontend/tools/blender/preview_story/
+
+# Firebase (caché del deploy)
+.firebase/

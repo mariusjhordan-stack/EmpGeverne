@@ -1,5 +1,6 @@
 import { RevealLines } from '../common/Reveal';
 import { MiniDial, useGenevaTime } from '../common/GenevaClock';
+import { VITRINA, VITRINA_NOTICE } from '../../services/mode';
 // render 3D del Submariner de acero (el mismo de la portada) con el fondo quitado
 import watch from '../../assets/editorial/submariner-steel.webp';
 
@@ -45,7 +46,10 @@ export default function AuthShell({ kicker, quote, children }) {
         </div>
       </aside>
       <section className="auth__panel">
-        <div className="auth__form">{children}</div>
+        <div className="auth__form">
+          {VITRINA && <p className="alert mb-8" role="note">{VITRINA_NOTICE}</p>}
+          {children}
+        </div>
         <p className="auth__foot">Acceso privado · Cronos Genève · MCMLXXXVII</p>
       </section>
     </div>
