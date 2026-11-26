@@ -113,6 +113,47 @@ class BrandViewSetTest(TestCase):
         self.assertEqual(resp.data['name'], 'Rolex')
 
 
+class PreviewImagesTest(TestCase):
+    """Marcas y colecciones traen imágenes de muestra para la portada (sin consultas extra)."""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.brand = Brand.objects.create(name='Rolex', slug='rolex', is_active=True)
+        self.collection = Collection.objects.create(name='Deportiva', slug='deportiva', is_active=True)
+        for i in range(5):
+            watch = Watch.objects.create(
+                name=f'Pieza {i}', slug=f'pieza-{i}', reference=f'REF-{i}', brand=self.brand,
+                collection=self.collection, description='-', price=Decimal(1000 + i), stock=1,
+                is_featured=(i == 0),
+            )
+            WatchImage.objects.create(watch=watch, image=f'watches/pieza-{i}-side.webp', order=1)
+            WatchImage.objects.create(watch=watch, image=f'watches/pieza-{i}-hero.webp', is_primary=True, order=0)
+        hidden = Watch.objects.create(
+            name='Oculta', slug='oculta', reference='REF-X', brand=self.brand, collection=self.collection,
+            description='-', price=Decimal('99999'), stock=1, is_featured=True, is_active=False,
+        )
+        WatchImage.objects.create(watch=hidden, image='watches/oculta-hero.webp', is_primary=True)
+
+    def test_brand_preview_is_primary_image_of_featured_piece(self):
+        resp = self.client.get('/api/catalog/brands/')
+        brand = resp.data[0] if isinstance(resp.data, list) else resp.data['results'][0]
+        self.assertTrue(brand['preview_image'].endswith('/media/watches/pieza-0-hero.webp'))
+
+    def test_collection_previews_skip_inactive_and_stop_at_three(self):
+        resp = self.client.get('/api/catalog/collections/')
+        collection = resp.data[0] if isinstance(resp.data, list) else resp.data['results'][0]
+        previews = collection['preview_images']
+        self.assertEqual(len(previews), 3)
+        self.assertFalse(any('oculta' in url for url in previews))
+        self.assertTrue(all(url.endswith('-hero.webp') for url in previews))
+
+    def test_brand_without_images_has_no_preview(self):
+        Brand.objects.create(name='Nueva', slug='nueva', is_active=True)
+        resp = self.client.get('/api/catalog/brands/')
+        rows = resp.data if isinstance(resp.data, list) else resp.data['results']
+        self.assertIsNone(next(b for b in rows if b['slug'] == 'nueva')['preview_image'])
+
+
 class WatchViewSetTest(TestCase):
     def setUp(self):
         self.client = APIClient()

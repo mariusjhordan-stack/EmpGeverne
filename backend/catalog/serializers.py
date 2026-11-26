@@ -2,20 +2,46 @@ from rest_framework import serializers
 from .models import Brand, Collection, Watch, WatchImage, Favorite
 
 
+def preview_images(watches, request, limit):
+    """URLs de la imagen principal de las primeras piezas (destacadas y más caras primero).
+
+    Sirve para mostrar una muestra de cada marca o colección sin que la tienda
+    tenga que pedir la lista de relojes de cada una.
+    """
+    pieces = (watches.filter(is_active=True, images__isnull=False).distinct()
+              .order_by('-is_featured', '-price').prefetch_related('images')[:limit])
+    urls = []
+    for watch in pieces:
+        images = sorted(watch.images.all(), key=lambda i: (not i.is_primary, i.order, i.pk))
+        if images and images[0].image:
+            url = images[0].image.url
+            urls.append(request.build_absolute_uri(url) if request else url)
+    return urls
+
+
 class BrandSerializer(serializers.ModelSerializer):
     watch_count = serializers.IntegerField(read_only=True, required=False)
+    preview_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Brand
-        fields = ['id', 'name', 'slug', 'description', 'logo', 'country', 'is_active', 'watch_count']
+        fields = ['id', 'name', 'slug', 'description', 'logo', 'country', 'is_active', 'watch_count', 'preview_image']
+
+    def get_preview_image(self, obj):
+        urls = preview_images(obj.watches, self.context.get('request'), 1)
+        return urls[0] if urls else None
 
 
 class CollectionSerializer(serializers.ModelSerializer):
     watch_count = serializers.IntegerField(read_only=True, required=False)
+    preview_images = serializers.SerializerMethodField()
 
     class Meta:
         model = Collection
-        fields = ['id', 'name', 'slug', 'description', 'image', 'is_active', 'watch_count']
+        fields = ['id', 'name', 'slug', 'description', 'image', 'is_active', 'watch_count', 'preview_images']
+
+    def get_preview_images(self, obj):
+        return preview_images(obj.watches, self.context.get('request'), 3)
 
 
 class WatchImageSerializer(serializers.ModelSerializer):
