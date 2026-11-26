@@ -596,7 +596,8 @@ a.tile:hover .tile__arrow { transform: rotate(-45deg); opacity: 1; }
 .reveal-lines .line > span { display: block; transform: translate3d(0, 110%, 0); transition: transform 1.2s var(--ease); transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * 90ms); }
 .reveal-lines.is-visible .line > span { transform: none; }
 .stagger > * { transition-delay: calc(var(--i, 0) * 70ms) !important; }
-.route-frame { animation: route-in .7s var(--ease) both; }
+/* "backwards": al terminar no deja transform, así los elementos fixed (prueba virtual, lámina flotante) se ubican respecto a la pantalla */
+.route-frame { animation: route-in .7s var(--ease) backwards; }
 
 @keyframes route-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
