@@ -99,7 +99,7 @@ export default function Concierge() {
             <div className="concierge__ticks" aria-hidden="true" />
           </header>
 
-          <div ref={bodyRef} className="concierge__body" aria-live="polite">
+          <div ref={bodyRef} className="concierge__body" aria-live="polite" data-lenis-prevent>
             <p className="msg-ai">{WELCOME}</p>
             {messages.length === 0 && (
               <div className="concierge__starters">

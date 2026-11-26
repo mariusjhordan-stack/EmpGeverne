@@ -165,10 +165,14 @@ export default function WatchStory() {
 
         <div ref={heroRef} className="story__hero">
           <div>
-            <p className="eyebrow eyebrow--dot mb-6">Ginebra · 46°12′N 6°09′E</p>
-            <h1 className="display-xl">El tiempo,<br /><em>en tres dimensiones.</em></h1>
+            <p className="eyebrow eyebrow--dot mb-6 hero-fade" style={{ '--d': '0ms' }}>Ginebra · 46°12′N 6°09′E</p>
+            {/* cada línea sube desde detrás de una máscara al terminar el telón de entrada */}
+            <h1 className="display-xl hero-title">
+              <span className="hero-line"><span style={{ '--d': '80ms' }}>El tiempo,</span></span>
+              <span className="hero-line"><em style={{ '--d': '220ms' }}>en tres dimensiones.</em></span>
+            </h1>
           </div>
-          <div className="story__hero-side">
+          <div className="story__hero-side hero-fade" style={{ '--d': '520ms' }}>
             <p className="lede">Relojes de las grandes casas, modelados en 3D. Gíralos, desármalos y pruébalos en tu muñeca con la cámara.</p>
             <div className="flex flex-wrap gap-3 justify-end">
               <Link to="/catalogo" className="btn btn-lg">Ver la colección <ArrowRight size={16} /></Link>
