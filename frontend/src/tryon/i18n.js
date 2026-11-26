@@ -18,6 +18,18 @@ const ES = {
   'The camera is being used by another application. Close it and try again.': 'Otra aplicación está usando la cámara. Ciérrala y vuelve a intentarlo.',
   'Hand tracking could not start in this browser.': 'El seguimiento de la mano no pudo iniciar en este navegador.',
   'The 3D watch could not load. Reload the page and try again.': 'No se pudo cargar el reloj 3D. Recargue la página e inténtelo otra vez.',
+  'We could not open that picture. Try another one.': 'No pudimos abrir esa imagen. Prueba con otra.',
+  'Use a photo': 'Usar una foto',
+  'Another photo': 'Otra foto',
+  'Use the camera': 'Usar la cámara',
+  'Save the photo': 'Guardar la foto',
+  'Photo saved': 'Foto guardada',
+  'Rotation': 'Giro',
+  'Reset': 'Restablecer',
+  'Looking for your wrist…': 'Buscando tu muñeca…',
+  'Drag to move the watch · pinch or use the sliders to adjust it': 'Arrastra para mover el reloj · pellizca o usa los controles para ajustarlo',
+  'We could not find your hand in this photo. Drag the watch onto your wrist, then adjust its size and rotation.': 'No encontramos tu mano en la foto. Arrastra el reloj hasta tu muñeca y ajusta el tamaño y el giro.',
+  'The camera and your photos are processed on your device: nothing is recorded or sent anywhere.': 'La cámara y tus fotos se procesan en tu dispositivo: no se graba ni se envía nada.',
 };
 
 export const t = (text) => ES[text] ?? text;

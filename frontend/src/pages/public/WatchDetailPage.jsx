@@ -157,7 +157,7 @@ export default function WatchDetailPage() {
             <span className="tryon-card__icon"><Camera size={20} /></span>
             <span>
               <span className="block font-serif text-2xl leading-tight">Pruébalo en tu muñeca</span>
-              <span className="block text-sm opacity-70 mt-1">Con tu cámara, en tu navegador. El video no sale de tu dispositivo.</span>
+              <span className="block text-sm opacity-70 mt-1">Con tu cámara o una foto de tu mano. Nada sale de tu dispositivo.</span>
             </span>
             <ChevronRight size={20} className="opacity-70" />
           </button>

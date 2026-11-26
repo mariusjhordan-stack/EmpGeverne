@@ -1122,3 +1122,9 @@ html[data-nav-open] .concierge-fab { opacity: 0; pointer-events: none; transform
 }
 /* tarjetas con foto: la descripción iba en gris oscuro sobre la imagen */
 .tile:has(.tile__img) .text-dim { color: rgba(246, 242, 235, .84); }
+
+/* Prueba virtual: guía de la mano mientras se busca la muñeca y botón "Usar una foto". */
+.tryon-guide { height: min(42vh, 21rem); width: auto; color: rgba(255,255,255,.78); filter: drop-shadow(0 2px 10px rgba(0,0,0,.55)); animation: cg-guide 2.4s var(--ease) infinite alternate; }
+@keyframes cg-guide { from { opacity: .55; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .tryon-guide { animation: none; } }
+.tryon-photo-btn { --btn-bg: transparent; --btn-fg: #f2efe8; --btn-bd: rgba(227,201,149,.55); --btn-fill: #e3c995; --btn-hover-fg: #17140f; }
