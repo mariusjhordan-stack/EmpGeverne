@@ -89,6 +89,10 @@ export default function WatchStory() {
       heroRef.current.style.transform = `translate3d(0, ${-heroOut * 40}px, 0)`;
       heroRef.current.inert = heroOut > 0.9;
       wordRef.current.style.transform = `translate3d(${(0.5 - progress) * 30}vw, 0, 0)`;
+      // salida suave: en el último tramo el reloj se aleja un poco antes de dar paso a la página
+      const exit = reduced ? 0 : Math.min(1, Math.max(0, (progress - 0.95) / 0.05));
+      canvas.style.opacity = String(1 - exit * 0.45);
+      canvas.style.scale = String(1 - exit * 0.05);
       hudRef.current.style.setProperty('--p', progress.toFixed(4));
       hudRef.current.querySelector('[data-deg]').textContent = `${String(Math.round(Math.min(progress / 0.33, 1) * 360)).padStart(3, '0')}°`;
       partsRef.current.classList.toggle('is-on', progress > 0.6 && progress < 0.75);

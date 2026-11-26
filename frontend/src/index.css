@@ -391,15 +391,16 @@ input[aria-invalid="true"] { border-color: var(--danger) !important; }
 /* --------------------------------------------------------------------------
    Home: la historia del reloj de Blender (cuadros según el scroll)
    -------------------------------------------------------------------------- */
-.story { position: relative; height: 900vh; background: #fff; }
-.story__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; background: #fff; }
-.story__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+/* mismo papel que el resto de la página: el reloj se "imprime" encima (multiply) y no queda corte de color */
+.story { position: relative; height: 900vh; background: var(--ink); }
+.story__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; background: var(--ink); }
+.story__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; mix-blend-mode: multiply; }
 .story__grid { position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(90deg, rgba(17,17,17,.06) 1px, transparent 1px); background-size: calc(100% / 12) 100%; mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, transparent 35%, #000 80%); }
 .story__hero { position: absolute; z-index: 3; inset: auto 0 0; max-width: var(--page); margin-inline: auto; padding: 0 var(--gutter) clamp(28px, 6vh, 60px); display: grid; grid-template-columns: 1.4fr 1fr; align-items: end; gap: 28px; will-change: opacity, transform; }
 .story__hero-side { display: grid; gap: 22px; justify-items: end; text-align: right; }
 .story__hero-side .lede { margin-left: auto; }
 .story__word { position: absolute; z-index: 0; inset: 0; display: grid; place-items: center; pointer-events: none; font-family: var(--font-serif); font-size: clamp(6rem, 25vw, 26rem); letter-spacing: -.05em; line-height: .8; color: rgba(134,89,26,.07); white-space: nowrap; will-change: transform; }
-.story__chapter { position: absolute; z-index: 3; top: 50%; width: min(360px, 28vw); display: grid; gap: 14px; padding: 22px 24px; background: rgba(255,255,255,.78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--fg); opacity: 0; translate: 0 -50%; transition: opacity .6s var(--ease), translate .8s var(--ease); pointer-events: none; }
+.story__chapter { position: absolute; z-index: 3; top: 50%; width: min(360px, 28vw); display: grid; gap: 14px; padding: 22px 24px; background: rgba(250,248,244,.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--fg); opacity: 0; translate: 0 -50%; transition: opacity .6s var(--ease), translate .8s var(--ease); pointer-events: none; }
 .story__chapter.is-on { opacity: 1; pointer-events: auto; }
 .story__chapter--left { left: var(--gutter); }
 .story__chapter--right { right: var(--gutter); text-align: right; justify-items: end; }
@@ -733,7 +734,7 @@ html.intro-lock { overflow: hidden; }
 .is-ready .hero-title .hero-line > * { animation: hero-rise 1.35s var(--ease) both; animation-delay: var(--d, 0ms); }
 .hero-fade { opacity: 0; }
 .is-ready .hero-fade { animation: hero-fade 1.2s var(--ease) both; animation-delay: var(--d, 0ms); }
-.is-ready .story__canvas { animation: watch-in 1.9s var(--ease) both; }
+.is-ready .story__canvas { animation: watch-in 1.9s var(--ease) backwards; } /* backwards: al terminar deja libre la opacidad para la salida */
 @keyframes hero-rise { from { transform: translate3d(0, 110%, 0) rotate(2.5deg); } to { transform: none; } }
 @keyframes hero-fade { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
 @keyframes watch-in { from { opacity: 0; transform: scale(.93); } to { opacity: 1; transform: none; } }
