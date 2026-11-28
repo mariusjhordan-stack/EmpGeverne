@@ -6,16 +6,16 @@ Models that failed rest for a while and are only used as a last resort.
 """
 import json
 import logging
-import os
 import re
 import socket
-import ssl
 import threading
 import time
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from django.conf import settings
+
+from config.tls import verified_ssl_context
 
 log = logging.getLogger(__name__)
 
@@ -30,24 +30,7 @@ _resting = {}  # model -> monotonic time until which it is rested
 _lock = threading.Lock()
 
 
-def _ssl_context():
-    """A verifying TLS context. Some Python builds (python.org on macOS) ship without CA certificates:
-    then use certifi if installed, or the system bundle."""
-    paths = ssl.get_default_verify_paths()
-    if (paths.cafile and os.path.exists(paths.cafile)) or (paths.capath and os.path.isdir(paths.capath)):
-        return ssl.create_default_context()
-    try:
-        import certifi
-        return ssl.create_default_context(cafile=certifi.where())
-    except ImportError:
-        pass
-    for bundle in ('/etc/ssl/cert.pem', '/etc/ssl/certs/ca-certificates.crt'):
-        if os.path.exists(bundle):
-            return ssl.create_default_context(cafile=bundle)
-    return ssl.create_default_context()
-
-
-_SSL = _ssl_context()
+_SSL = verified_ssl_context()  # ver config/tls.py
 
 
 class GeminiUnavailable(Exception):

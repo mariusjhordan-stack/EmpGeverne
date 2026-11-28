@@ -10,6 +10,8 @@ import { PageHero } from '../../components/common/SectionHeader';
 import Reveal from '../../components/common/Reveal';
 import FloatingInput from '../../components/common/FloatingInput';
 import Button from '../../components/common/Button';
+import OrderPieces from '../../components/checkout/OrderPieces';
+import ReceiptNotice from '../../components/checkout/ReceiptNotice';
 
 const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
   ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
@@ -125,13 +127,22 @@ export default function CheckoutPage() {
         <PageHero eyebrow="Confirmación" title={<>Pedido <em>confirmado</em></>} description="Su pedido ha sido procesado exitosamente." />
         <div className="container container--narrow section--tight">
           <Reveal className="card">
-            <p className="eyebrow eyebrow--accent mb-3">Gracias por su compra</p>
-            <h2 className="card-title mb-6">La espera comienza aquí.</h2>
-            <dl className="spec-list mb-8">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="eyebrow eyebrow--accent mb-3">Gracias por su compra</p>
+                <h2 className="card-title">La espera comienza aquí.</h2>
+              </div>
+              <span className="badge badge--success">{order.status_display}</span>
+            </div>
+            <OrderPieces items={order.items} compact />
+            <dl className="spec-list mt-2 mb-6">
               <div className="spec-row"><dt>N.º de pedido</dt><dd className="num">{order.order_number}</dd></div>
-              <div className="spec-row"><dt>Total</dt><dd className="price">{formatPrice(order.total)}</dd></div>
-              <div className="spec-row"><dt>Estado</dt><dd><span className="badge badge--success">{order.status_display}</span></dd></div>
+              {order.payment && <div className="spec-row"><dt>Pago</dt><dd>{order.payment.method_display}</dd></div>}
+              <div className="spec-row"><dt>Subtotal</dt><dd className="num">{formatPrice(order.subtotal)}</dd></div>
+              <div className="spec-row"><dt>IGV (18 %)</dt><dd className="num">{formatPrice(order.tax)}</dd></div>
+              <div className="spec-row"><dt>Total</dt><dd className="price price--lg">{formatPrice(order.total)}</dd></div>
             </dl>
+            <ReceiptNotice order={order} sent={Boolean(order.receipt_sent)} className="mb-6" />
             {order.payment?.is_demo && <p className="body-sm mb-6">Este es un pago de demostración para fines académicos. No se ha procesado ninguna transacción bancaria real.</p>}
             <div className="flex flex-wrap gap-3">
               <Button as={Link} to={`/pedidos/${order.order_number}`}>Ver pedido</Button>

@@ -7,11 +7,11 @@ import GenevaClock, { MiniDial } from '../common/GenevaClock';
 import { useCart } from '../../context/CartContext';
 
 const navLinks = [
-  { label: 'Inicio', to: '/', no: 'I' },
-  { label: 'Catálogo', to: '/catalogo', no: 'II' },
-  { label: 'Colecciones', to: '/colecciones', no: 'III' },
-  { label: 'Nosotros', to: '/nosotros', no: 'IV' },
-  { label: 'Contacto', to: '/contacto', no: 'V' },
+  { label: 'Inicio', to: '/' },
+  { label: 'Catálogo', to: '/catalogo' },
+  { label: 'Colecciones', to: '/colecciones' },
+  { label: 'Nosotros', to: '/nosotros' },
+  { label: 'Contacto', to: '/contacto' },
 ];
 
 export default function Header() {
@@ -87,7 +87,7 @@ export default function Header() {
         <nav className="site-nav" aria-label="Navegación principal">
           {navLinks.map((link) => (
             <NavLink key={link.to} to={link.to} end={link.to === '/'} className={({ isActive }) => `site-nav-link ${isActive ? 'active' : ''}`}>
-              {link.label}<sup>{link.no}</sup>
+              {link.label}
             </NavLink>
           ))}
         </nav>
@@ -135,7 +135,7 @@ export default function Header() {
           <p className="eyebrow eyebrow--line mb-6">Índice</p>
           {navLinks.map((link, i) => (
             <NavLink key={link.to} to={link.to} end={link.to === '/'} style={{ '--i': i }} className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}>
-              <span className="mobile-nav-index">{link.no}</span><em>{link.label}</em>
+              <em>{link.label}</em>
             </NavLink>
           ))}
           {!isAuthenticated && <Link to="/login" className="btn btn-lg" style={{ '--i': navLinks.length }}>Acceder a mi cuenta <ArrowUpRight size={16} /></Link>}

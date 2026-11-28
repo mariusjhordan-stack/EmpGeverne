@@ -4,14 +4,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import APIException
+from rest_framework.throttling import ScopedRateThrottle
 from .models import Order, OrderItem, Payment
 from .serializers import (
     OrderSerializer, OrderListSerializer, CreateOrderSerializer,
     UpdateOrderStatusSerializer, AdminOrderSerializer,
 )
 from .payment_gateway import get_payment_gateway
+from .receipt import email_configured, send_receipt
+from .receipt_pdf import build_receipt_pdf
 from cart.models import Cart
 from config.permissions import IsAdminUser
 
@@ -105,7 +109,10 @@ class CreateOrderView(APIView):
 
             cart.items.all().delete()
 
-        response_data = OrderSerializer(order).data
+        # La boleta sale cuando la compra ya quedó guardada (si el correo falla, la compra sigue).
+        receipt_sent = order.status == 'paid' and send_receipt(order)
+        response_data = OrderSerializer(order, context={'request': request}).data
+        response_data['receipt_sent'] = receipt_sent
         if is_stripe:
             response_data['client_secret'] = result.raw_response['client_secret']
         return Response(response_data, status=status.HTTP_201_CREATED)
@@ -141,11 +148,50 @@ class ConfirmStripePaymentView(APIView):
             if order.status == 'pending':
                 order.status = 'paid'
                 order.save(update_fields=['status', 'updated_at'])
-            return Response(OrderSerializer(order).data)
+                receipt_sent = send_receipt(order)
+            else:
+                receipt_sent = None  # ya estaba pagado: la boleta salió en la primera confirmación
+            data = OrderSerializer(order, context={'request': request}).data
+            data['receipt_sent'] = receipt_sent
+            return Response(data)
         return Response(
             {'error': f'Pago no completado (estado: {intent.status})'},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+class SendReceiptView(APIView):
+    """Vuelve a enviar la boleta de un pedido pagado al correo de la cuenta."""
+    permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'receipt'
+
+    def post(self, request, order_number):
+        order = get_object_or_404(
+            Order.objects.select_related('user', 'payment'), order_number=order_number, user=request.user,
+        )
+        if order.status in ('pending', 'cancelled'):
+            return Response({'error': 'La boleta se envía solo para pedidos pagados.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not email_configured():
+            return Response({'error': 'El correo de la tienda todavía no está configurado.'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        if not send_receipt(order):
+            return Response({'error': 'No pudimos enviar el correo. Inténtelo más tarde.'}, status=status.HTTP_502_BAD_GATEWAY)
+        return Response({'sent': True, 'email': order.user.email})
+
+
+class ReceiptPdfView(APIView):
+    """Descarga la boleta del pedido en PDF (solo el dueño y solo pedidos pagados)."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, order_number):
+        order = get_object_or_404(
+            Order.objects.select_related('user', 'payment'), order_number=order_number, user=request.user,
+        )
+        if order.status in ('pending', 'cancelled'):
+            return Response({'error': 'La boleta está disponible solo para pedidos pagados.'}, status=status.HTTP_400_BAD_REQUEST)
+        response = HttpResponse(build_receipt_pdf(order), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="boleta-{order.order_number}.pdf"'
+        return response
 
 
 class OrderListView(generics.ListAPIView):
@@ -162,7 +208,7 @@ class OrderDetailView(generics.RetrieveAPIView):
     lookup_field = 'order_number'
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user).prefetch_related('items', 'payment')
+        return Order.objects.filter(user=self.request.user).select_related('payment').prefetch_related('items__watch__images')
 
 
 class AdminOrderListView(generics.ListAPIView):

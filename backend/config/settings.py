@@ -114,6 +114,7 @@ REST_FRAMEWORK = {
         'anon': '30/minute',
         'user': '120/minute',
         'advisor': '15/min',
+        'receipt': '5/hour',
     },
 }
 
@@ -124,6 +125,10 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+# Ingreso con Google por Firebase Authentication (el mismo proyecto que usaba la versión Java).
+# El identificador del proyecto es público: verificar los tokens no necesita ninguna clave secreta.
+FIREBASE_PROJECT_ID = config('FIREBASE_PROJECT_ID', default='cronos-geneve-relojes')
 
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
@@ -151,6 +156,23 @@ PAYMENT_GATEWAY = config('PAYMENT_GATEWAY', default='demo')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+
+# Correo (boleta de compra). Con EMAIL_HOST_USER y EMAIL_HOST_PASSWORD en .env se envía de verdad por SMTP
+# (por defecto Gmail: la contraseña es una "contraseña de aplicación" de la cuenta). Sin ellas, el correo
+# se imprime en la terminal del backend.
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_TIMEOUT = 15
+EMAIL_BACKEND = config(
+    'EMAIL_BACKEND',
+    default='config.tls.VerifiedSMTPBackend' if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD
+    else 'django.core.mail.backends.console.EmailBackend',
+)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=f'Cronos Genève <{EMAIL_HOST_USER or "boletas@cronos-geneve.local"}>')
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:5174')
 
 # Asesor de relojes (Gemini). Sin clave, el asesor responde en modo básico.
 GEMINI_API_KEY = config('GEMINI_API_KEY', default='')

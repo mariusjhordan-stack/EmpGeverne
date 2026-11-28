@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Package } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import api from '../../services/api';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { PageHero } from '../../components/common/SectionHeader';
 import Reveal from '../../components/common/Reveal';
+import OrderPieces from '../../components/checkout/OrderPieces';
+import ReceiptNotice from '../../components/checkout/ReceiptNotice';
 
 const statusVariant = { pending: 'warn', paid: 'info', preparing: 'accent', shipped: 'info', delivered: 'success', cancelled: 'danger' };
 const stages = [{ key: 'pending', label: 'Pedido recibido' }, { key: 'paid', label: 'Pago registrado' }, { key: 'preparing', label: 'En preparación' }, { key: 'shipped', label: 'En camino' }, { key: 'delivered', label: 'Entregado' }];
@@ -33,21 +35,7 @@ export default function OrderDetailPage() {
           <Reveal className="card">
             <p className="eyebrow eyebrow--accent mb-3">Su selección</p>
             <h2 className="card-title mb-6">Piezas del pedido</h2>
-            <div className="divider" />
-            {order.items?.map((item, i) => (
-              <Reveal key={item.id} delay={Math.min(i, 5) * 70}>
-                <div className="flex flex-wrap items-center gap-4 py-5">
-                  <div className="media-well h-20 w-20 shrink-0">{item.watch_image ? <img src={item.watch_image} alt={item.watch_name} className="p-2" /> : <div className="grid h-full place-items-center"><Package size={24} className="text-mute" /></div>}</div>
-                  <div className="min-w-0 flex-1">
-                    <p className="eyebrow">{item.watch_brand} · Ref. {item.watch_reference}</p>
-                    <p className="display-sm mt-2">{item.watch_name}</p>
-                    <p className="body-sm mt-2">{item.quantity} × <span className="num">{formatPrice(item.unit_price)}</span></p>
-                  </div>
-                  <span className="price">{formatPrice(item.subtotal)}</span>
-                </div>
-                <div className="divider" />
-              </Reveal>
-            ))}
+            <OrderPieces items={order.items} />
           </Reveal>
           <Reveal delay={80} className="card">
             <p className="eyebrow eyebrow--accent mb-3">Destino</p>
@@ -58,11 +46,12 @@ export default function OrderDetailPage() {
             <p className="eyebrow eyebrow--accent mb-3">Transacción</p>
             <h2 className="card-title mb-5">Pago</h2>
             <dl className="spec-list">
-              <div className="spec-row"><dt>Método</dt><dd>{order.payment.method === 'demo_card' ? 'Tarjeta de demostración' : 'Transferencia de demostración'}</dd></div>
+              <div className="spec-row"><dt>Método</dt><dd>{order.payment.method_display}</dd></div>
               <div className="spec-row"><dt>Referencia</dt><dd className="num">{order.payment.reference}</dd></div>
               <div className="spec-row"><dt>Monto</dt><dd className="price">{formatPrice(order.payment.amount)}</dd></div>
             </dl>
             {order.payment.is_demo && <p className="body-sm mt-4">Pago de demostración académica</p>}
+            <ReceiptNotice order={order} className="mt-6" />
           </Reveal>}
         </div>
         <div className="grid gap-6 lg:sticky lg:top-24">
@@ -71,7 +60,7 @@ export default function OrderDetailPage() {
             <h2 className="card-title mb-5">Total del pedido</h2>
             <dl className="spec-list">
               <div className="spec-row"><dt>Subtotal</dt><dd className="num">{formatPrice(order.subtotal)}</dd></div>
-              <div className="spec-row"><dt>IGV</dt><dd className="num">{formatPrice(order.tax)}</dd></div>
+              <div className="spec-row"><dt>IGV (18 %)</dt><dd className="num">{formatPrice(order.tax)}</dd></div>
               <div className="spec-row"><dt>Total</dt><dd className="price price--lg">{formatPrice(order.total)}</dd></div>
             </dl>
           </Reveal>

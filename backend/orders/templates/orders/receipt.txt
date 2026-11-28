@@ -1,0 +1,31 @@
+{% autoescape off %}CRONOS GENÈVE — BOLETA DE VENTA {{ order.order_number }}
+
+Estimado(a) {{ customer }}, gracias por su compra.
+Estado del pedido: {{ order.get_status_display }}
+
+Fecha de emisión: {{ issued }}
+Cliente: {{ customer }}
+Correo: {{ email }}
+Moneda: Dólares estadounidenses (USD)
+
+DETALLE
+{% for item in items %}- {{ item.brand }} {{ item.name }} (Ref. {{ item.reference }})
+  {{ item.quantity }} × {{ item.unit_price }} = {{ item.subtotal }}
+{% endfor %}
+Op. gravada (subtotal): {{ subtotal }}
+IGV ({{ igv_rate }} %):             {{ tax }}
+IMPORTE TOTAL:          {{ total }}
+
+PAGO
+{{ payment_method }} · Ref. {{ payment_reference }}
+
+ENVÍO
+{{ order.shipping_street }}
+{{ order.shipping_city }}, {{ order.shipping_state }} {{ order.shipping_postal_code }}
+{{ order.shipping_country }}
+
+Ver mi pedido: {{ order_url }}
+
+{% if is_demo %}Pago de demostración: no se realizó ningún cargo bancario real.
+{% endif %}Comprobante de demostración de un proyecto académico, sin valor tributario.
+{% endautoescape %}

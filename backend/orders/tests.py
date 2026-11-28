@@ -229,3 +229,135 @@ class AdminOrderStatusViewTest(TestCase):
         )
         self.watch.refresh_from_db()
         self.assertEqual(self.watch.stock, 6)
+
+
+import shutil
+import tempfile
+from io import BytesIO
+from unittest import mock
+
+from django.core import mail
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import override_settings
+from PIL import Image
+
+from catalog.models import WatchImage
+
+_MEDIA = tempfile.mkdtemp(prefix='cronos-test-media-')
+
+
+def _webp(color=(20, 20, 20)):
+    out = BytesIO()
+    Image.new('RGBA', (300, 300), color + (255,)).save(out, 'WEBP')
+    return SimpleUploadedFile('pieza.webp', out.getvalue(), content_type='image/webp')
+
+
+@override_settings(MEDIA_ROOT=_MEDIA, FRONTEND_URL='http://tienda.test')
+class ReceiptEmailTest(TestCase):
+    """Boleta por correo: sale al pagar, con fotos, IGV y total; se puede reenviar; nunca rompe la compra."""
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        shutil.rmtree(_MEDIA, ignore_errors=True)
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='boleta', email='boleta@test.com', password='Pass123!', first_name='Ana', last_name='Ríos',
+        )
+        self.client.force_authenticate(user=self.user)
+        brand = Brand.objects.create(name='Tudor', slug='tudor')
+        self.watch = Watch.objects.create(
+            name='Black Bay 58', slug='black-bay-58', reference='M79030N',
+            brand=brand, description='D', price=Decimal('4150.00'), stock=3,
+        )
+        WatchImage.objects.create(watch=self.watch, image=_webp(), is_primary=True)
+        cart = Cart.objects.create(user=self.user)
+        CartItem.objects.create(cart=cart, watch=self.watch, quantity=1)
+        self.payload = {
+            'shipping_street': 'Calle Mercaderes 101', 'shipping_city': 'Arequipa',
+            'shipping_state': 'Arequipa', 'shipping_postal_code': '04001', 'payment_method': 'demo_card',
+        }
+
+    def test_paid_order_sends_receipt_with_igv_and_photo(self):
+        resp = self.client.post('/api/orders/create/', self.payload, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(resp.data['receipt_sent'])
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertEqual(email.to, ['boleta@test.com'])
+        self.assertIn(resp.data['order_number'], email.subject)
+        for text in ('Black Bay 58', 'M79030N', 'USD 4,150.00', 'IGV (18 %)', 'USD 747.00', 'USD 4,897.00',
+                     'Ana Ríos', 'Calle Mercaderes 101', 'http://tienda.test/pedidos/'):
+            self.assertIn(text, email.body)
+        html = email.alternatives[0][0]
+        self.assertIn('USD 4,897.00', html)
+        self.assertIn('cid:pieza-0@cronos', html)
+        parts = [p.get_content_type() for p in email.message().walk()]
+        self.assertEqual(parts, ['multipart/alternative', 'text/plain', 'multipart/related', 'text/html', 'image/jpeg'])
+
+    def test_mail_failure_does_not_break_purchase(self):
+        with mock.patch('orders.receipt.ReceiptEmail.send', side_effect=OSError('SMTP caído')):
+            resp = self.client.post('/api/orders/create/', self.payload, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertFalse(resp.data['receipt_sent'])
+        self.assertEqual(Order.objects.get(order_number=resp.data['order_number']).status, 'paid')
+
+    def test_order_detail_includes_photo_and_payment_label(self):
+        number = self.client.post('/api/orders/create/', self.payload, format='json').data['order_number']
+        data = self.client.get(f'/api/orders/{number}/').data
+        self.assertTrue(data['items'][0]['watch_image'].endswith('.webp'))
+        self.assertEqual(data['items'][0]['watch_slug'], 'black-bay-58')
+        self.assertEqual(data['payment']['method_display'], 'Tarjeta de demostración')
+
+    def test_resend_receipt(self):
+        number = self.client.post('/api/orders/create/', self.payload, format='json').data['order_number']
+        mail.outbox.clear()
+        resp = self.client.post(f'/api/orders/{number}/send-receipt/')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp.data, {'sent': True, 'email': 'boleta@test.com'})
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_resend_only_for_own_paid_orders(self):
+        pending = Order.objects.create(
+            user=self.user, shipping_street='S', shipping_city='C', shipping_state='S', shipping_postal_code='P',
+            subtotal=Decimal('100'), tax=Decimal('18'), total=Decimal('118'),
+        )
+        self.assertEqual(self.client.post(f'/api/orders/{pending.order_number}/send-receipt/').status_code, 400)
+        other = APIClient()
+        other.force_authenticate(User.objects.create_user(username='otro', email='otro@test.com', password='P123!'))
+        pending.status = 'paid'
+        pending.save()
+        self.assertEqual(other.post(f'/api/orders/{pending.order_number}/send-receipt/').status_code, 404)
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_resend_without_mail_configured_says_so(self):
+        number = self.client.post('/api/orders/create/', self.payload, format='json').data['order_number']
+        mail.outbox.clear()
+        with override_settings(EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'), \
+                mock.patch('orders.receipt.ReceiptEmail.send') as send:
+            resp = self.client.post(f'/api/orders/{number}/send-receipt/')
+        self.assertEqual(resp.status_code, status.HTTP_503_SERVICE_UNAVAILABLE)
+        send.assert_not_called()
+
+    def test_download_receipt_pdf(self):
+        number = self.client.post('/api/orders/create/', self.payload, format='json').data['order_number']
+        resp = self.client.get(f'/api/orders/{number}/receipt.pdf')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp['Content-Type'], 'application/pdf')
+        self.assertIn(f'boleta-{number}.pdf', resp['Content-Disposition'])
+        self.assertTrue(resp.content.startswith(b'%PDF'))
+        self.assertGreater(len(resp.content), 3000)  # lleva la foto del reloj
+
+    def test_receipt_pdf_only_owner_and_paid(self):
+        number = self.client.post('/api/orders/create/', self.payload, format='json').data['order_number']
+        other = APIClient()
+        other.force_authenticate(User.objects.create_user(username='ajeno', email='ajeno@test.com', password='P123!'))
+        self.assertEqual(other.get(f'/api/orders/{number}/receipt.pdf').status_code, 404)
+        pending = Order.objects.create(
+            user=self.user, shipping_street='S', shipping_city='C', shipping_state='S', shipping_postal_code='P',
+            subtotal=Decimal('100'), tax=Decimal('18'), total=Decimal('118'),
+        )
+        self.assertEqual(self.client.get(f'/api/orders/{pending.order_number}/receipt.pdf').status_code, 400)
+        self.assertEqual(APIClient().get(f'/api/orders/{number}/receipt.pdf').status_code, 401)

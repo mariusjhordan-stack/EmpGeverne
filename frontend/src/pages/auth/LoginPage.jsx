@@ -8,6 +8,7 @@ import Button from '../../components/common/Button';
 import Reveal, { RevealLines } from '../../components/common/Reveal';
 import AuthShell from '../../components/auth/AuthShell';
 import PasswordField from '../../components/auth/PasswordField';
+import GoogleButton from '../../components/auth/GoogleButton';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -53,6 +54,7 @@ export default function LoginPage() {
             {loading ? <><span className="auth-form__spin" aria-hidden="true" /> Ingresando…</> : <>Ingresar <ArrowUpRight size={17} /></>}
           </Button>
           <p className="auth-form__or"><span>o</span></p>
+          <GoogleButton disabled={loading} onDone={() => { toast.success('Bienvenido'); navigate('/'); }} onError={(msg) => setErrors(msg ? { general: msg } : {})} />
           <Link to="/registro" className="btn btn-ghost btn-lg btn-block">Crear una cuenta</Link>
         </Reveal>
       </form>

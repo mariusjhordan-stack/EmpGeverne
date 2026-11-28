@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Boleta {{ order.order_number }}</title>
+</head>
+<body style="margin:0;padding:0;background:#f2efe8;color:#111111;font-family:Helvetica,Arial,sans-serif;">
+<div style="display:none;max-height:0;overflow:hidden;">Pedido {{ order.order_number }} · Total {{ total }} · Gracias por su compra.</div>
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f2efe8;">
+<tr><td align="center" style="padding:32px 12px;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#faf8f3;border:1px solid #ddd6c8;">
+
+  <!-- Cabecera -->
+  <tr><td style="background:#0c0c0e;padding:28px 32px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
+      <td style="font-family:Georgia,'Times New Roman',serif;color:#f2efe8;font-size:24px;letter-spacing:6px;">CRONOS<br><span style="font-family:'Courier New',monospace;font-size:10px;letter-spacing:4px;color:#d6b779;">GENÈVE</span></td>
+      <td align="right" style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;color:#d6b779;text-transform:uppercase;">Boleta de venta<br><span style="color:#f2efe8;font-size:13px;">{{ order.order_number }}</span></td>
+    </tr></table>
+  </td></tr>
+
+  <!-- Saludo -->
+  <tr><td style="padding:32px 32px 8px;">
+    <p style="margin:0 0 10px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:3px;color:#86591a;text-transform:uppercase;">Gracias por su compra</p>
+    <h1 style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:28px;line-height:1.2;color:#111111;">La espera comienza <em style="color:#86591a;">aquí.</em></h1>
+    <p style="margin:0;font-size:15px;line-height:1.6;color:#4a463e;">Estimado(a) {{ customer }}, su pedido quedó registrado como <strong style="color:#111111;">{{ order.get_status_display|lower }}</strong>. Este es el detalle de su compra.</p>
+  </td></tr>
+
+  <!-- Datos del comprobante -->
+  <tr><td style="padding:24px 32px 8px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size:13px;color:#4a463e;">
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #e6e0d4;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8478;">Fecha de emisión</td>
+        <td align="right" style="padding:8px 0;border-bottom:1px solid #e6e0d4;color:#111111;">{{ issued }}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #e6e0d4;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8478;">Cliente</td>
+        <td align="right" style="padding:8px 0;border-bottom:1px solid #e6e0d4;color:#111111;">{{ customer }}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #e6e0d4;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8478;">Correo</td>
+        <td align="right" style="padding:8px 0;border-bottom:1px solid #e6e0d4;color:#111111;">{{ email }}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 0;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8478;">Moneda</td>
+        <td align="right" style="padding:8px 0;color:#111111;">Dólares estadounidenses (USD)</td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- Piezas -->
+  <tr><td style="padding:24px 32px 0;">
+    <p style="margin:0 0 4px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:3px;color:#86591a;text-transform:uppercase;">Detalle · {{ item_count }} pieza{{ item_count|pluralize }}</p>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+      {% for item in items %}
+      <tr>
+        <td width="88" valign="top" style="padding:16px 12px 16px 0;border-bottom:1px solid #e6e0d4;">
+          {% if item.cid %}<img src="cid:{{ item.cid }}" width="80" height="80" alt="{{ item.name }}" style="display:block;width:80px;height:80px;border:1px solid #e6e0d4;background:#faf8f3;">{% else %}<div style="width:80px;height:80px;border:1px solid #e6e0d4;background:#efeadf;"></div>{% endif %}
+        </td>
+        <td valign="top" style="padding:16px 8px 16px 0;border-bottom:1px solid #e6e0d4;">
+          <p style="margin:0 0 4px;font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a8478;">{{ item.brand }} · Ref. {{ item.reference }}</p>
+          <p style="margin:0 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:19px;color:#111111;">{{ item.name }}</p>
+          <p style="margin:0;font-size:13px;color:#4a463e;">{{ item.quantity }} × {{ item.unit_price }}</p>
+        </td>
+        <td align="right" valign="top" style="padding:16px 0;border-bottom:1px solid #e6e0d4;font-family:'Courier New',monospace;font-size:14px;color:#111111;white-space:nowrap;">{{ item.subtotal }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </td></tr>
+
+  <!-- Importes -->
+  <tr><td style="padding:8px 32px 24px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size:14px;">
+      <tr>
+        <td style="padding:10px 0;color:#4a463e;">Op. gravada (subtotal)</td>
+        <td align="right" style="padding:10px 0;font-family:'Courier New',monospace;color:#111111;">{{ subtotal }}</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 0;border-bottom:1px solid #111111;color:#4a463e;">IGV ({{ igv_rate }} %)</td>
+        <td align="right" style="padding:10px 0;border-bottom:1px solid #111111;font-family:'Courier New',monospace;color:#111111;">{{ tax }}</td>
+      </tr>
+      <tr>
+        <td style="padding:14px 0 0;font-family:'Courier New',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#111111;">Importe total</td>
+        <td align="right" style="padding:14px 0 0;font-family:'Courier New',monospace;font-size:22px;font-weight:bold;color:#111111;white-space:nowrap;">{{ total }}</td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- Pago y envío -->
+  <tr><td style="padding:0 32px 24px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
+      <td width="50%" valign="top" style="padding:16px 12px 16px 0;border-top:1px solid #e6e0d4;">
+        <p style="margin:0 0 8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:3px;color:#86591a;text-transform:uppercase;">Pago</p>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#4a463e;">{{ payment_method }}<br><span style="font-family:'Courier New',monospace;font-size:11px;color:#8a8478;word-break:break-all;">{{ payment_reference }}</span></p>
+      </td>
+      <td width="50%" valign="top" style="padding:16px 0 16px 12px;border-top:1px solid #e6e0d4;">
+        <p style="margin:0 0 8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:3px;color:#86591a;text-transform:uppercase;">Envío</p>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#4a463e;">{{ order.shipping_street }}<br>{{ order.shipping_city }}, {{ order.shipping_state }} {{ order.shipping_postal_code }}<br>{{ order.shipping_country }}</p>
+      </td>
+    </tr></table>
+  </td></tr>
+
+  <!-- Botón -->
+  <tr><td align="center" style="padding:0 32px 32px;">
+    <a href="{{ order_url }}" style="display:inline-block;background:#111111;color:#f2efe8;text-decoration:none;font-size:12px;letter-spacing:3px;text-transform:uppercase;padding:16px 32px;">Ver mi pedido</a>
+  </td></tr>
+
+  <!-- Pie -->
+  <tr><td style="background:#efeadf;padding:20px 32px;font-size:11px;line-height:1.6;color:#8a8478;">
+    {% if is_demo %}Pago de demostración: no se realizó ningún cargo bancario real.<br>{% endif %}
+    Comprobante de demostración de un proyecto académico, sin valor tributario.<br>
+    Cronos Genève · Relojes de lujo · <a href="{{ store_url }}" style="color:#86591a;">{{ store_url }}</a>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

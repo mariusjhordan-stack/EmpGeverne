@@ -2,20 +2,40 @@ from rest_framework import serializers
 from .models import Order, OrderItem, Payment
 
 
+def primary_image(watch):
+    """Imagen principal del reloj (la marcada como principal o, si no hay, la primera)."""
+    if watch is None:
+        return None
+    images = sorted(watch.images.all(), key=lambda i: (not i.is_primary, i.order, i.pk))
+    return images[0] if images and images[0].image else None
+
+
 class OrderItemSerializer(serializers.ModelSerializer):
+    watch_image = serializers.SerializerMethodField()
+    watch_slug = serializers.CharField(source='watch.slug', read_only=True, default=None)
+
     class Meta:
         model = OrderItem
         fields = [
-            'id', 'watch', 'watch_name', 'watch_brand',
-            'watch_reference', 'unit_price', 'quantity', 'subtotal',
+            'id', 'watch', 'watch_slug', 'watch_name', 'watch_brand',
+            'watch_reference', 'unit_price', 'quantity', 'subtotal', 'watch_image',
         ]
         read_only_fields = fields
 
+    def get_watch_image(self, obj):
+        img = primary_image(obj.watch)
+        if img is None:
+            return None
+        request = self.context.get('request')
+        return request.build_absolute_uri(img.image.url) if request else img.image.url
+
 
 class PaymentSerializer(serializers.ModelSerializer):
+    method_display = serializers.CharField(source='get_method_display', read_only=True)
+
     class Meta:
         model = Payment
-        fields = ['id', 'method', 'amount', 'reference', 'is_demo', 'paid_at']
+        fields = ['id', 'method', 'method_display', 'amount', 'reference', 'is_demo', 'paid_at']
         read_only_fields = fields
 
 

@@ -54,6 +54,14 @@ export function AuthProvider({ children }) {
     localStorage.setItem('user', JSON.stringify(data.user));
   };
 
+  // Ingreso con Google: el backend verifica el token de Firebase y responde igual que el registro.
+  const loginWithGoogle = async (idToken) => {
+    const { data } = await api.post('/auth/google/', { id_token: idToken });
+    localStorage.setItem('tokens', JSON.stringify(data.tokens));
+    setUser(data.user);
+    localStorage.setItem('user', JSON.stringify(data.user));
+  };
+
   const logout = () => {
     const tokens = JSON.parse(localStorage.getItem('tokens') || 'null');
     if (tokens?.refresh) {
@@ -68,7 +76,7 @@ export function AuthProvider({ children }) {
   const isAdmin = user?.is_staff === true;
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAuthenticated, isAdmin, login, register, logout, fetchProfile }}>
+    <AuthContext.Provider value={{ user, loading, isAuthenticated, isAdmin, login, loginWithGoogle, register, logout, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );
